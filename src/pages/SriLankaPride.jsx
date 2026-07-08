@@ -1,0 +1,219 @@
+import { useMemo, useState, useRef, useEffect } from 'react'
+import { FiSearch, FiChevronLeft, FiChevronRight, FiGrid } from 'react-icons/fi'
+import { GiCrown, GiCaveEntrance, GiTeapotLeaves } from 'react-icons/gi'
+import { FaLandmark, FaCity, FaUtensils, FaRoute, FaUsers } from 'react-icons/fa'
+import SectionTitle from '../components/ui/SectionTitle'
+import SEO from '../components/seo/SEO'
+import SearchBar from '../components/ui/SearchBar'
+import PrideCard from '../components/pride/PrideCard'
+import { prideItems } from '../data/sriLankaPride'
+
+const prideCategoryMap = {
+  'ancient-kingdoms': 'Ancient Kingdoms',
+  'caves-geological-wonders': 'Caves & Geology',
+  'museums-galleries': 'Museums & Galleries',
+  'cities-urban': 'Cities & Urban',
+  'food-culinary': 'Food & Culinary',
+  'tea-spice-trails': 'Tea & Spice Trails',
+  'road-trip-routes': 'Road Trip Routes',
+  'famous-people': 'Famous People',
+}
+
+const reverseMap = Object.fromEntries(Object.entries(prideCategoryMap).map(([k, v]) => [v, k]))
+const categories = ['All', ...Object.values(prideCategoryMap)]
+
+const catIcons = {
+  'Ancient Kingdoms': GiCrown, 'Caves & Geology': GiCaveEntrance,
+  'Museums & Galleries': FaLandmark, 'Cities & Urban': FaCity,
+  'Food & Culinary': FaUtensils, 'Tea & Spice Trails': GiTeapotLeaves,
+  'Road Trip Routes': FaRoute, 'Famous People': FaUsers,
+}
+
+const subCategories = [
+  { key: 'all', label: 'All' },
+  { key: 'national-heroes', label: 'National Heroes' },
+  { key: 'sports-legends', label: 'Sports Legends' },
+  { key: 'arts-entertainment', label: 'Arts & Entertainment' },
+  { key: 'science-tech', label: 'Science & Tech' },
+  { key: 'writers-literature', label: 'Writers & Literature' },
+  { key: 'global-achievers', label: 'Global Achievers' },
+]
+
+export default function SriLankaPride() {
+  const [search, setSearch] = useState('')
+  const [activeCategory, setActiveCategory] = useState('All')
+  const [activeSub, setActiveSub] = useState('all')
+  const [showSearch, setShowSearch] = useState(false)
+  const [scrollStart, setScrollStart] = useState(true)
+  const [scrollEnd, setScrollEnd] = useState(false)
+  const scrollRef = useRef(null)
+
+  const updateScrollState = () => {
+    const el = scrollRef.current
+    if (!el) return
+    setScrollStart(el.scrollLeft <= 2)
+    setScrollEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 2)
+  }
+
+  const scroll = (dir) => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: dir * 200, behavior: 'smooth' })
+    }
+  }
+
+  useEffect(() => {
+    updateScrollState()
+    const onResize = () => updateScrollState()
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
+
+  const filtered = useMemo(() => {
+    const dataCat = reverseMap[activeCategory]
+    let result = activeCategory === 'All' ? prideItems : prideItems.filter((d) => d.category === dataCat)
+    if (activeCategory === 'Famous People' && activeSub !== 'all') {
+      result = result.filter((d) => d.subCategory === activeSub)
+    }
+    if (search.trim()) {
+      const q = search.toLowerCase()
+      result = result.filter(
+        (d) =>
+          d.name.toLowerCase().includes(q) ||
+          d.description.toLowerCase().includes(q) ||
+          (d.location && d.location.toLowerCase().includes(q)) ||
+          (d.district && d.district.toLowerCase().includes(q)) ||
+          (d.origin && d.origin.toLowerCase().includes(q)) ||
+          (d.birthPlace && d.birthPlace.toLowerCase().includes(q))
+      )
+    }
+    return result
+  }, [search, activeCategory, activeSub])
+
+  const handleCategoryChange = (cat) => {
+    setActiveCategory(cat)
+    setActiveSub('all')
+  }
+
+  return (
+    <div>
+      <SEO
+        title="Sri Lanka Pride"
+        description="Discover Sri Lanka's proudest achievements — ancient kingdoms, UNESCO sites, cultural treasures, and natural wonders that make the island unique."
+        keywords="Sri Lanka pride, Sri Lanka heritage, UNESCO Sri Lanka, ancient kingdoms Sri Lanka, Sri Lanka culture"
+      />
+      <section className="relative pt-28 md:pt-32 pb-10 md:pb-12 overflow-hidden px-4 sm:px-6 lg:px-8">
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-teal-950 to-slate-900">
+          <div className="absolute inset-0 opacity-10 bg-grid" />
+        </div>
+        <div className="container-custom relative z-10 text-center px-4 sm:px-6 lg:px-8">
+          <SectionTitle
+            subtitle="Our Heritage"
+            title="Sri Lanka Pride"
+            description="Explore the people, food, heritage sites, and festivals that make Sri Lanka unforgettable."
+            light
+          />
+        </div>
+      </section>
+      <section className="section-padding">
+        <div className="container-custom">
+          <div className="flex items-center gap-2 mb-6">
+            <button
+              onClick={() => setShowSearch(!showSearch)}
+              className={`min-h-[44px] px-4 py-2 rounded-full text-sm font-bold font-['Poppins'] transition-all duration-300 flex items-center gap-2 shrink-0 ${
+                 showSearch
+                  ? 'bg-teal-600 text-white shadow-lg shadow-teal-500/20'
+                  : 'bg-white text-slate-600 hover:bg-teal-50 hover:text-teal-700 border border-slate-200'
+              }`}
+              aria-label="Toggle search"
+            >
+              <FiSearch />
+              Search
+            </button>
+            <div className="flex items-center gap-1 min-w-0 flex-1">
+              <button
+                onClick={() => scroll(-1)}
+                disabled={scrollStart}
+                className={`min-h-[44px] w-11 lg:w-12 flex items-center justify-center rounded-full border transition-all duration-300 shrink-0 ${
+                  scrollStart
+                    ? 'bg-slate-100 text-slate-300 border-slate-100 cursor-not-allowed'
+                    : 'bg-white text-slate-600 hover:bg-teal-50 hover:text-teal-700 border-slate-200'
+                }`}
+                aria-label="Scroll left"
+              >
+                <FiChevronLeft />
+              </button>
+              <div ref={scrollRef} onScroll={updateScrollState} className="flex gap-2 overflow-x-auto scroll-smooth no-scrollbar">
+                {categories.map((cat) => {
+                  const Icon = cat === 'All' ? FiGrid : catIcons[cat]
+                  return (
+                    <button
+                      key={cat}
+                      onClick={() => handleCategoryChange(cat)}
+                      className={`min-h-[44px] px-4 py-2 rounded-full text-sm font-bold font-['Poppins'] transition-all duration-300 whitespace-nowrap shrink-0 flex items-center gap-1.5 ${
+                         activeCategory === cat
+                          ? 'bg-teal-600 text-white shadow-lg shadow-teal-500/20'
+                          : 'bg-white text-slate-600 hover:bg-teal-50 hover:text-teal-700 border border-slate-200'
+                      }`}
+                    >
+                      {Icon && <Icon className="text-sm" />}
+                      {cat}
+                    </button>
+                  )
+                })}
+              </div>
+              <button
+                onClick={() => scroll(1)}
+                disabled={scrollEnd}
+                className={`min-h-[44px] w-11 lg:w-12 flex items-center justify-center rounded-full border transition-all duration-300 shrink-0 ${
+                  scrollEnd
+                    ? 'bg-slate-100 text-slate-300 border-slate-100 cursor-not-allowed'
+                    : 'bg-white text-slate-600 hover:bg-teal-50 hover:text-teal-700 border-slate-200'
+                }`}
+                aria-label="Scroll right"
+              >
+                <FiChevronRight />
+              </button>
+            </div>
+          </div>
+          {showSearch && (
+            <div className="mb-6">
+              <SearchBar value={search} onChange={setSearch} placeholder="Search pride content..." />
+            </div>
+          )}
+          {activeCategory === 'Famous People' && (
+            <div className="flex flex-wrap gap-2 mb-6">
+              {subCategories.map((sub) => {
+                const isActive = activeSub === sub.key
+                return (
+                  <button
+                    key={sub.key}
+                    onClick={() => setActiveSub(sub.key)}
+                      className={`min-h-[36px] px-4 py-1.5 rounded-full text-xs font-bold font-['Poppins'] transition-all duration-300 ${
+                      isActive
+                        ? 'bg-teal-600 text-white shadow-lg shadow-teal-500/20'
+                        : 'bg-white text-slate-600 hover:bg-teal-50 hover:text-teal-700 border border-slate-200'
+                    }`}
+                  >
+                    {sub.label}
+                  </button>
+                )
+              })}
+            </div>
+          )}
+          {filtered.length === 0 ? (
+            <div className="text-center py-16">
+              <p className="text-slate-400 text-lg mb-2">No results found</p>
+              <p className="text-slate-400 text-sm">Try adjusting your search or filter</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6">
+              {filtered.map((item, i) => (
+                <PrideCard key={item.id} item={item} index={i} />
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+    </div>
+  )
+}

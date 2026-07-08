@@ -1,0 +1,182 @@
+import { useMemo, useState, useRef, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import SectionTitle from '../components/ui/SectionTitle'
+import { destinations } from '../data/destinations'
+import SearchBar from '../components/ui/SearchBar'
+import SEO from '../components/seo/SEO'
+import DestinationGrid from '../components/tourism/DestinationGrid'
+import { FiSearch, FiChevronLeft, FiChevronRight } from 'react-icons/fi'
+import { GiBeachBall, GiTreeBranch, GiWaterfall, GiMountainCave, GiElephantHead, GiForest, GiCastle, GiIsland, GiFlowerPot, GiBinoculars, GiDolphin, GiParachute, GiPartyPopper } from 'react-icons/gi'
+import { FaLandmark, FaChurch, FaMusic, FaTrain } from 'react-icons/fa'
+import { FiMap } from 'react-icons/fi'
+
+const categories = ['All', 'Beaches', 'Nature', 'Waterfalls', 'Mountains', 'Wildlife', 'Parks', 'Historical', 'Religious', 'Forts', 'Lakes & Rivers', 'Islands', 'Botanical Gardens', 'Culture', 'Scenic Train Journeys', 'Viewpoints', 'Marine Attractions', 'Adventure Activities', 'Festivals & Events']
+
+const catIcons = {
+  'Beaches': GiBeachBall, 'Nature': GiTreeBranch, 'Waterfalls': GiWaterfall,
+  'Mountains': GiMountainCave, 'Wildlife': GiElephantHead, 'Parks': GiForest,
+  'Historical': FaLandmark, 'Religious': FaChurch, 'Forts': GiCastle,
+  'Lakes & Rivers': FiMap, 'Islands': GiIsland, 'Botanical Gardens': GiFlowerPot,
+  'Culture': FaMusic, 'Scenic Train Journeys': FaTrain, 'Viewpoints': GiBinoculars,
+  'Marine Attractions': GiDolphin, 'Adventure Activities': GiParachute,
+  'Festivals & Events': GiPartyPopper,
+}
+
+const categoryMap = {
+  beaches: 'Beaches', nature: 'Nature', waterfalls: 'Waterfalls',
+  mountains: 'Mountains', wildlife: 'Wildlife', parks: 'Parks',
+  historical: 'Historical', religious: 'Religious', forts: 'Forts',
+  'lakes & rivers': 'Lakes & Rivers', islands: 'Islands',
+  'botanical gardens': 'Botanical Gardens', cultural: 'Culture',
+  'scenic train journeys': 'Scenic Train Journeys', viewpoints: 'Viewpoints',
+  'marine attractions': 'Marine Attractions',
+  'adventure activities': 'Adventure Activities',
+  'festivals & events': 'Festivals & Events',
+}
+
+const reverseMap = Object.fromEntries(Object.entries(categoryMap).map(([k, v]) => [v, k]))
+
+export default function Destinations() {
+  const [searchParams] = useSearchParams()
+  const [search, setSearch] = useState(searchParams.get('search') || '')
+  const [activeCategory, setActiveCategory] = useState('All')
+  const [showSearch, setShowSearch] = useState(!!searchParams.get('search'))
+  const [scrollStart, setScrollStart] = useState(true)
+  const [scrollEnd, setScrollEnd] = useState(false)
+  const scrollRef = useRef(null)
+
+  const updateScrollState = () => {
+    const el = scrollRef.current
+    if (!el) return
+    setScrollStart(el.scrollLeft <= 2)
+    setScrollEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 2)
+  }
+
+  const scroll = (dir) => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: dir * 200, behavior: 'smooth' })
+    }
+  }
+
+  useEffect(() => {
+    updateScrollState()
+    const onResize = () => updateScrollState()
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
+
+  const filtered = useMemo(() => {
+    const dataCat = reverseMap[activeCategory]
+    let result = activeCategory === 'All' ? destinations : destinations.filter((d) => d.category === dataCat)
+    if (search.trim()) {
+      const q = search.toLowerCase()
+      result = result.filter(
+        (d) =>
+          d.name.toLowerCase().includes(q) ||
+          d.location.toLowerCase().includes(q) ||
+          (d.district && d.district.toLowerCase().includes(q)) ||
+          d.category.toLowerCase().includes(q)
+      )
+    }
+    return result
+  }, [search, activeCategory])
+
+  return (
+    <div>
+      <SEO
+        title="Destinations"
+        description="Explore the best destinations in Sri Lanka — beaches, mountains, wildlife sanctuaries, historical sites, and cultural landmarks across the island."
+        keywords="Sri Lanka destinations, Sri Lanka attractions, best places to visit Sri Lanka, Sri Lanka beaches, Sri Lanka nature"
+      />
+      <section className="relative pt-28 md:pt-32 pb-10 md:pb-12 overflow-hidden px-4 sm:px-6 lg:px-8">
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-teal-950 to-slate-900">
+          <div className="absolute inset-0 opacity-10 bg-grid" />
+        </div>
+        <div className="container-custom relative z-10 text-center px-4 sm:px-6 lg:px-8">
+          <SectionTitle
+            subtitle="Explore Sri Lanka"
+            title="Destinations"
+            description="From ancient temples and colonial forts to national parks and natural wonders — discover the rich heritage and beauty of Sri Lanka."
+            light
+          />
+        </div>
+      </section>
+      <section className="section-padding">
+        <div className="container-custom">
+          <div className="flex items-center gap-2 mb-6">
+            <button
+              onClick={() => setShowSearch(!showSearch)}
+className={`min-h-[44px] px-4 py-2 rounded-full text-sm font-bold font-['Poppins'] transition-all duration-300 flex items-center gap-2 shrink-0 ${
+                 showSearch
+                  ? 'bg-teal-600 text-white shadow-lg shadow-teal-500/20'
+                  : 'bg-white text-slate-600 hover:bg-teal-50 hover:text-teal-700 border border-slate-200'
+              }`}
+              aria-label="Toggle search"
+            >
+              <FiSearch />
+              Search
+            </button>
+            <div className="flex items-center gap-1 min-w-0 flex-1">
+              <button
+                onClick={() => scroll(-1)}
+                disabled={scrollStart}
+                className={`min-h-[44px] w-11 lg:w-12 flex items-center justify-center rounded-full border transition-all duration-300 shrink-0 ${
+                  scrollStart
+                    ? 'bg-slate-100 text-slate-300 border-slate-100 cursor-not-allowed'
+                    : 'bg-white text-slate-600 hover:bg-teal-50 hover:text-teal-700 border-slate-200'
+                }`}
+                aria-label="Scroll left"
+              >
+                <FiChevronLeft />
+              </button>
+              <div ref={scrollRef} onScroll={updateScrollState} className="flex gap-2 overflow-x-auto scroll-smooth no-scrollbar">
+                {categories.map((cat) => {
+                  const Icon = catIcons[cat]
+                  return (
+                    <button
+                      key={cat}
+                      onClick={() => setActiveCategory(cat)}
+                       className={`min-h-[44px] px-4 py-2 rounded-full text-sm font-bold font-['Poppins'] transition-all duration-300 whitespace-nowrap shrink-0 flex items-center gap-1.5 ${
+                        activeCategory === cat
+                          ? 'bg-teal-600 text-white shadow-lg shadow-teal-500/20'
+                          : 'bg-white text-slate-600 hover:bg-teal-50 hover:text-teal-700 border border-slate-200'
+                      }`}
+                    >
+                      {Icon && <Icon className="text-sm" />}
+                      {cat}
+                    </button>
+                  )
+                })}
+              </div>
+              <button
+                onClick={() => scroll(1)}
+                disabled={scrollEnd}
+                className={`min-h-[44px] w-11 lg:w-12 flex items-center justify-center rounded-full border transition-all duration-300 shrink-0 ${
+                  scrollEnd
+                    ? 'bg-slate-100 text-slate-300 border-slate-100 cursor-not-allowed'
+                    : 'bg-white text-slate-600 hover:bg-teal-50 hover:text-teal-700 border-slate-200'
+                }`}
+                aria-label="Scroll right"
+              >
+                <FiChevronRight />
+              </button>
+            </div>
+          </div>
+          {showSearch && (
+            <div className="mb-6">
+              <SearchBar value={search} onChange={setSearch} placeholder="Search destinations..." />
+            </div>
+          )}
+          {filtered.length === 0 ? (
+            <div className="text-center py-16">
+              <p className="text-slate-400 text-lg mb-2">No destinations found</p>
+              <p className="text-slate-400 text-sm">Try adjusting your search or filter</p>
+            </div>
+          ) : (
+            <DestinationGrid destinations={filtered} />
+          )}
+        </div>
+      </section>
+    </div>
+  )
+}

@@ -1,0 +1,129 @@
+import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
+import { FiMapPin, FiStar, FiClock, FiDollarSign, FiSun, FiAward, FiNavigation } from 'react-icons/fi'
+import Badge from '../ui/Badge'
+import { distanceFromColombo } from '../../utils/distance'
+
+export default function DestinationCard({ destination, index }) {
+  const categoryColors = {
+    religious: { badge: 'featured' },
+    historical: { badge: 'premium' },
+    nature: { badge: 'new' },
+    beaches: { badge: 'free' },
+    cultural: { badge: 'featured' },
+  }
+
+  const tierConfig = {
+    premium: { badge: 'premium', label: 'Premium Pick' },
+    featured: { badge: 'featured', label: 'Featured' },
+    free: { badge: 'free', label: '' },
+  }
+
+  const tier = tierConfig[destination.tier] || tierConfig.free
+
+  return (
+    <Link
+      to={`/destinations/${encodeURIComponent(destination.category)}/${destination.id}`}
+      className="block cursor-pointer"
+    >
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-50px' }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-slate-100 italic"
+    >
+      <div className={`relative overflow-hidden ${destination.tier === 'premium' ? 'h-56 sm:h-64' : 'h-48 sm:h-56'}`}>
+        <img
+          src={destination.image}
+          alt={destination.name}
+          loading="lazy"
+          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent" />
+        <div className="absolute top-3 right-3 flex gap-2">
+          {destination.tier && tier.label && (
+            <Badge variant={tier.badge}>
+              <FiAward className="text-[10px]" />
+              {tier.label}
+            </Badge>
+          )}
+          <Badge variant={categoryColors[destination.category]?.badge || 'free'}>
+            {destination.category}
+          </Badge>
+        </div>
+        <div className="absolute bottom-3 left-4 right-4">
+          <div className="flex items-center gap-1 text-white text-xs mb-1">
+            <FiMapPin className="text-teal-400" />
+            <span className="text-white/80">{destination.location}</span>
+          </div>
+          <h3 className="text-white font-heading font-bold text-lg leading-tight truncate">
+            {destination.name}
+          </h3>
+        </div>
+      </div>
+      <div className="p-5">
+        <p className="text-slate-600 text-sm leading-relaxed mb-4 line-clamp-2">
+          {destination.description}
+        </p>
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-500 mb-3">
+          {destination.district && (
+            <span className="flex items-center gap-1 text-slate-400">
+              <FiMapPin className="text-teal-500" />
+              {destination.district} District
+            </span>
+          )}
+          {destination.coordinates && (
+            <span className="flex items-center gap-1 text-slate-400">
+              <FiNavigation className="text-teal-500" />
+              {distanceFromColombo(destination.coordinates)} km from Colombo
+            </span>
+          )}
+        </div>
+        <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 mb-4">
+          {destination.rating && (
+            <span className="flex items-center gap-1">
+              <FiStar className="text-amber-500" />
+              <span className="font-semibold text-slate-700">{destination.rating}</span>
+            </span>
+          )}
+          {destination.duration && (
+            <span className="flex items-center gap-1">
+              <FiClock className="text-teal-500" />
+              {destination.duration}
+            </span>
+          )}
+          {destination.entryFee && (
+            <span className="flex items-center gap-1">
+              <FiDollarSign className="text-teal-500" />
+              {destination.entryFee}
+            </span>
+          )}
+        </div>
+        {(destination.bestTime || destination.coordinates) && (
+          <div className="pt-3 border-t border-slate-100 space-y-3">
+            {destination.bestTime && (
+              <div className="flex items-center gap-2 text-xs">
+                <FiSun className="text-amber-500" />
+                <span className="text-slate-400">Best time: </span>
+                <span className="font-medium text-teal-700">{destination.bestTime}</span>
+              </div>
+            )}
+            {destination.coordinates && (
+              <a
+                href={`https://www.google.com/maps/dir/?api=1&destination=${destination.coordinates[0]},${destination.coordinates[1]}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 w-full min-h-[48px] px-4 py-2.5 rounded-xl bg-gradient-to-r from-teal-500 to-ocean-600 text-white text-sm font-semibold shadow-lg shadow-teal-500/20 hover:shadow-teal-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+              >
+                <FiNavigation className="text-sm" />
+                Get Directions
+              </a>
+            )}
+          </div>
+        )}
+      </div>
+    </motion.div>
+    </Link>
+  )
+}

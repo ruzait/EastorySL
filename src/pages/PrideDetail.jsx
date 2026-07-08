@@ -1,0 +1,157 @@
+import { useParams, Link } from 'react-router-dom'
+import { FiArrowLeft, FiMapPin, FiStar, FiCalendar, FiClock, FiNavigation, FiAward } from 'react-icons/fi'
+import { GiCrown, GiCaveEntrance, GiTeapotLeaves } from 'react-icons/gi'
+import { FaLandmark, FaCity, FaUtensils, FaRoute, FaUsers } from 'react-icons/fa'
+import { prideItems } from '../data/sriLankaPride'
+import SEO from '../components/seo/SEO'
+
+const catMeta = {
+  'ancient-kingdoms': { icon: GiCrown, label: 'Ancient Kingdom', gradient: 'from-amber-950 to-yellow-900', color: 'amber' },
+  'caves-geological-wonders': { icon: GiCaveEntrance, label: 'Cave & Geology', gradient: 'from-stone-900 to-neutral-800', color: 'stone' },
+  'museums-galleries': { icon: FaLandmark, label: 'Museum & Gallery', gradient: 'from-indigo-950 to-purple-900', color: 'indigo' },
+  'cities-urban': { icon: FaCity, label: 'City & Urban', gradient: 'from-blue-950 to-cyan-900', color: 'blue' },
+  'food-culinary': { icon: FaUtensils, label: 'Food & Culinary', gradient: 'from-rose-950 to-red-900', color: 'red' },
+  'tea-spice-trails': { icon: GiTeapotLeaves, label: 'Tea & Spice Trail', gradient: 'from-emerald-950 to-green-900', color: 'green' },
+  'road-trip-routes': { icon: FaRoute, label: 'Road Trip Route', gradient: 'from-teal-950 to-sky-900', color: 'teal' },
+  'famous-people': { icon: FaUsers, label: 'Famous Person', gradient: 'from-pink-950 to-rose-900', color: 'rose' },
+}
+
+const subLabelMap = {
+  'national-heroes': 'National Hero',
+  'sports-legends': 'Sports Legend',
+  'arts-entertainment': 'Arts & Entertainment',
+  'science-tech': 'Science & Technology',
+  'writers-literature': 'Writer & Literature',
+  'global-achievers': 'Global Achiever',
+}
+
+export default function PrideDetail() {
+  const { category, id } = useParams()
+  const item = prideItems.find((p) => p.id === id && p.category === category)
+  const meta = catMeta[category] || catMeta['ancient-kingdoms']
+  const Icon = meta.icon
+  const isFood = category === 'food-culinary'
+  const isRoute = category === 'road-trip-routes'
+  const isFamous = category === 'famous-people'
+
+  if (!item) {
+    return (
+      <div className="min-h-screen pt-28 px-4">
+        <div className="container-custom text-center py-20">
+          <p className="text-slate-400 text-lg mb-4">Item not found</p>
+          <Link to="/sri-lanka-pride" className="text-teal-600 hover:underline">Back to Sri Lanka Pride</Link>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      <section className={`relative pt-28 md:pt-32 pb-16 overflow-hidden`}>
+        <div className={`absolute inset-0 bg-gradient-to-br ${meta.gradient} opacity-90`}>
+          <div className="absolute inset-0 opacity-10 bg-grid" />
+        </div>
+        <div className="container-custom relative z-10 px-4 sm:px-6 lg:px-8">
+          <Link
+            to="/sri-lanka-pride"
+            className="inline-flex items-center gap-2 text-white/80 hover:text-white text-sm font-medium mb-6 transition-colors"
+          >
+            <FiArrowLeft /> Back to Sri Lanka Pride
+          </Link>
+          <div className="flex flex-col md:flex-row md:items-end gap-6 md:gap-10">
+            <div className="w-full md:w-80 lg:w-96 shrink-0">
+              <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
+                <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+              </div>
+            </div>
+            <div className="flex-1">
+              <div className="flex flex-wrap items-center gap-2 mb-3">
+                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white/20 text-white backdrop-blur-sm`}>
+                  <Icon className="text-sm" />
+                  {meta.label}
+                </span>
+                {isFamous && item.subCategory && (
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white/20 text-white backdrop-blur-sm">
+                    <FiAward className="text-sm" />
+                    {subLabelMap[item.subCategory] || item.subCategory}
+                  </span>
+                )}
+              </div>
+              <h1 className="text-3xl md:text-5xl font-heading font-bold text-white mb-3">{item.name}</h1>
+              {(item.location || item.origin || item.birthPlace) && (
+                <div className="flex items-center gap-2 text-white/80 text-sm mb-4">
+                  <FiMapPin className="text-white/60" />
+                  <span>{item.location || item.origin || item.birthPlace}</span>
+                </div>
+              )}
+              <p className="text-white/90 text-base md:text-lg max-w-2xl leading-relaxed">{item.description}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-padding">
+        <div className="container-custom">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2 space-y-6">
+              <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-6 md:p-8">
+                <h2 className="text-xl font-heading font-bold text-slate-900 mb-4">About</h2>
+                <p className="text-slate-600 leading-relaxed">{item.detail || item.description}</p>
+                {item.period && (
+                  <div className="mt-4 pt-4 border-t border-slate-100">
+                    <h3 className="text-sm font-heading font-semibold text-slate-700 mb-2">Period</h3>
+                    <div className="flex items-center gap-2 text-slate-600">
+                      <FiCalendar className={meta.color === 'amber' ? 'text-amber-500' : 'text-teal-500'} />
+                      <span>{item.period}</span>
+                    </div>
+                  </div>
+                )}
+                {isRoute && item.stops && (
+                  <div className="mt-4 pt-4 border-t border-slate-100">
+                    <h3 className="text-sm font-heading font-semibold text-slate-700 mb-2">Route</h3>
+                    <div className="flex items-center gap-2 text-slate-600">
+                      <FaRoute className="text-teal-500" />
+                      <span>{item.stops} stops · {item.duration}</span>
+                    </div>
+                  </div>
+                )}
+                {isFamous && item.birthYear && (
+                  <div className="mt-4 pt-4 border-t border-slate-100">
+                    <h3 className="text-sm font-heading font-semibold text-slate-700 mb-2">Born</h3>
+                    <div className="flex items-center gap-2 text-slate-600">
+                      <FiCalendar className="text-rose-500" />
+                      <span>{item.birthYear} · {item.birthPlace}</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              {item.coordinates && (
+                <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-6">
+                  <h3 className="text-sm font-heading font-semibold text-slate-700 mb-3">Location</h3>
+                  <a
+                    href={`https://www.google.com/maps/dir/?api=1&destination=${item.coordinates[0]},${item.coordinates[1]}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 w-full min-h-[44px] rounded-xl bg-teal-50 text-teal-700 text-sm font-semibold hover:bg-teal-100 transition-all"
+                  >
+                    <FiNavigation /> Get Directions
+                  </a>
+                </div>
+              )}
+              <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-6">
+                <h3 className="text-sm font-heading font-semibold text-slate-700 mb-3">Category</h3>
+                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-br ${meta.gradient} text-white`}>
+                  <Icon className="text-sm" />
+                  {meta.label}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  )
+}

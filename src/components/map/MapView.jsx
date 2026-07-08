@@ -1,0 +1,205 @@
+import { useEffect, useMemo, useRef } from 'react'
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
+import MarkerClusterGroup from 'react-leaflet-cluster'
+import * as L from 'leaflet'
+import { Link } from 'react-router-dom'
+import { FiStar, FiMapPin, FiArrowRight, FiNavigation } from 'react-icons/fi'
+import 'leaflet.markercluster/dist/MarkerCluster.css'
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
+
+const iconMap = {
+  religious: 'fa-place-of-worship', historical: 'fa-landmark', nature: 'fa-leaf', beaches: 'fa-umbrella-beach',
+  cultural: 'fa-masks-theater', adventure: 'fa-person-hiking', Accommodation: 'fa-hotel', Dining: 'fa-utensils',
+  Shopping: 'fa-bag-shopping', 'Water Sports': 'fa-water', Tours: 'fa-compass',
+  Hotels: 'fa-hotel', Resorts: 'fa-hotel', Villas: 'fa-home',
+  'Eco Lodges': 'fa-tree', 'Local Markets': 'fa-store', Handicrafts: 'fa-hand',
+  'Souvenir Shops': 'fa-gift', 'Gems & Jewellery': 'fa-gem', 'Batik & Clothing': 'fa-tshirt',
+  Surfing: 'fa-water', Diving: 'fa-water', Snorkeling: 'fa-water',
+  'Whale Watching': 'fa-ship', Hiking: 'fa-person-hiking', Cycling: 'fa-bicycle',
+  Fishing: 'fa-fish', 'Boat Tours': 'fa-ship', Safari: 'fa-paw',
+  'Photography Spots': 'fa-camera', default: 'fa-location-dot',
+}
+
+function getIcon(item) {
+  if (item.subCategory) return iconMap[item.subCategory] || iconMap.default
+  if (item.type) {
+    const labels = { hotel: 'Hotels', restaurant: 'Dining', shop: 'Shopping', service: 'Service' }
+    return iconMap[labels[item.type]] || iconMap.default
+  }
+  if (item.period) return iconMap.cultural
+  return iconMap[item.category] || iconMap.default
+}
+
+function createMarkerIcon(icon, isSelected = false) {
+  return L.divIcon({
+    className: `custom-marker${isSelected ? ' selected' : ''}`,
+    html: `<div class="marker-inner"><i class="fa-solid ${icon}"></i>${
+      isSelected ? '<div style="position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(13,148,136,0.3);animation:pulse-ring 1.5s infinite"></div>' : ''
+    }</div>`,
+    iconSize: [54, 54],
+    iconAnchor: [27, 27],
+    popupAnchor: [0, -27],
+  })
+}
+
+function getDetailPath(item) {
+  if (item.type) return '/businesses'
+  if (item.period) return '/sri-lanka-pride'
+  return '/destinations'
+}
+
+function getCategoryLabel(item) {
+  if (item.subCategory) return item.subCategory
+  if (item.type === 'hotel') return 'Hotel'
+  if (item.type === 'restaurant') return 'Restaurant'
+  if (item.type === 'shop') return 'Shop'
+  if (item.type === 'service') return 'Service'
+  if (item.category === 'beaches') return 'Beach'
+  if (item.period) return 'Cultural'
+  return item.category
+}
+
+
+function MapContent({ filteredData, onSelectItem, flyToCoord, selectedItem }) {
+  const map = useMap()
+  const markerRefs = useRef({})
+  const prevFlyTo = useRef(null)
+
+  const bounds = useMemo(() => {
+    const valid = filteredData.filter((d) => d.coordinates?.length === 2)
+    if (valid.length === 0) return null
+    return L.latLngBounds(valid.map((d) => d.coordinates))
+  }, [filteredData])
+
+  useEffect(() => {
+    if (flyToCoord && flyToCoord.length === 2 && (flyToCoord[0] !== prevFlyTo.current?.[0] || flyToCoord[1] !== prevFlyTo.current?.[1])) {
+      prevFlyTo.current = flyToCoord
+      map.flyTo(flyToCoord, 16, { duration: 0.6 })
+      setTimeout(() => {
+        const match = filteredData.find(
+          (d) =>
+            d.coordinates?.[0] === flyToCoord[0] &&
+            d.coordinates?.[1] === flyToCoord[1]
+        )
+        if (match && markerRefs.current[match.id]) {
+          markerRefs.current[match.id].openPopup()
+        }
+      }, 700)
+    }
+  }, [map, flyToCoord, filteredData])
+
+  useEffect(() => {
+    if (bounds && filteredData.length > 0 && !flyToCoord && !selectedItem) {
+      const valid = filteredData.filter((d) => d.coordinates?.length === 2)
+      if (valid.length === 1) {
+        map.flyTo(valid[0].coordinates, 12, { duration: 0.8 })
+      } else if (valid.length > 1) {
+        map.flyToBounds(bounds, { padding: [50, 50], duration: 0.8 })
+      }
+    }
+  }, [map, bounds, filteredData, flyToCoord, selectedItem])
+
+  useEffect(() => {
+    if (!flyToCoord && filteredData.filter((d) => d.coordinates?.length === 2).length === 0) {
+      map.setView([8.0, 81.0], 4.5)
+    }
+  }, [map, filteredData, flyToCoord])
+
+  return (
+    <MarkerClusterGroup chunkedLoading maxClusterRadius={50}>
+      {filteredData.filter((d) => d.coordinates?.length === 2).map((item) => {
+        const isSelected = selectedItem?.id === item.id
+        return (
+          <Marker
+            key={item.id}
+            position={item.coordinates}
+            icon={createMarkerIcon(getIcon(item), isSelected)}
+            ref={(ref) => {
+              if (ref) markerRefs.current[item.id] = ref
+            }}
+            eventHandlers={{
+              click: () => onSelectItem?.(item),
+              mouseover: (e) => e.target.openPopup(),
+            }}
+          >
+            <Popup>
+              <div className="min-w-[200px] sm:min-w-[240px] max-w-[260px] sm:max-w-[280px]">
+                <div className="relative h-20 sm:h-28 -mx-3 -mt-3 mb-2 overflow-hidden rounded-t-xl">
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                  <span className="absolute bottom-2 left-3 text-[10px] text-white font-semibold bg-white/20 backdrop-blur-sm px-2 py-0.5 rounded-full">
+                    {getCategoryLabel(item)}
+                  </span>
+                </div>
+                <div className="space-y-1.5">
+                  <div className="flex items-start justify-between gap-2">
+                    <h3 className="font-heading font-bold text-xs text-slate-900 leading-tight">
+                      {item.name}
+                    </h3>
+                    {item.rating && (
+                      <span className="flex items-center gap-1 text-[10px] text-amber-500 shrink-0">
+                        <FiStar className="fill-current" />
+                        {item.rating}
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-[10px] text-slate-500 leading-relaxed line-clamp-2">
+                    {item.description}
+                  </p>
+                  <div className="flex items-center gap-1 text-[10px] text-slate-400">
+                    <FiMapPin className="text-teal-500" />
+                    {item.location || item.district}
+                  </div>
+                  <div className="flex items-center gap-1.5 pt-1">
+                    <Link
+                      to={getDetailPath(item)}
+                      onClick={() => onSelectItem?.(item)}
+                      className="flex items-center justify-center gap-1 flex-1 min-h-[30px] text-[10px] font-semibold text-white bg-gradient-to-r from-teal-500 to-ocean-500 rounded-lg hover:shadow-md transition-all duration-300"
+                    >
+                      View Details
+                      <FiArrowRight className="text-[10px]" />
+                    </Link>
+                    {item.coordinates && (
+                      <a
+                        href={`https://www.google.com/maps/dir/?api=1&destination=${item.coordinates[0]},${item.coordinates[1]}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-center gap-1 px-2 min-h-[30px] text-[10px] font-semibold text-slate-600 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 transition-all duration-200"
+                      >
+                        <FiNavigation className="text-[10px]" />
+                        Directions
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </Popup>
+          </Marker>
+        )
+      })}
+    </MarkerClusterGroup>
+  )
+}
+
+export default function MapView({ filteredData, onSelectItem, flyToCoord, selectedItem }) {
+  return (
+    <MapContainer
+      center={[8.0, 81.0]}
+      zoom={7}
+      minZoom={7}
+      maxZoom={18}
+      className="w-full h-full"
+      zoomControl={false}
+    >
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
+        url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+      />
+      <MapContent filteredData={filteredData} onSelectItem={onSelectItem} flyToCoord={flyToCoord} selectedItem={selectedItem} />
+    </MapContainer>
+  )
+}

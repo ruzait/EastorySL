@@ -1,0 +1,26 @@
+{
+  "name": "Eastern Sri Lanka Hub",
+  "short_name": "ESL Hub",
+  "description": "Discover the beauty of Sri Lanka — beaches, tourism, local businesses, and cultural heritage all in one place.",
+  "start_url": "/",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/images/logo/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/images/logo/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "theme_color": "#0d9488",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "categories": ["travel", "tourism", "lifestyle"],
+  "lang": "en"
+}
