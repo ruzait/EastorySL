@@ -1,3 +1,25 @@
+import { FiImage, FiCamera } from 'react-icons/fi'
+import { GiBeachBall, GiTreeBranch, GiWaterfall, GiCastle, GiCrown, GiCookingPot, GiMedal, GiBed, GiParachute, GiShoppingBag } from 'react-icons/gi'
+import { FaLandmark, FaChurch, FaCity } from 'react-icons/fa'
+
+export const galleryCatIcons = {
+  'all': FiImage,
+  'beaches': GiBeachBall,
+  'nature': GiTreeBranch,
+  'waterfalls': GiWaterfall,
+  'historical': FaLandmark,
+  'religious': FaChurch,
+  'forts': GiCastle,
+  'cultural': FiCamera,
+  'ancient-kingdoms': GiCrown,
+  'food-culinary': GiCookingPot,
+  'cities-urban': FaCity,
+  'famous-people': GiMedal,
+  'accommodation': GiBed,
+  'adventure': GiParachute,
+  'shopping': GiShoppingBag,
+}
+
 export const galleryCategories = [
   { id: 'all', label: 'All Photos' },
   { id: 'beaches', label: 'Beaches' },

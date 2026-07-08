@@ -17,7 +17,7 @@ export default function Gallery() {
     <div>
       <SEO
         title="Gallery"
-        description="Browse stunning photos of Sri Lanka's landscapes, beaches, wildlife, cultural sites, and local businesses curated by Eastern Sri Lanka Hub."
+        description="Browse stunning photos of Sri Lanka's landscapes, beaches, wildlife, cultural sites, and local businesses curated by Eastory SL."
         keywords="Sri Lanka photos, Sri Lanka gallery, Sri Lanka images, Sri Lanka pictures, Sri Lanka travel photography"
       />
       <section className="relative pt-28 md:pt-32 pb-10 md:pb-12 overflow-hidden px-4 sm:px-6 lg:px-8">
@@ -26,6 +26,7 @@ export default function Gallery() {
         </div>
         <div className="container-custom relative z-10 text-center px-4 sm:px-6 lg:px-8">
           <SectionTitle
+            as="h1"
             subtitle="Visual Journey"
             title="Gallery"
             description="Explore Sri Lanka through stunning photographs capturing its beaches, nature, culture, and heritage."

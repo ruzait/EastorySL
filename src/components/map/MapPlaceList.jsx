@@ -4,7 +4,7 @@ import { FiMapPin, FiStar, FiSearch, FiX, FiChevronRight } from 'react-icons/fi'
 
 const CATEGORIES = [
   'All Destinations', 'Beaches', 'Waterfalls', 'Mountains', 'Historical Sites',
-  'Religious Places', 'Restaurants', 'Hotels', 'Shopping', 'Local Businesses',
+  'Religious Places', 'Restaurants', 'Hotels', 'Shopping', 'Discover more',
   'Museums', 'Wildlife', 'Parks',
 ]
 
@@ -71,13 +71,13 @@ export default function MapPlaceList({ items, selectedItem, onSelect, searchQuer
       <div className="shrink-0 border-b border-slate-100">
         <div className="px-4 pt-4 pb-3">
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-sm font-heading font-semibold text-slate-800">
+            <h1 className="text-sm font-heading font-semibold text-slate-800">
               Places
               <span className="ml-1.5 text-xs font-normal text-slate-400">({items.length})</span>
-            </h2>
+            </h1>
             {onClose && (
-              <button onClick={onClose} className="touch-manipulation w-7 h-7 rounded-lg bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-400 hover:text-slate-600 transition-all duration-200">
-                <FiX size={14} />
+              <button onClick={onClose} className="touch-manipulation w-9 h-9 rounded-lg bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-400 hover:text-slate-600 transition-all duration-200">
+                <FiX size={16} />
               </button>
             )}
           </div>
@@ -91,8 +91,8 @@ export default function MapPlaceList({ items, selectedItem, onSelect, searchQuer
               className="w-full pl-10 pr-9 py-2.5 rounded-xl bg-slate-100 border-0 text-xs text-slate-800 placeholder:text-slate-400 italic outline-none focus:bg-white focus:ring-2 focus:ring-teal-500/20 focus:shadow-sm transition-all duration-200"
             />
             {searchQuery && (
-              <button onClick={() => onSearchChange('')} className="touch-manipulation absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
-                <FiX size={14} />
+              <button onClick={() => onSearchChange('')} className="touch-manipulation absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-600">
+                <FiX size={16} />
               </button>
             )}
           </div>

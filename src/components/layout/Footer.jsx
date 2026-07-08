@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { FiMapPin, FiPhone, FiMail, FiArrowUp, FiSend, FiChevronRight } from 'react-icons/fi'
-import { FaFacebook, FaInstagram, FaYoutube, FaTripadvisor, FaUmbrellaBeach } from 'react-icons/fa'
+import { FiMapPin, FiMail, FiArrowUp, FiSend, FiChevronRight } from 'react-icons/fi'
+import { FaFacebook, FaYoutube, FaWhatsapp, FaUmbrellaBeach } from 'react-icons/fa'
 import { GiLion, GiElephantHead } from 'react-icons/gi'
 import Logo from '../ui/Logo'
 
 const quickLinks = [
   { name: 'Destinations', path: '/destinations' },
-  { name: 'Businesses', path: '/businesses' },
+  { name: 'Discover more', path: '/discover-more' },
   { name: 'Sri Lanka Pride', path: '/sri-lanka-pride' },
   { name: 'Gallery', path: '/gallery' },
   { name: 'Map', path: '/map' },
@@ -54,10 +54,9 @@ export default function Footer() {
             </p>
             <div className="flex items-center gap-2.5 mb-6">
               {[
+                { icon: FaWhatsapp, href: 'https://wa.me/94771234567', label: 'WhatsApp' },
                 { icon: FaFacebook, href: 'https://facebook.com', label: 'Facebook' },
-                { icon: FaInstagram, href: 'https://instagram.com', label: 'Instagram' },
                 { icon: FaYoutube, href: 'https://youtube.com', label: 'YouTube' },
-                { icon: FaTripadvisor, href: 'https://tripadvisor.com', label: 'Tripadvisor' },
               ].map((s) => (
                 <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
                   className="w-9 h-9 rounded-full bg-slate-800 hover:bg-teal-600 flex items-center justify-center text-slate-400 hover:text-white transition-all duration-300 hover:shadow-lg hover:shadow-teal-500/20 hover:-translate-y-0.5"
@@ -69,7 +68,7 @@ export default function Footer() {
             <div className="flex flex-wrap gap-4 text-xs text-slate-500">
               <span className="flex items-center gap-1.5"><FaUmbrellaBeach className="text-teal-500" /> 120+ Destinations</span>
               <span className="flex items-center gap-1.5"><GiLion className="text-teal-500" /> 90+ Pride Entries</span>
-              <span className="flex items-center gap-1.5"><GiElephantHead className="text-teal-500" /> 50+ Businesses</span>
+              <span className="flex items-center gap-1.5"><GiElephantHead className="text-teal-500" /> 50+ Discover more</span>
             </div>
           </div>
 

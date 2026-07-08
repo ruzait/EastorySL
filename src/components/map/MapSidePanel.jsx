@@ -2,7 +2,7 @@ import { FiX, FiStar, FiMapPin, FiClock, FiDollarSign, FiSun, FiPhone, FiGlobe, 
 import { Link } from 'react-router-dom'
 
 function getDetailPath(item) {
-  if (item.type) return '/businesses'
+  if (item.type) return '/discover-more'
   if (item.period) return '/sri-lanka-pride'
   return '/destinations'
 }
@@ -56,7 +56,7 @@ export default function MapSidePanel({ item, onClose }) {
           <span className={`inline-block text-[11px] font-bold px-3 py-1 rounded-full mb-2 text-white shadow-lg ${getCategoryStyle(item)}`}>
             {getCategoryLabel(item)}
           </span>
-          <h2 className="text-white font-heading font-bold text-2xl leading-tight drop-shadow-sm">
+          <h2 className="text-white font-heading font-bold text-xl sm:text-2xl leading-tight drop-shadow-sm">
             {item.name}
           </h2>
           <div className="flex items-center gap-3 mt-1.5">

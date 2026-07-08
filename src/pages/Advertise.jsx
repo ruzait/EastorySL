@@ -1,6 +1,7 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FiCheck, FiChevronRight, FiChevronLeft } from 'react-icons/fi'
+import { FiCheck, FiChevronRight, FiChevronLeft, FiArrowLeft } from 'react-icons/fi'
 import { FaWhatsapp } from 'react-icons/fa'
 import SectionTitle from '../components/ui/SectionTitle'
 import SEO from '../components/seo/SEO'
@@ -83,20 +84,31 @@ export default function Advertise() {
     e.preventDefault()
     setSubmitted(true)
     const pkg = packages.find((p) => p.id === selectedPackage)
-    const msg = `Hi! I'm interested in advertising with Sri Lanka Hub.\n\nBusiness: ${form.businessName}\nType: ${form.type}\nLocation: ${form.location}\nPhone: ${form.contact}\nEmail: ${form.email}\nPackage: ${pkg?.name || 'N/A'}\n\n${form.description}`
+    const msg = `Hi! I'm interested in advertising with Eastory SL.\n\nBusiness: ${form.businessName}\nType: ${form.type}\nLocation: ${form.location}\nPhone: ${form.contact}\nEmail: ${form.email}\nPackage: ${pkg?.name || 'N/A'}\n\n${form.description}`
     window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank')
   }
 
   if (submitted) {
     return (
-      <div className="pt-20 min-h-screen bg-gradient-to-br from-teal-50 via-white to-ocean-50 flex items-center justify-center">
-        <AnimatedSection className="text-center max-w-lg mx-auto px-4">
+      <div className="pt-20 min-h-screen flex items-center justify-center">
+        <div className="fixed inset-0 bg-cover bg-center" style={{ backgroundImage: 'url(/images/discover/hero.png)' }} />
+        <div className="fixed inset-0 bg-gradient-to-br from-slate-900/85 via-teal-950/85 to-slate-900/85">
+          <div className="absolute inset-0 opacity-10 bg-grid" />
+        </div>
+        <AnimatedSection className="relative z-10 text-center max-w-lg mx-auto px-4">
           <div className="w-20 h-20 rounded-full bg-gradient-to-br from-teal-400 to-ocean-500 flex items-center justify-center mx-auto mb-6 shadow-xl shadow-teal-500/20">
             <FiCheck className="text-white text-3xl" />
           </div>
-          <h2 className="text-3xl font-heading font-bold text-slate-900 mb-3">Thank You!</h2>
-          <p className="text-slate-600 mb-2">Your request has been submitted successfully.</p>
+          <h2 className="text-3xl font-heading font-bold text-white mb-3">Thank You!</h2>
+          <p className="text-slate-300 mb-2">Your request has been submitted successfully.</p>
           <p className="text-sm text-slate-400">We'll get back to you within 24 hours.</p>
+          <Link
+            to="/discover-more"
+            className="inline-flex items-center gap-2 mt-8 px-6 py-3 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 text-white font-semibold text-sm hover:bg-white/20 transition-all duration-300"
+          >
+            <FiArrowLeft />
+            Back to Discover more
+          </Link>
         </AnimatedSection>
       </div>
     )
@@ -106,11 +118,12 @@ export default function Advertise() {
     <div>
       <SEO
         title="Advertise With Us"
-        description="Promote your business on Eastern Sri Lanka Hub. Reach thousands of travelers exploring Sri Lanka with our affordable advertising packages."
+        description="Promote your business on Eastory SL. Reach thousands of travelers exploring Sri Lanka with our affordable advertising packages."
         keywords="advertise Sri Lanka, Sri Lanka business promotion, Sri Lanka travel advertising, promote tourism business Sri Lanka"
       />
       <section className="relative pt-28 md:pt-32 pb-10 md:pb-12 overflow-hidden px-4 sm:px-6 lg:px-8">
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-teal-950 to-slate-900">
+        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url(/images/discover/hero.png)' }} />
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900/85 via-teal-950/85 to-slate-900/85">
           <div className="absolute inset-0 opacity-10 bg-grid" />
         </div>
         <div className="container-custom relative z-10 text-center px-4 sm:px-6 lg:px-8">

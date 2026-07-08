@@ -3,7 +3,7 @@ import SectionTitle from '../components/ui/SectionTitle'
 import { businesses } from '../data/businesses'
 import SearchBar from '../components/ui/SearchBar'
 import SEO from '../components/seo/SEO'
-import BusinessGrid from '../components/businesses/BusinessGrid'
+import BusinessGrid from '../components/discover/BusinessGrid'
 import { FiSearch, FiChevronLeft, FiChevronRight, FiHome } from 'react-icons/fi'
 import { GiVillage, GiShop, GiSurfBoard, GiDivingHelmet, GiSnorkel, GiWhaleTail, GiHiking, GiFishing, GiSailboat, GiPhotoCamera, GiCompass } from 'react-icons/gi'
 import { FaBicycle } from 'react-icons/fa'
@@ -18,7 +18,7 @@ const catIcons = {
   'Photography Spots': GiPhotoCamera,
 }
 
-export default function Businesses() {
+export default function DiscoverMore() {
   const [activeCategory, setActiveCategory] = useState('All')
   const [search, setSearch] = useState('')
   const [showSearch, setShowSearch] = useState(false)
@@ -69,11 +69,13 @@ export default function Businesses() {
         keywords="Sri Lanka businesses, Eastern Sri Lanka shops, hotels Sri Lanka, restaurants Sri Lanka, local services Sri Lanka"
       />
       <section className="relative pt-28 md:pt-32 pb-10 md:pb-12 overflow-hidden px-4 sm:px-6 lg:px-8">
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-teal-950 to-slate-900">
+        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url(/images/discover/hero.png)' }} />
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900/85 via-teal-950/85 to-slate-900/85">
           <div className="absolute inset-0 opacity-10 bg-grid" />
         </div>
         <div className="container-custom relative z-10 text-center px-4 sm:px-6 lg:px-8">
           <SectionTitle
+            as="h1"
             subtitle="Stay, Shop & Activities"
         title="Discover more"
             description="Find accommodations, local shopping, and adventure activities across Sri Lanka."
@@ -143,7 +145,7 @@ export default function Businesses() {
             </div>
           </div>
           <div className={`mb-6 ${showSearch ? '' : 'lg:hidden'}`}>
-            <SearchBar value={search} onChange={setSearch} placeholder="Search businesses..." />
+            <SearchBar value={search} onChange={setSearch} placeholder="Search discover more..." />
           </div>
           {filtered.length === 0 ? (
             <div className="text-center py-16">

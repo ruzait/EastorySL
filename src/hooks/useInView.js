@@ -17,12 +17,12 @@ export function useInView(options = {}) {
           setIsInView(false)
         }
       },
-      { threshold: options.threshold ?? 0.1, ...options }
+      { threshold: options.threshold ?? 0.1 }
     )
 
     observer.observe(el)
     return () => observer.disconnect()
-  }, [])
+  }, [options.threshold, options.repeat])
 
   return [ref, isInView]
 }

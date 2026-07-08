@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { FiMapPin, FiCompass, FiArrowRight, FiSun } from 'react-icons/fi'
+import { FiMapPin, FiArrowRight, FiSun } from 'react-icons/fi'
 import { FaTree, FaWater } from 'react-icons/fa'
 
 export default function Hero() {
@@ -18,7 +18,7 @@ export default function Hero() {
       <div className="absolute inset-0 bg-gradient-to-r from-slate-900/80 via-slate-900/40 to-transparent" />
       <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-slate-900/20" />
 
-      <div className="relative z-20 w-full pt-20 pb-28 md:pb-32">
+      <div className="relative z-20 w-full pt-0 md:pt-20 pb-28 md:pb-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -40,15 +40,15 @@ export default function Hero() {
                 to="/destinations"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-teal-500 to-ocean-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-teal-500/30 transition-all duration-300"
               >
-                Explore Destinations
+                <span className="italic">Explore Destinations</span>
                 <FiArrowRight />
               </Link>
               <Link
-                to="/destinations"
+                to="/map"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 text-white font-semibold text-sm hover:bg-white/20 transition-all duration-300"
               >
-                <FiCompass />
-                View Destinations
+                <FiMapPin />
+                <span className="italic">View Map</span>
               </Link>
             </div>
           </motion.div>

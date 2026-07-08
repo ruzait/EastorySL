@@ -150,8 +150,8 @@ export default function Featured() {
   const monthLabel = now.toLocaleString('default', { month: 'long' })
 
   const seasonal = useMemo(() => {
-    return getSeasonalDestinations(destinations, currentMonth, activeCategory).slice(0, 9)
-  }, [activeCategory])
+    return getSeasonalDestinations(destinations, currentMonth, activeCategory).slice(0, 6)
+  }, [currentMonth, activeCategory])
 
   return (
     <section className="section-padding relative overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-50/50">

@@ -13,9 +13,9 @@ export default function CTA() {
 
       <div className="container-custom relative z-10 text-center">
         <AnimatedSection className="max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-white mb-4">Plan Your <span className="bg-gradient-to-r from-sunset-400 via-rose-500 to-sunset-600 bg-clip-text text-transparent">Eastern</span> Adventure Today</h2>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-white mb-4">Discover the Magic of <span className="bg-gradient-to-r from-sunset-400 via-rose-500 to-sunset-600 bg-clip-text text-transparent">Sri Lanka</span></h2>
           <p className="text-white/70 text-lg md:text-xl mb-8 max-w-xl mx-auto">
-            From pristine beaches to ancient temples, discover why Eastern Sri Lanka is a must-visit destination.
+            Golden beaches, misty mountains, ancient ruins, and warm smiles — experience an island like no other.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link

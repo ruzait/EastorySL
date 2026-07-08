@@ -1,10 +1,34 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiX, FiChevronLeft, FiChevronRight, FiMapPin } from 'react-icons/fi'
+import { galleryCatIcons } from '../../data/gallery'
 
 export default function GalleryGrid({ images, categories }) {
   const [activeCategory, setActiveCategory] = useState('all')
   const [selectedImage, setSelectedImage] = useState(null)
+  const [scrollStart, setScrollStart] = useState(true)
+  const [scrollEnd, setScrollEnd] = useState(false)
+  const scrollRef = useRef(null)
+
+  const updateScrollState = () => {
+    const el = scrollRef.current
+    if (!el) return
+    setScrollStart(el.scrollLeft <= 2)
+    setScrollEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 2)
+  }
+
+  const scroll = (dir) => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: dir * 200, behavior: 'smooth' })
+    }
+  }
+
+  useEffect(() => {
+    updateScrollState()
+    const onResize = () => updateScrollState()
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
 
   const filtered = useMemo(() => {
     if (activeCategory === 'all') return images
@@ -37,20 +61,50 @@ export default function GalleryGrid({ images, categories }) {
 
   return (
     <>
-      <div className="flex flex-wrap justify-center gap-2 mb-10">
-        {categories.map((cat) => (
-          <button
-            key={cat.id}
-            onClick={() => setActiveCategory(cat.id)}
-            className={`min-h-[44px] px-5 py-2 rounded-full text-sm font-bold font-['Poppins'] transition-all duration-300 ${
-              activeCategory === cat.id
-                ? 'bg-teal-600 text-white shadow-lg shadow-teal-500/20'
-                : 'bg-white text-slate-600 hover:bg-teal-50 hover:text-teal-700 border border-slate-200'
-            }`}
-          >
-            {cat.label}
-          </button>
-        ))}
+      <div className="flex items-center gap-1 mb-8">
+        <button
+          onClick={() => scroll(-1)}
+          disabled={scrollStart}
+          className={`hidden lg:flex min-h-[44px] w-12 items-center justify-center rounded-full border transition-all duration-300 shrink-0 ${
+            scrollStart
+              ? 'bg-slate-100 text-slate-300 border-slate-100 cursor-not-allowed'
+              : 'bg-white text-slate-600 hover:bg-teal-50 hover:text-teal-700 border-slate-200'
+          }`}
+          aria-label="Scroll left"
+        >
+          <FiChevronLeft />
+        </button>
+        <div ref={scrollRef} onScroll={updateScrollState} className="flex gap-2 overflow-x-auto scroll-smooth no-scrollbar">
+          {categories.map((cat) => {
+            const Icon = galleryCatIcons[cat.id]
+            return (
+              <button
+                key={cat.id}
+                onClick={() => setActiveCategory(cat.id)}
+                className={`min-h-[44px] px-4 py-2 rounded-full text-sm font-bold font-['Poppins'] transition-all duration-300 whitespace-nowrap shrink-0 flex items-center gap-1.5 ${
+                  activeCategory === cat.id
+                    ? 'bg-teal-600 text-white shadow-lg shadow-teal-500/20'
+                    : 'bg-white text-slate-600 hover:bg-teal-50 hover:text-teal-700 border border-slate-200'
+                }`}
+              >
+                {Icon && <Icon className="text-sm" />}
+                {cat.label}
+              </button>
+            )
+          })}
+        </div>
+        <button
+          onClick={() => scroll(1)}
+          disabled={scrollEnd}
+          className={`hidden lg:flex min-h-[44px] w-12 items-center justify-center rounded-full border transition-all duration-300 shrink-0 ${
+            scrollEnd
+              ? 'bg-slate-100 text-slate-300 border-slate-100 cursor-not-allowed'
+              : 'bg-white text-slate-600 hover:bg-teal-50 hover:text-teal-700 border-slate-200'
+          }`}
+          aria-label="Scroll right"
+        >
+          <FiChevronRight />
+        </button>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">

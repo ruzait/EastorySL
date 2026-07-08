@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 const layers = [
   { id: 'destinations', label: 'Destinations', icon: HiOutlineLocationMarker },
   { id: 'beaches', label: 'Beaches', icon: FiSun },
-  { id: 'businesses', label: 'Businesses', icon: HiOutlineOfficeBuilding },
+  { id: 'businesses', label: 'Discover more', icon: HiOutlineOfficeBuilding },
   { id: 'cultural', label: 'Cultural', icon: HiOutlineCollection },
 ]
 
@@ -32,7 +32,7 @@ export default function MapLayers({ activeLayers, onToggle }) {
             } ${layer !== layers[layers.length - 1] ? 'border-b border-slate-100' : ''}`}
           >
             <Icon className={`text-sm ${active ? 'text-slate-700' : 'text-slate-400'}`} />
-            <span className="flex-1 text-left">{layer.label}</span>
+            <span className="flex-1 text-left italic">{layer.label}</span>
             {active ? (
               <FiEye className="text-teal-500 text-xs shrink-0" />
             ) : (

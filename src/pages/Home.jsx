@@ -2,6 +2,8 @@ import Hero from '../components/home/Hero'
 import Featured from '../components/home/Featured'
 import CTA from '../components/home/CTA'
 import TripFinder from '../components/home/TripFinder'
+import AboutSriLanka from '../components/home/AboutSriLanka'
+import GovTourismLinks from '../components/home/GovTourismLinks'
 import SEO from '../components/seo/SEO'
 
 export default function Home() {
@@ -15,6 +17,8 @@ export default function Home() {
       <Featured />
       <CTA />
       <TripFinder />
+      <AboutSriLanka />
+      <GovTourismLinks />
     </>
   )
 }

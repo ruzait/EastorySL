@@ -1,9 +1,8 @@
 import { useParams, Link } from 'react-router-dom'
-import { FiArrowLeft, FiMapPin, FiStar, FiCalendar, FiClock, FiNavigation, FiAward } from 'react-icons/fi'
+import { FiArrowLeft, FiMapPin, FiCalendar, FiNavigation, FiAward } from 'react-icons/fi'
 import { GiCrown, GiCaveEntrance, GiTeapotLeaves } from 'react-icons/gi'
 import { FaLandmark, FaCity, FaUtensils, FaRoute, FaUsers } from 'react-icons/fa'
 import { prideItems } from '../data/sriLankaPride'
-import SEO from '../components/seo/SEO'
 
 const catMeta = {
   'ancient-kingdoms': { icon: GiCrown, label: 'Ancient Kingdom', gradient: 'from-amber-950 to-yellow-900', color: 'amber' },
@@ -30,7 +29,6 @@ export default function PrideDetail() {
   const item = prideItems.find((p) => p.id === id && p.category === category)
   const meta = catMeta[category] || catMeta['ancient-kingdoms']
   const Icon = meta.icon
-  const isFood = category === 'food-culinary'
   const isRoute = category === 'road-trip-routes'
   const isFamous = category === 'famous-people'
 
@@ -95,10 +93,8 @@ export default function PrideDetail() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 space-y-6">
               <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-6 md:p-8">
-                <h2 className="text-xl font-heading font-bold text-slate-900 mb-4">About</h2>
-                <p className="text-slate-600 leading-relaxed">{item.detail || item.description}</p>
                 {item.period && (
-                  <div className="mt-4 pt-4 border-t border-slate-100">
+                  <div className={item.detail || item.description ? 'pb-4 border-b border-slate-100 mb-4' : ''}>
                     <h3 className="text-sm font-heading font-semibold text-slate-700 mb-2">Period</h3>
                     <div className="flex items-center gap-2 text-slate-600">
                       <FiCalendar className={meta.color === 'amber' ? 'text-amber-500' : 'text-teal-500'} />
@@ -107,7 +103,7 @@ export default function PrideDetail() {
                   </div>
                 )}
                 {isRoute && item.stops && (
-                  <div className="mt-4 pt-4 border-t border-slate-100">
+                  <div className="pb-4 border-b border-slate-100 mb-4">
                     <h3 className="text-sm font-heading font-semibold text-slate-700 mb-2">Route</h3>
                     <div className="flex items-center gap-2 text-slate-600">
                       <FaRoute className="text-teal-500" />
@@ -116,7 +112,7 @@ export default function PrideDetail() {
                   </div>
                 )}
                 {isFamous && item.birthYear && (
-                  <div className="mt-4 pt-4 border-t border-slate-100">
+                  <div className="pb-4 border-b border-slate-100 mb-4">
                     <h3 className="text-sm font-heading font-semibold text-slate-700 mb-2">Born</h3>
                     <div className="flex items-center gap-2 text-slate-600">
                       <FiCalendar className="text-rose-500" />
@@ -124,12 +120,21 @@ export default function PrideDetail() {
                     </div>
                   </div>
                 )}
+                <h2 className="text-xl font-heading font-bold text-slate-900 mb-4">About</h2>
+                <p className="text-slate-600 leading-relaxed">{item.detail || item.description}</p>
               </div>
             </div>
 
-            <div className="space-y-4">
+            <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-6 space-y-4">
+              <div>
+                <h3 className="text-sm font-heading font-semibold text-slate-700 mb-3">Category</h3>
+                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-br ${meta.gradient} text-white`}>
+                  <Icon className="text-sm" />
+                  {meta.label}
+                </span>
+              </div>
               {item.coordinates && (
-                <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-6">
+                <div className="pt-4 border-t border-slate-100">
                   <h3 className="text-sm font-heading font-semibold text-slate-700 mb-3">Location</h3>
                   <a
                     href={`https://www.google.com/maps/dir/?api=1&destination=${item.coordinates[0]},${item.coordinates[1]}`}
@@ -141,13 +146,6 @@ export default function PrideDetail() {
                   </a>
                 </div>
               )}
-              <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-6">
-                <h3 className="text-sm font-heading font-semibold text-slate-700 mb-3">Category</h3>
-                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-br ${meta.gradient} text-white`}>
-                  <Icon className="text-sm" />
-                  {meta.label}
-                </span>
-              </div>
             </div>
           </div>
         </div>

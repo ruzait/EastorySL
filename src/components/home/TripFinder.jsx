@@ -59,7 +59,7 @@ const questions = [
 ]
 
 function recommendPlan(answers) {
-  const { experience, style, companions, budget, duration } = answers
+  const { experience, companions, budget, duration, style: _style } = answers
 
   const categoryMatch = {
     beaches: [],
@@ -177,7 +177,7 @@ export default function TripFinder() {
                 onClick={handleStart}
                 className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-teal-600 to-ocean-500 text-white font-semibold hover:shadow-lg hover:shadow-teal-500/25 transition-all duration-300"
               >
-                <FiCompass />
+                <FiMap />
                 Start Planning
               </button>
             </motion.div>

@@ -7,7 +7,7 @@ import Logo from '../ui/Logo'
 const navLinks = [
   { name: 'Home', path: '/' },
   { name: 'Destinations', path: '/destinations' },
-  { name: 'Businesses', path: '/businesses' },
+  { name: 'Discover more', path: '/discover-more' },
   { name: 'Sri Lanka Pride', path: '/sri-lanka-pride' },
   { name: 'Gallery', path: '/gallery' },
   { name: 'Map', path: '/map' },
@@ -88,12 +88,14 @@ export default function Navbar() {
               onClick={() => setIsOpen(false)}
             />
             <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="md:hidden relative overflow-hidden border-t border-slate-200 shadow-xl z-20 bg-white"
+              initial={{ opacity: 0, maxHeight: 0 }}
+              animate={{ opacity: 1, maxHeight: '70vh' }}
+              exit={{ opacity: 0, maxHeight: 0 }}
+              className="md:hidden relative overflow-hidden border-t border-white/10 shadow-xl z-20 rounded-b-2xl"
             >
-              <div className="px-4 py-4 space-y-1 max-h-[70vh] overflow-y-auto">
+              <div className="absolute inset-0 bg-cover bg-no-repeat bg-center" style={{ backgroundImage: 'url(/images/home/hero.png)' }} />
+              <div className="absolute inset-0 backdrop-blur-md bg-slate-900/70" />
+              <div className="relative px-4 py-4 space-y-1 max-h-[70vh] overflow-y-auto">
                 {navLinks.map((link, i) => (
                   <motion.div
                     key={link.path}
@@ -108,7 +110,7 @@ export default function Navbar() {
                         `block px-4 py-3 rounded-xl text-base font-heading font-bold italic transition-all duration-200 ${
                           isActive
                             ? 'text-[#2DD4BF] bg-[#2DD4BF]/10 border-l-4 border-[#2DD4BF]'
-                            : 'text-slate-600 hover:text-[#2DD4BF] hover:bg-slate-50'
+                            : 'text-white/80 hover:text-[#2DD4BF] hover:bg-white/10'
                         }`
                       }
                     >

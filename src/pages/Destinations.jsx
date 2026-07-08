@@ -5,10 +5,9 @@ import { destinations } from '../data/destinations'
 import SearchBar from '../components/ui/SearchBar'
 import SEO from '../components/seo/SEO'
 import DestinationGrid from '../components/tourism/DestinationGrid'
-import { FiSearch, FiChevronLeft, FiChevronRight } from 'react-icons/fi'
+import { FiSearch, FiChevronLeft, FiChevronRight, FiMap } from 'react-icons/fi'
 import { GiBeachBall, GiTreeBranch, GiWaterfall, GiMountainCave, GiElephantHead, GiForest, GiCastle, GiIsland, GiFlowerPot, GiBinoculars, GiDolphin, GiParachute, GiPartyPopper } from 'react-icons/gi'
 import { FaLandmark, FaChurch, FaMusic, FaTrain } from 'react-icons/fa'
-import { FiMap } from 'react-icons/fi'
 
 const categories = ['All', 'Beaches', 'Nature', 'Waterfalls', 'Mountains', 'Wildlife', 'Parks', 'Historical', 'Religious', 'Forts', 'Lakes & Rivers', 'Islands', 'Botanical Gardens', 'Culture', 'Scenic Train Journeys', 'Viewpoints', 'Marine Attractions', 'Adventure Activities', 'Festivals & Events']
 
@@ -40,7 +39,7 @@ export default function Destinations() {
   const [searchParams] = useSearchParams()
   const [search, setSearch] = useState(searchParams.get('search') || '')
   const [activeCategory, setActiveCategory] = useState('All')
-  const [showSearch, setShowSearch] = useState(!!searchParams.get('search'))
+  const [showSearch, setShowSearch] = useState(false)
   const [scrollStart, setScrollStart] = useState(true)
   const [scrollEnd, setScrollEnd] = useState(false)
   const scrollRef = useRef(null)
@@ -94,6 +93,7 @@ export default function Destinations() {
         </div>
         <div className="container-custom relative z-10 text-center px-4 sm:px-6 lg:px-8">
           <SectionTitle
+            as="h1"
             subtitle="Explore Sri Lanka"
             title="Destinations"
             description="From ancient temples and colonial forts to national parks and natural wonders — discover the rich heritage and beauty of Sri Lanka."
@@ -103,11 +103,11 @@ export default function Destinations() {
       </section>
       <section className="section-padding">
         <div className="container-custom">
-          <div className="flex items-center gap-2 mb-6">
+          <div className="flex items-center gap-2 mb-3">
             <button
               onClick={() => setShowSearch(!showSearch)}
-className={`min-h-[44px] px-4 py-2 rounded-full text-sm font-bold font-['Poppins'] transition-all duration-300 flex items-center gap-2 shrink-0 ${
-                 showSearch
+              className={`min-h-[44px] px-4 py-2 rounded-full text-sm font-bold font-['Poppins'] items-center gap-2 shrink-0 transition-all duration-300 hidden lg:flex ${
+                showSearch
                   ? 'bg-teal-600 text-white shadow-lg shadow-teal-500/20'
                   : 'bg-white text-slate-600 hover:bg-teal-50 hover:text-teal-700 border border-slate-200'
               }`}
@@ -120,7 +120,7 @@ className={`min-h-[44px] px-4 py-2 rounded-full text-sm font-bold font-['Poppins
               <button
                 onClick={() => scroll(-1)}
                 disabled={scrollStart}
-                className={`min-h-[44px] w-11 lg:w-12 flex items-center justify-center rounded-full border transition-all duration-300 shrink-0 ${
+                className={`hidden lg:flex min-h-[44px] w-12 items-center justify-center rounded-full border transition-all duration-300 shrink-0 ${
                   scrollStart
                     ? 'bg-slate-100 text-slate-300 border-slate-100 cursor-not-allowed'
                     : 'bg-white text-slate-600 hover:bg-teal-50 hover:text-teal-700 border-slate-200'
@@ -151,7 +151,7 @@ className={`min-h-[44px] px-4 py-2 rounded-full text-sm font-bold font-['Poppins
               <button
                 onClick={() => scroll(1)}
                 disabled={scrollEnd}
-                className={`min-h-[44px] w-11 lg:w-12 flex items-center justify-center rounded-full border transition-all duration-300 shrink-0 ${
+                className={`hidden lg:flex min-h-[44px] w-12 items-center justify-center rounded-full border transition-all duration-300 shrink-0 ${
                   scrollEnd
                     ? 'bg-slate-100 text-slate-300 border-slate-100 cursor-not-allowed'
                     : 'bg-white text-slate-600 hover:bg-teal-50 hover:text-teal-700 border-slate-200'
@@ -162,11 +162,9 @@ className={`min-h-[44px] px-4 py-2 rounded-full text-sm font-bold font-['Poppins
               </button>
             </div>
           </div>
-          {showSearch && (
-            <div className="mb-6">
-              <SearchBar value={search} onChange={setSearch} placeholder="Search destinations..." />
-            </div>
-          )}
+          <div className={`mb-6 ${showSearch ? '' : 'lg:hidden'}`}>
+            <SearchBar value={search} onChange={setSearch} placeholder="Search destinations..." />
+          </div>
           {filtered.length === 0 ? (
             <div className="text-center py-16">
               <p className="text-slate-400 text-lg mb-2">No destinations found</p>

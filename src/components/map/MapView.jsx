@@ -43,7 +43,7 @@ function createMarkerIcon(icon, isSelected = false) {
 }
 
 function getDetailPath(item) {
-  if (item.type) return '/businesses'
+  if (item.type) return '/discover-more'
   if (item.period) return '/sri-lanka-pride'
   return '/destinations'
 }
@@ -158,7 +158,7 @@ function MapContent({ filteredData, onSelectItem, flyToCoord, selectedItem }) {
                     <Link
                       to={getDetailPath(item)}
                       onClick={() => onSelectItem?.(item)}
-                      className="flex items-center justify-center gap-1 flex-1 min-h-[30px] text-[10px] font-semibold text-white bg-gradient-to-r from-teal-500 to-ocean-500 rounded-lg hover:shadow-md transition-all duration-300"
+                      className="flex items-center justify-center gap-1 flex-1 min-h-[44px] text-[10px] font-semibold text-white bg-gradient-to-r from-teal-500 to-ocean-500 rounded-lg hover:shadow-md transition-all duration-300"
                     >
                       View Details
                       <FiArrowRight className="text-[10px]" />
@@ -168,7 +168,7 @@ function MapContent({ filteredData, onSelectItem, flyToCoord, selectedItem }) {
                         href={`https://www.google.com/maps/dir/?api=1&destination=${item.coordinates[0]},${item.coordinates[1]}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-1 px-2 min-h-[30px] text-[10px] font-semibold text-slate-600 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 transition-all duration-200"
+                        className="flex items-center justify-center gap-1 px-2 min-h-[44px] text-[10px] font-semibold text-slate-600 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 transition-all duration-200"
                       >
                         <FiNavigation className="text-[10px]" />
                         Directions

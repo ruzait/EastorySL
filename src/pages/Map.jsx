@@ -26,7 +26,7 @@ export default function Map() {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedItem, setSelectedItem] = useState(null)
   const [flyToCoord, setFlyToCoord] = useState(null)
-  const [showLayers, setShowLayers] = useState(false)
+  const [showLayers, setShowLayers] = useState(true)
   const [showList, setShowList] = useState(true)
   const [activeCategory, setActiveCategory] = useState(null)
 
@@ -49,7 +49,7 @@ export default function Map() {
         'Restaurants': ['Dining', 'Restaurant'],
         'Hotels': ['Accommodation', 'Hotel'],
         'Shopping': ['Shopping', 'Shop'],
-        'Local Businesses': ['Service'],
+        'Discover more': ['Service'],
         'Museums': ['cultural'],
         'Wildlife': ['nature'],
         'Parks': ['nature'],
@@ -157,15 +157,13 @@ export default function Map() {
 
         {!selectedItem && (
         <div className="fixed md:top-24 top-20 right-4 z-50 flex-col gap-2 items-end">
-          <div className={`flex-col gap-2 items-end ${showLayers ? 'flex' : 'hidden md:flex'}`}>
-            <button
-              onClick={() => setShowLayers(!showLayers)}
-              className="touch-manipulation w-9 h-9 rounded-xl bg-white/90 backdrop-blur-xl shadow-lg border border-white/30 flex items-center justify-center text-slate-500 hover:text-teal-600 hover:bg-white transition-all duration-200"
-              title="Toggle layers"
-            >
-              <FiMap className="text-sm" />
-            </button>
-          </div>
+          <button
+            onClick={() => setShowLayers(!showLayers)}
+            className="touch-manipulation w-10 h-10 rounded-xl bg-white/90 backdrop-blur-xl shadow-lg border border-white/30 flex items-center justify-center text-slate-500 hover:text-teal-600 hover:bg-white transition-all duration-200"
+            title="Toggle layers"
+          >
+            <FiMap className="text-sm" />
+          </button>
           {showLayers && (
             <MapLayers activeLayers={activeLayers} onToggle={handleToggleLayer} />
           )}

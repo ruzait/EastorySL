@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-const SITE_NAME = 'Eastern Sri Lanka Hub'
+const SITE_NAME = 'Eastory SL'
 
 export default function SEO({ title, description, ogImage, ogUrl, keywords }) {
   useEffect(() => {
@@ -9,14 +9,23 @@ export default function SEO({ title, description, ogImage, ogUrl, keywords }) {
 
     const setMeta = (name, content) => {
       if (!content) return
-      let el = document.querySelector(`meta[name="${name}"], meta[property="${name}"]`)
+      const attr = name.startsWith('og:') || name.startsWith('twitter:') ? 'property' : 'name'
+      let el = document.querySelector(`meta[${attr}="${name}"]`)
       if (!el) {
         el = document.createElement('meta')
-        el.setAttribute(name.startsWith('og:') ? 'property' : 'name', name)
+        el.setAttribute(attr, name)
         document.head.appendChild(el)
       }
       el.setAttribute('content', content)
     }
+
+    let canonical = document.querySelector('link[rel="canonical"]')
+    if (!canonical) {
+      canonical = document.createElement('link')
+      canonical.setAttribute('rel', 'canonical')
+      document.head.appendChild(canonical)
+    }
+    canonical.setAttribute('href', ogUrl || window.location.href)
 
     setMeta('description', description)
     setMeta('keywords', keywords)
@@ -28,6 +37,10 @@ export default function SEO({ title, description, ogImage, ogUrl, keywords }) {
     if (ogImage) {
       setMeta('og:image', ogImage)
       setMeta('twitter:image', ogImage)
+    } else {
+      const defaultOg = 'https://easternsrilankahub.lk/images/home/hero.png'
+      setMeta('og:image', defaultOg)
+      setMeta('twitter:image', defaultOg)
     }
   }, [title, description, ogImage, ogUrl, keywords])
 

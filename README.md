@@ -1,4 +1,4 @@
-# 🌐 Eastern Sri Lanka Hub
+# 🌐 Eastory SL
 
 > **A premium discovery platform** — blending tourism, local business promotion, and cultural storytelling into one immersive React experience.
 
@@ -95,7 +95,7 @@ UI Components (pure presentation)
 ## 📁 Project Structure
 
 ```
-eastern-sri-lanka-hub/
+eastory-sl/
 ├── public/
 │   └── images/                  # Static image assets
 │
@@ -424,7 +424,7 @@ Contributions are welcome! Please follow the existing code style and ensure anim
 
 ## 📄 License
 
-MIT © Eastern Sri Lanka Hub
+MIT © Eastory SL
 
 ---
 

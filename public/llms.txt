@@ -1,0 +1,23 @@
+# Eastory SL — Sri Lanka Travel Guide
+> Your guide to exploring Sri Lanka — pristine beaches, ancient temples, vibrant culture, and unforgettable adventures.
+
+## Navigation
+- Home: https://easternsrilankahub.lk/
+- Destinations: https://easternsrilankahub.lk/destinations
+- Discover more: https://easternsrilankahub.lk/discover-more
+- Sri Lanka Pride: https://easternsrilankahub.lk/sri-lanka-pride
+- Gallery: https://easternsrilankahub.lk/gallery
+- Map: https://easternsrilankahub.lk/map
+- Advertise: https://easternsrilankahub.lk/advertise
+
+## About
+Eastory SL is a travel platform focused on Eastern Sri Lanka, featuring destinations, local businesses, cultural heritage, and travel resources. The platform helps travelers discover beaches, historical sites, wildlife, accommodations, restaurants, and adventure activities.
+
+## Key Features
+- Interactive map with layered data (destinations, businesses, cultural sites)
+- Curated destination guides with photos and details
+- Local business directory for hotels, restaurants, shops, and services
+- Sri Lanka Pride section covering heritage, culture, festivals, and notable figures
+- Photo gallery showcasing Sri Lanka's landscapes and attractions
+## Sitemap
+https://easternsrilankahub.lk/sitemap.xml
