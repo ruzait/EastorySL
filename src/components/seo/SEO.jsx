@@ -1,48 +1,33 @@
-import { useEffect } from 'react'
+import { Helmet } from 'react-helmet-async'
 
 const SITE_NAME = 'Eastory SL'
+const SITE_URL = import.meta.env.VITE_SITE_URL || 'https://eastorysl.netlify.app'
+const DEFAULT_OG = `${SITE_URL}/images/home/hero.png`
 
-export default function SEO({ title, description, ogImage, ogUrl, keywords }) {
-  useEffect(() => {
-    const fullTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} — Sri Lanka Travel Guide`
-    document.title = fullTitle
+export default function SEO({ title, description, ogImage, ogUrl, keywords, jsonLd }) {
+  const fullTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} — Sri Lanka Travel Guide`
+  const url = ogUrl || window.location.href
+  const image = ogImage || DEFAULT_OG
 
-    const setMeta = (name, content) => {
-      if (!content) return
-      const attr = name.startsWith('og:') || name.startsWith('twitter:') ? 'property' : 'name'
-      let el = document.querySelector(`meta[${attr}="${name}"]`)
-      if (!el) {
-        el = document.createElement('meta')
-        el.setAttribute(attr, name)
-        document.head.appendChild(el)
-      }
-      el.setAttribute('content', content)
-    }
-
-    let canonical = document.querySelector('link[rel="canonical"]')
-    if (!canonical) {
-      canonical = document.createElement('link')
-      canonical.setAttribute('rel', 'canonical')
-      document.head.appendChild(canonical)
-    }
-    canonical.setAttribute('href', ogUrl || window.location.href)
-
-    setMeta('description', description)
-    setMeta('keywords', keywords)
-    setMeta('og:title', fullTitle)
-    setMeta('og:description', description)
-    setMeta('og:url', ogUrl || window.location.href)
-    setMeta('twitter:title', fullTitle)
-    setMeta('twitter:description', description)
-    if (ogImage) {
-      setMeta('og:image', ogImage)
-      setMeta('twitter:image', ogImage)
-    } else {
-      const defaultOg = 'https://easternsrilankahub.lk/images/home/hero.png'
-      setMeta('og:image', defaultOg)
-      setMeta('twitter:image', defaultOg)
-    }
-  }, [title, description, ogImage, ogUrl, keywords])
-
-  return null
+  return (
+    <Helmet>
+      <title>{fullTitle}</title>
+      <link rel="canonical" href={url} />
+      <meta name="description" content={description || ''} />
+      {keywords && <meta name="keywords" content={keywords} />}
+      <meta property="og:type" content="website" />
+      <meta property="og:title" content={fullTitle} />
+      <meta property="og:description" content={description || ''} />
+      <meta property="og:url" content={url} />
+      <meta property="og:image" content={image} />
+      <meta property="og:site_name" content={SITE_NAME} />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={fullTitle} />
+      <meta name="twitter:description" content={description || ''} />
+      <meta name="twitter:image" content={image} />
+      {jsonLd && (
+        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+      )}
+    </Helmet>
+  )
 }

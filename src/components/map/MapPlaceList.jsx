@@ -1,6 +1,6 @@
-import { useMemo, useRef, useEffect } from 'react'
+import { useMemo, useRef, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { FiMapPin, FiStar, FiSearch, FiX, FiChevronRight } from 'react-icons/fi'
+import { FiMapPin, FiStar, FiSearch, FiX, FiChevronRight, FiChevronLeft } from 'react-icons/fi'
 
 const CATEGORIES = [
   'All Destinations', 'Beaches', 'Waterfalls', 'Mountains', 'Historical Sites',
@@ -49,6 +49,22 @@ function getCategoryLabel(item) {
 export default function MapPlaceList({ items, selectedItem, onSelect, searchQuery, onSearchChange, activeCategory, onCategoryChange, onClose }) {
   const listRef = useRef(null)
   const selectedRef = useRef(null)
+  const scrollRef = useRef(null)
+  const [scrollStart, setScrollStart] = useState(true)
+  const [scrollEnd, setScrollEnd] = useState(false)
+
+  const updateScrollState = () => {
+    const el = scrollRef.current
+    if (!el) return
+    setScrollStart(el.scrollLeft <= 2)
+    setScrollEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 2)
+  }
+
+  const scroll = (dir) => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: dir * 200, behavior: 'smooth' })
+    }
+  }
 
   useEffect(() => {
     if (selectedRef.current && listRef.current) {
@@ -60,6 +76,13 @@ export default function MapPlaceList({ items, selectedItem, onSelect, searchQuer
       })
     }
   }, [selectedItem])
+
+  useEffect(() => {
+    updateScrollState()
+    const onResize = () => updateScrollState()
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
 
   const sorted = useMemo(() => {
     const tierOrder = { premium: 0, featured: 1, free: 2 }
@@ -97,23 +120,49 @@ export default function MapPlaceList({ items, selectedItem, onSelect, searchQuer
             )}
           </div>
 
-          <div className="flex flex-wrap gap-1.5 mt-3">
-            {CATEGORIES.slice(0, 6).map((cat) => {
-              const isActive = activeCategory === cat
-              return (
-                <button
-                  key={cat}
-                  onClick={() => onCategoryChange(isActive ? null : cat)}
-                  className={`touch-manipulation text-[11px] font-bold font-['Poppins'] px-3 py-1 rounded-full transition-all duration-200 ${
-                    isActive
-                      ? 'bg-teal-500 text-white shadow-sm shadow-teal-500/30'
-                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-800'
-                  }`}
-                >
-                  {cat}
-                </button>
-              )
-            })}
+          <div className="flex items-center gap-1 mt-3">
+            <button
+              onClick={() => scroll(-1)}
+              disabled={scrollStart}
+              className={`hidden md:flex min-h-[28px] w-7 items-center justify-center rounded-full border transition-all duration-200 shrink-0 ${
+                scrollStart
+                  ? 'bg-slate-100 text-slate-300 border-slate-100 cursor-not-allowed'
+                  : 'bg-white text-slate-500 hover:bg-teal-50 hover:text-teal-600 border-slate-200'
+              }`}
+              aria-label="Scroll left"
+            >
+              <FiChevronLeft size={12} />
+            </button>
+            <div ref={scrollRef} onScroll={updateScrollState} className="flex gap-1.5 overflow-x-auto scroll-smooth no-scrollbar">
+              {CATEGORIES.map((cat) => {
+                const isActive = activeCategory === cat
+                return (
+                  <button
+                    key={cat}
+                    onClick={() => onCategoryChange(isActive ? null : cat)}
+                    className={`touch-manipulation text-[11px] font-bold font-['Poppins'] px-3 py-1 rounded-full transition-all duration-200 whitespace-nowrap shrink-0 ${
+                      isActive
+                        ? 'bg-teal-500 text-white shadow-sm shadow-teal-500/30'
+                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-800'
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                )
+              })}
+            </div>
+            <button
+              onClick={() => scroll(1)}
+              disabled={scrollEnd}
+              className={`hidden md:flex min-h-[28px] w-7 items-center justify-center rounded-full border transition-all duration-200 shrink-0 ${
+                scrollEnd
+                  ? 'bg-slate-100 text-slate-300 border-slate-100 cursor-not-allowed'
+                  : 'bg-white text-slate-500 hover:bg-teal-50 hover:text-teal-600 border-slate-200'
+              }`}
+              aria-label="Scroll right"
+            >
+              <FiChevronRight size={12} />
+            </button>
           </div>
         </div>
       </div>

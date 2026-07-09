@@ -3,6 +3,7 @@ import { FiArrowLeft, FiMapPin, FiCalendar, FiNavigation, FiAward } from 'react-
 import { GiCrown, GiCaveEntrance, GiTeapotLeaves } from 'react-icons/gi'
 import { FaLandmark, FaCity, FaUtensils, FaRoute, FaUsers } from 'react-icons/fa'
 import { prideItems } from '../data/sriLankaPride'
+import SEO from '../components/seo/SEO'
 
 const catMeta = {
   'ancient-kingdoms': { icon: GiCrown, label: 'Ancient Kingdom', gradient: 'from-amber-950 to-yellow-900', color: 'amber' },
@@ -43,8 +44,30 @@ export default function PrideDetail() {
     )
   }
 
+  const SITE_URL = import.meta.env.VITE_SITE_URL || 'https://eastorysl.netlify.app'
+
+  const jsonLd = item ? {
+    '@context': 'https://schema.org',
+    '@type': isFamous ? 'Person' : isRoute ? 'TouristTrip' : 'TouristAttraction',
+    name: item.name,
+    description: item.description,
+    image: item.image,
+    url: `${SITE_URL}/sri-lanka-pride/${category}/${id}`,
+    ...(item.period && !isFamous && { dateCreated: item.period }),
+    ...(isFamous && item.birthYear && { birthDate: item.birthYear, birthPlace: item.birthPlace }),
+    ...(item.coordinates && { geo: { '@type': 'GeoCoordinates', latitude: item.coordinates[0], longitude: item.coordinates[1] } }),
+  } : null
+
   return (
     <div>
+      <SEO
+        title={item.name}
+        description={`${item.description} ${item.period ? 'Period: ' + item.period : ''} ${item.location || item.origin || ''}`}
+        ogImage={item.image}
+        ogUrl={`${SITE_URL}/sri-lanka-pride/${category}/${id}`}
+        keywords={`${item.name}, ${meta.label}, ${item.location || item.origin || ''}, Sri Lanka heritage, Sri Lanka culture, Sri Lanka pride`}
+        jsonLd={jsonLd}
+      />
       <section className={`relative pt-28 md:pt-32 pb-16 overflow-hidden`}>
         <div className={`absolute inset-0 bg-gradient-to-br ${meta.gradient} opacity-90`}>
           <div className="absolute inset-0 opacity-10 bg-grid" />

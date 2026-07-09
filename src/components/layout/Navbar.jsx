@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { HiMenu, HiX } from 'react-icons/hi'
+import { FiDownload } from 'react-icons/fi'
 import Logo from '../ui/Logo'
 
 const navLinks = [
@@ -13,7 +14,7 @@ const navLinks = [
   { name: 'Map', path: '/map' },
 ]
 
-export default function Navbar() {
+export default function Navbar({ onInstallClick, isInstalled }) {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const { pathname } = useLocation()
@@ -60,7 +61,20 @@ export default function Navbar() {
             ))}
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5">
+            {!isInstalled && (
+              <button
+                onClick={onInstallClick}
+                aria-label="Install app"
+                className={`md:hidden p-2.5 rounded-lg transition-all duration-300 ${
+                  isTransparent
+                    ? 'text-white hover:bg-white/10'
+                    : 'text-slate-700 hover:bg-slate-100'
+                }`}
+              >
+                <FiDownload className="text-lg" />
+              </button>
+            )}
             <button
               onClick={() => setIsOpen(!isOpen)}
               aria-label={isOpen ? 'Close menu' : 'Open menu'}

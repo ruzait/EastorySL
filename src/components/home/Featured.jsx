@@ -150,7 +150,7 @@ export default function Featured() {
   const monthLabel = now.toLocaleString('default', { month: 'long' })
 
   const seasonal = useMemo(() => {
-    return getSeasonalDestinations(destinations, currentMonth, activeCategory).slice(0, 6)
+    return getSeasonalDestinations(destinations, currentMonth, activeCategory).slice(0, 3)
   }, [currentMonth, activeCategory])
 
   return (

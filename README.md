@@ -1,431 +1,198 @@
-# 🌐 Eastory SL
+# Eastory SL — Sri Lanka Discovery Platform
 
-> **A premium discovery platform** — blending tourism, local business promotion, and cultural storytelling into one immersive React experience.
+> A tourism, culture, and local business discovery platform for Sri Lanka — built with React, featuring an interactive map, PWA support, and rich content pages.
 
 ![Version](https://img.shields.io/badge/version-1.0.0-0f766e?style=flat-square)
-![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react)
-![Tailwind](https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?style=flat-square&logo=tailwind-css)
-![Framer](https://img.shields.io/badge/Framer_Motion-0055FF?style=flat-square&logo=framer)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite)
+![React](https://img.shields.io/badge/React_19-61DAFB?style=flat-square&logo=react)
+![Tailwind](https://img.shields.io/badge/Tailwind_CSS_3-06B6D4?style=flat-square&logo=tailwind-css)
+![Vite](https://img.shields.io/badge/Vite_8-646CFF?style=flat-square&logo=vite)
+![License](https://img.shields.io/badge/license-MIT-0f766e?style=flat-square)
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
-- [Vision](#-vision)
-- [Architecture](#-architecture)
-- [Tech Stack](#-tech-stack)
-- [Project Structure](#-project-structure)
-- [Features](#-features)
-- [Pages & Components](#-pages--components)
-- [Animations & Interactions](#-animations--interactions)
-- [Data Architecture](#-data-architecture)
-- [Monetization Model](#-monetization-model)
-- [Development Roadmap](#-development-roadmap)
-- [Getting Started](#-getting-started)
-- [Design System](#-design-system)
+- [Pages](#pages)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Features](#features)
+- [Data](#data)
+- [Getting Started](#getting-started)
+- [Scripts](#scripts)
+- [Environment](#environment)
+- [License](#license)
 
 ---
 
-## 🎯 Vision
+## Pages
 
-A **world-class Sri Lanka discovery platform** that connects tourism, local commerce, and community culture under one roof. Every pixel is crafted to evoke the warmth, beauty, and rhythm of the island.
-
-### Core Pillars
-
-| Pillar | Description |
-|--------|-------------|
-| 🏝️ **Tourism** | Showcase beaches, waterfalls, temples, and natural wonders with rich media and maps |
-| 🛍️ **Local Business** | Elevate shops, restaurants, hotels through a tiered listing system |
-| ⭐ **Community** | Highlight local personalities, leaders, and cultural landmarks |
-| 💰 **Monetization** | Sustainable ad platform with featured listings and banner placements |
-
----
-
-## 🏗️ Architecture
-
-```
-src/
-├── components/         # Reusable UI building blocks
-│   ├── layout/         # Navbar, Footer, Layout shell
-│   ├── home/           # Hero, featured sections, stats
-│   ├── tourism/        # Destination cards & detail views
-│   ├── businesses/     # Business listing components
-│   ├── gallery/        # Image grid & lightbox
-│   ├── map/            # Map integration components
-│   ├── advertise/      # Promotion form & packages
-│   └── ui/             # Primitives: buttons, cards, badges
-│
-├── pages/              # Route-level page components
-├── data/               # Static content & mock data
-├── hooks/              # Custom React hooks (scroll, intersection observer)
-├── animations/         # Framer Motion variants & presets
-└── utils/              # Helpers & constants
-```
-
-### Data Flow
-
-```
-Static Data (JS modules)
-    ↓
-Page Components (data fetching & transform)
-    ↓
-Section Components (business logic)
-    ↓
-UI Components (pure presentation)
-```
+| Route | Page | Description |
+|-------|------|-------------|
+| `/` | Home | Hero, seasonal picks, trip finder, stats, CTA |
+| `/destinations` | Destinations | Filterable grid of tourist spots with detail pages |
+| `/destinations/:category/:id` | DestinationDetail | Full destination page with SEO + JSON-LD |
+| `/discover-more` | Discover More | Browse businesses and attractions |
+| `/sri-lanka-pride` | Sri Lanka Pride | Cultural heritage, ancient kingdoms, wildlife, personalities |
+| `/sri-lanka-pride/:category/:id` | PrideDetail | Detail page with SEO + JSON-LD |
+| `/map` | Interactive Map | Full-screen Leaflet map with layer toggles, side panel, mobile list |
+| `/gallery` | Gallery | Masonry image grid with lightbox |
+| `/advertise` | Advertise | Tiered listing form (Free / Featured / Premium) |
 
 ---
 
-## 🧰 Tech Stack
+## Tech Stack
 
-| Category | Choice | Why |
-|----------|--------|-----|
-| **Framework** | React 18 | Component model, ecosystem, performance |
-| **Bundler** | Vite 5 | Instant HMR, optimized builds |
-| **Styling** | Tailwind CSS 3 | Utility-first, consistent design tokens |
-| **Animation** | Framer Motion 11 | Declarative physics-based animations |
-| **Routing** | React Router 6 | Nested routes, lazy loading |
-| **Icons** | React Icons | Lightweight, on-demand SVG icons |
-| **Maps** | React Leaflet | Open-source map with OSM tiles |
-| **Gallery** | Custom lightbox + CSS Grid | No extra deps for image display |
+| Category | Choice |
+|----------|--------|
+| **Framework** | React 19 |
+| **Bundler** | Vite 8 |
+| **Styling** | Tailwind CSS 3 |
+| **Routing** | React Router 7 |
+| **Animations** | Framer Motion 12 |
+| **Maps** | React Leaflet + Leaflet |
+| **Icons** | React Icons |
+| **SEO** | react-helmet-async |
+| **Linting** | Oxlint |
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
-eastory-sl/
+eastern-sri-lanka-hub/
 ├── public/
-│   └── images/                  # Static image assets
+│   ├── images/               # Static image assets
+│   ├── robots.txt            # Crawler rules + sitemap link
+│   ├── sitemap.xml           # Auto-generated (221 URLs)
+│   └── favicon.svg
+│
+├── scripts/
+│   └── generate-sitemap.js   # Build-time sitemap generator
 │
 ├── src/
 │   ├── components/
-│   │   ├── layout/
-│   │   │   ├── Navbar.jsx       # Sticky nav with mobile drawer
-│   │   │   ├── Footer.jsx       # Multi-column footer
-│   │   │   └── Layout.jsx       # Shell wrapper
-│   │   │
-│   │   ├── home/
-│   │   │   ├── Hero.jsx         # Full-screen video/static hero
-│   │   │   ├── Featured.jsx     # Featured destinations carousel
-│   │   │   ├── Stats.jsx        # Animated counter section
-│   │   │   └── CTA.jsx          # Call-to-action banners
-│   │   │
-│   │   ├── tourism/
-│   │   │   ├── DestinationCard.jsx
-│   │   │   └── DestinationGrid.jsx
-│   │   │
-│   │   ├── businesses/
-│   │   │   ├── BusinessCard.jsx
-│   │   │   └── BusinessGrid.jsx
-│   │   │
-│   │   ├── gallery/
-│   │   │   └── GalleryGrid.jsx  # Masonry + lightbox
-│   │   │
-│   │   └── ui/
-│   │       ├── AnimatedSection.jsx  # Scroll-reveal wrapper
-│   │       ├── SectionTitle.jsx     # Typography component
-│   │       ├── Badge.jsx            # Featured/premium badge
-│   │       ├── SearchBar.jsx        # Reusable search
-│   │       └── WhatsAppButton.jsx   # Floating action button
+│   │   ├── layout/           # Navbar, Footer, Layout, InstallPWA
+│   │   ├── home/             # Hero, Featured, TripFinder, Stats, CTA, About, GovLinks
+│   │   ├── tourism/          # DestinationCard, DestinationGrid
+│   │   ├── discover/         # BusinessCard, BusinessGrid
+│   │   ├── pride/            # PrideCard
+│   │   ├── map/              # MapView, MapSidePanel, MapPlaceList, MapLayers
+│   │   ├── gallery/          # GalleryGrid
+│   │   ├── seo/              # SEO.jsx (Helmet wrapper)
+│   │   └── ui/               # AnimatedSection, SectionTitle, Badge, SearchBar, Logo
 │   │
-│   ├── pages/
-│   │   ├── Home.jsx
-│   │   ├── TouristPlaces.jsx
-│   │   ├── Beaches.jsx
-│   │   ├── ShopsBusinesses.jsx
-│   │   ├── FamousPeople.jsx
-│   │   ├── MapPage.jsx
-│   │   ├── Gallery.jsx
-│   │   └── Advertise.jsx
-│   │
-│   ├── data/
-│   │   ├── destinations.js       # Tourist places dataset
-│   │   ├── beaches.js            # Beaches dataset
-│   │   ├── businesses.js         # Shops & businesses dataset
-│   │   ├── famousPeople.js       # People & landmarks dataset
-│   │   └── gallery.js            # Gallery images dataset
-│   │
-│   ├── animations/
-│   │   └── variants.js           # Shared animation presets
-│   │
-│   ├── App.jsx                   # Root with router
-│   ├── main.jsx                  # Entry point
-│   └── index.css                 # Tailwind directives + globals
+│   ├── pages/                # Route-level page components
+│   ├── data/                 # Static content modules
+│   ├── hooks/                # useInView, usePWAInstall
+│   └── App.jsx               # Root with BrowserRouter + Routes
 │
 ├── index.html
-├── vite.config.js
 ├── tailwind.config.js
-├── postcss.config.js
-├── package.json
-└── README.md
+├── vite.config.js
+├── .env.example
+└── package.json
 ```
 
 ---
 
-## ✨ Features
+## Features
 
-### 🌊 Scroll Animations
-- **Reveal on scroll** — elements fade, slide, and scale into view using Intersection Observer
-- **Parallax sections** — layered backgrounds that move at different speeds
-- **Stagger children** — list items animate in sequence
-- **Spring physics** — natural-feeling bounces on cards and buttons
-- **Smooth scroll** — native `scroll-behavior: smooth` + anchor navigation
+### Map
+- Full-screen Leaflet map with clustered markers
+- Layer toggle: all destinations, beaches, culture & nature, businesses
+- Side panel (desktop) with place details
+- Bottom sheet (mobile) with draggable place list
+- Fly-to animation on place selection (no auto-zoom-out)
 
-### 🎨 UI/UX Highlights
-- **Glassmorphism** — frosted glass navbars and cards
-- **Gradient overlays** — rich color transitions on hero sections
-- **Micro-interactions** — hover scale, tap feedback, loading skeletons
-- **Responsive** — mobile-first with fluid typography
-- **Dark/light aware** — uses warm tropical palette throughout
-- **WhatsApp float** — persistent contact button
+### PWA
+- Install prompt triggered via `beforeinstallprompt` event
+- iOS detection with custom install instructions
+- Download icon button in mobile navbar
+- Persistent dismiss with `localStorage` flag
+- Hidden when already installed (standalone mode)
 
-### 🗺️ Map Integration
-- Interactive Leaflet map with markers
-- Clustered points for destinations & businesses
-- Popup cards with images and links
-- Smooth fly-to animations
+### SEO & Structured Data
+- Per-page meta tags via `react-helmet-async`
+- JSON-LD structured data on detail pages (`TouristAttraction`, `Person`, `TouristTrip`)
+- Auto-generated sitemap (221 URLs) before each build
+- `robots.txt` with polite crawl rules and AI crawler allowances
 
----
+### Animations
+- Scroll-reveal via Intersection Observer (`AnimatedSection`)
+- Float, wave, tilt, and pulse keyframes
+- Staggered children, fade/slide/scale variants
+- Spring-physics micro-interactions on cards and buttons
 
-## 📄 Pages & Components
+### Design System
 
-### 🏠 Home Page
-| Section | Component | Description |
-|---------|-----------|-------------|
-| Hero | `Hero.jsx` | Full-bleed hero with animated gradient overlay, search bar, CTA buttons |
-| Featured | `Featured.jsx` | Horizontal carousel of top destinations with parallax tilt |
-| Stats | `Stats.jsx` | Animated counters (e.g., "50+ Beaches", "200+ Businesses") |
-| Popular | `DestinationGrid.jsx` | Grid of popular spots with reveal animation |
-| CTA | `CTA.jsx` | "Start Your Journey" banner with wave animation |
-
-### 🏝️ Tourist Places
-- Filterable grid with search
-- Category filters (Nature, Culture, Religious, Adventure)
-- Card flip animation on hover
-- Detail modal with map, images, info
-
-### 🏖️ Beaches
-- Dedicated beach showcase
-- Rating system, best time to visit
-- Distance from major cities
-- Photo gallery per beach
-
-### 🛍️ Shops & Businesses
-- Listing with featured/premium badges
-- Search by name, category, location
-- Contact via WhatsApp button
-- Business detail page with Google Maps
-
-### ⭐ Famous People
-- Profile cards with image, bio, achievements
-- Category filters (Historical, Cultural, Sports, Politics)
-- Timeline/legacy section
-
-### 🗺️ Map Page
-- Full-screen interactive map
-- Layer toggle: Destinations / Beaches / Businesses
-- Marker clustering for performance
-- Click-to-explore popups
-
-### 📸 Gallery
-- Masonry grid layout
-- Lightbox with keyboard navigation
-- Category tabs
-- Lazy loading with blur placeholder
-
-### 💰 Advertise With Us
-- Multi-step form with validation
-- Package selection cards (Free / Featured / Premium)
-- Animated progress indicator
-- WhatsApp integration for inquiries
+- **Fonts:** Sansita (headings), Tinos (body)
+- **Colors:** ocean (cyan), teal, sunset (amber), palm (green), coral (orange)
+- **Glassmorphism** navbars and overlays
+- **Gradient overlays** on hero sections
 
 ---
 
-## 🎞️ Animations & Interactions
+## Data
 
-### Scroll-Reveal Pattern
-```jsx
-// components/ui/AnimatedSection.jsx
-<AnimatedSection>
-  <YourContent />
-</AnimatedSection>
-```
+Static data modules in `src/data/`:
 
-### Presets (in `animations/variants.js`)
-| Variant | Effect |
-|---------|--------|
-| `fadeInUp` | Opacity 0→1, Y 60→0 |
-| `fadeInLeft` | Opacity 0→1, X -60→0 |
-| `fadeInRight` | Opacity 0→1, X 60→0 |
-| `scaleIn` | Scale 0.8→1, opacity 0→1 |
-| `staggerContainer` | Stagger children by 0.1s |
-| `flipCard` | 3D Y-axis rotation on hover |
-
-### Micro-Interactions
-- **Navbar** — backdrop-blur on scroll, underline hover on links
-- **Cards** — lift on hover, shadow depth change
-- **Buttons** — scale 0.97 on tap, ripple effect
-- **Images** — zoom on hover, lazy load blur
-- **Counters** — incremental number animation on scroll into view
+| File | Content | Records |
+|------|---------|---------|
+| `destinations.js` | Tourist destinations (beaches, nature, culture, religious, adventure) | ~150 |
+| `businesses.js` | Local businesses (restaurants, hotels, shops, services) | ~80 |
+| `sriLankaPride.js` | Heritage items (ancient kingdoms, wildlife, personalities, festivals) | ~100 |
+| `gallery.js` | Gallery image metadata | ~50 |
 
 ---
 
-## 💾 Data Architecture
-
-Each dataset is a JS module exporting an array of objects:
-
-```js
-// src/data/destinations.js
-export const destinations = [
-  {
-    id: 'sigiriya',
-    name: 'Sigiriya Rock Fortress',
-    category: 'historical', // nature | religious | cultural | adventure
-    description: '...',
-    images: ['/images/sigiriya-1.jpg', ...],
-    location: { lat: 7.957, lng: 80.760 },
-    rating: 4.8,
-    bestTime: 'Jan–Apr',
-    entryFee: '$30 USD',
-    features: ['UNESCO World Heritage', 'Sunrise View', ...],
-  },
-  // ...
-];
-```
-
-### Data Collections
-| File | Type | Fields |
-|------|------|--------|
-| `destinations.js` | Tourist places | name, category, description, images, location, rating, bestTime, entryFee, features |
-| `beaches.js` | Beaches | name, description, images, location, rating, bestTime, activities, distance |
-| `businesses.js` | Shops & businesses | name, type, description, images, location, contact, featured, package |
-| `famousPeople.js` | People & landmarks | name, category, image, bio, achievements, birthPlace |
-| `gallery.js` | Gallery images | src, alt, category, location |
-
----
-
-## 💵 Monetization Model
-
-### Tiered Business Listings
-
-| Tier | Price | Features |
-|------|-------|----------|
-| **Free** | $0 | Basic details, standard visibility |
-| **Featured** | $20/mo | Top placement ⭐, highlight badge, larger images |
-| **Premium** | $50/mo | Hero position, video, WhatsApp priority, analytics |
-
-### Advertisement Slots
-- **Banner Ads** — 3 positions (Hero, Sidebar, Footer)
-- **Sponsored Destinations** — featured on home page
-- **Page Sponsorship** — exclusive brand per section
-
----
-
-## 🛣️ Development Roadmap
-
-### Phase 1 — Foundation (Week 1)
-- [x] Project scaffold (Vite + React + Tailwind)
-- [x] Routing setup
-- [x] Design system & theme
-- [x] Layout components (Navbar, Footer)
-- [x] Animation presets
-
-### Phase 2 — Content & Pages (Week 2)
-- [x] Home page with all sections
-- [x] Tourist Places page
-- [x] Beaches page
-- [x] Shops & Businesses page
-
-### Phase 3 — Features (Week 3)
-- [x] Famous People page
-- [x] Map page with Leaflet
-- [x] Gallery with lightbox
-- [x] Advertise With Us form
-
-### Phase 4 — Polish (Week 4)
-- [x] Responsive audit
-- [x] Performance optimization
-- [x] Animation refinement
-- [x] Content population
-
----
-
-## 🚀 Getting Started
+## Getting Started
 
 ```bash
-# Clone
-git clone <repo-url>
-cd eastern-sri-lanka-hub
-
 # Install dependencies
 npm install
 
-# Development
-npm run dev        # http://localhost:5173
+# Start dev server
+npm run dev          # → http://localhost:5173
 
 # Build for production
-npm run build
+npm run build        # generates sitemap + vite build
 
 # Preview production build
 npm run preview
+
+# Generate sitemap only
+npm run sitemap
+
+# Lint
+npm run lint
 ```
 
 ---
 
-## 🎨 Design System
+## Environment
 
-### Color Palette
+Copy `.env.example` to `.env` to override the production URL:
 
 ```
-Primary:   Teal    #0d9488 → #0f766e
-Secondary: Amber   #f59e0b → #d97706
-Accent:    Emerald #059669 → #047857
-Ocean:     Blue    #06b6d4 → #0891b2
-Warm:      Orange  #f97316 → #ea580c
-Neutral:   Slate   #64748b → #475569
+VITE_SITE_URL=https://your-custom-domain.com
 ```
 
-### Typography
-- **Headings:** Poppins (sans-serif, 700–800 weight)
-- **Body:** Inter (sans-serif, 400–500 weight)
-- **Scale:** `clamp()` based fluid type (16px–72px)
-
-### Spacing
-- Utility-based (Tailwind spacing scale)
-- Section padding: `py-16` to `py-24`
-- Card gap: `gap-6` to `gap-8`
-
-### Shadows
-- Card: `shadow-lg` → `shadow-xl` on hover
-- Glass: `backdrop-blur-xl bg-white/10`
-- Glow: teal glow on interactive elements
+If unset, the app falls back to `https://eastorysl.netlify.app`.
 
 ---
 
-## 🌟 Performance Targets
+## Scripts
 
-| Metric | Target |
-|--------|--------|
-| Lighthouse Performance | > 90 |
-| First Contentful Paint | < 1.5s |
-| Largest Contentful Paint | < 2.5s |
-| Cumulative Layout Shift | < 0.1 |
-| Bundle Size (gzip) | < 150KB |
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please follow the existing code style and ensure animations remain smooth.
+| Script | Description |
+|--------|-------------|
+| `npm run dev` | Start Vite dev server with HMR |
+| `npm run build` | Generate sitemap + production build |
+| `npm run preview` | Preview production build locally |
+| `npm run sitemap` | Regenerate `public/sitemap.xml` from data |
+| `npm run lint` | Run Oxlint |
 
 ---
 
-## 📄 License
+## License
 
 MIT © Eastory SL
-
----
-
-> *"Crafted with care for the Pearl of the Indian Ocean"* 🏝️

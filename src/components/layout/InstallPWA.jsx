@@ -1,76 +1,18 @@
-import { useState, useEffect } from 'react'
 import { FiX, FiDownload, FiShare2, FiSmartphone } from 'react-icons/fi'
 
-const STORAGE_KEY = 'eastorysl_pwa_dismissed'
-
-export default function InstallPWA() {
-  const [deferredPrompt, setDeferredPrompt] = useState(null)
-  const [show, setShow] = useState(false)
-  const [isIOS, setIsIOS] = useState(false)
-  const [isInstalled, setIsInstalled] = useState(false)
-  const [dismissed, setDismissed] = useState(false)
-  const [installing, setInstalling] = useState(false)
-
-  useEffect(() => {
-    if (localStorage.getItem(STORAGE_KEY) === 'true') {
-      setDismissed(true)
-      return
-    }
-
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-      setIsInstalled(true)
-      return
-    }
-
-    const iOS = /iphone|ipad|ipod/i.test(navigator.userAgent)
-
-    const handleBeforeInstallPrompt = (e) => {
-      e.preventDefault()
-      setDeferredPrompt(e)
-      setShow(true)
-    }
-
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
-
-    if (iOS) {
-      setIsIOS(true)
-      setShow(true)
-    }
-
-    return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
-  }, [])
-
-  const handleInstall = async () => {
-    if (!deferredPrompt) return
-    setInstalling(true)
-    deferredPrompt.prompt()
-    const { outcome } = await deferredPrompt.userChoice
-    if (outcome === 'accepted') {
-      setShow(false)
-      setIsInstalled(true)
-    }
-    setDeferredPrompt(null)
-    setInstalling(false)
-  }
-
-  const handleDismiss = () => {
-    setShow(false)
-    setDismissed(true)
-    localStorage.setItem(STORAGE_KEY, 'true')
-  }
-
-  if (!show || isInstalled || dismissed) return null
+export default function InstallPWA({ show, isIOS, onInstall, onDismiss }) {
+  if (!show) return null
 
   return (
     <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-4">
       <div
         className="absolute inset-0 bg-black/40 backdrop-blur-sm"
-        onClick={handleDismiss}
+        onClick={onDismiss}
       />
       <div className="relative w-full max-w-sm bg-white rounded-3xl shadow-2xl shadow-teal-500/10 border border-slate-100 overflow-hidden animate-slide-up">
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-400 via-ocean-500 to-teal-600" />
         <button
-          onClick={handleDismiss}
+          onClick={onDismiss}
           className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-400 hover:text-slate-600 transition-all cursor-pointer"
           aria-label="Close"
         >
@@ -106,16 +48,15 @@ export default function InstallPWA() {
           <div className="flex items-center gap-3">
             {!isIOS ? (
               <button
-                onClick={handleInstall}
-                disabled={installing}
-                className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-teal-600 to-ocean-600 hover:from-teal-500 hover:to-ocean-500 text-white font-semibold py-3 px-5 rounded-xl transition-all duration-300 shadow-md shadow-teal-500/20 hover:shadow-lg hover:shadow-teal-500/30 cursor-pointer disabled:opacity-60"
+                onClick={onInstall}
+                className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-teal-600 to-ocean-600 hover:from-teal-500 hover:to-ocean-500 text-white font-semibold py-3 px-5 rounded-xl transition-all duration-300 shadow-md shadow-teal-500/20 hover:shadow-lg hover:shadow-teal-500/30 cursor-pointer"
               >
                 <FiDownload className="text-sm" />
-                {installing ? 'Installing...' : 'Install App'}
+                Install App
               </button>
             ) : null}
             <button
-              onClick={handleDismiss}
+              onClick={onDismiss}
               className={`${isIOS ? 'flex-1' : ''} py-3 px-5 rounded-xl text-slate-600 hover:text-slate-800 hover:bg-slate-100 font-medium transition-all cursor-pointer`}
             >
               {isIOS ? 'Got it' : 'Not now'}

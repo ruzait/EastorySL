@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, useRef } from 'react'
+import { useState, useMemo, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiMap, FiList } from 'react-icons/fi'
 import MapView from '../components/map/MapView'
@@ -78,14 +78,10 @@ export default function Map() {
     setActiveLayers((prev) => ({ ...prev, [id]: !prev[id] }))
   }, [])
 
-  const flyTimeoutRef = useRef(null)
-
   const handleSelectItem = useCallback((item) => {
     setSelectedItem(item)
-    if (flyTimeoutRef.current) clearTimeout(flyTimeoutRef.current)
     if (item.coordinates) {
       setFlyToCoord(item.coordinates)
-      flyTimeoutRef.current = setTimeout(() => setFlyToCoord(null), 1200)
     }
   }, [])
 
@@ -194,13 +190,22 @@ export default function Map() {
               className="bg-white rounded-t-2xl shadow-2xl border-t border-slate-200 overflow-hidden"
               style={{ height: 'min(50vh, 420px)' }}
             >
-              <div className="flex justify-center pt-2 pb-1 shrink-0">
-                <div className="w-10 h-1 rounded-full bg-slate-300" />
-              </div>
+              <button
+                onClick={() => setShowList(false)}
+                className="w-full flex justify-center pt-3 pb-2 shrink-0 cursor-pointer"
+                aria-label="Close list"
+              >
+                <div className="w-10 h-1 rounded-full bg-slate-400" />
+              </button>
               <MapPlaceList
                 items={filteredData}
-                selectedItem={selectedItem}
-                onSelect={handleSelectItem}
+                selectedItem={null}
+                onSelect={(item) => {
+                  setShowList(false)
+                  if (item.coordinates) {
+                    setFlyToCoord(item.coordinates)
+                  }
+                }}
                 searchQuery={searchQuery}
                 onSearchChange={setSearchQuery}
                 activeCategory={activeCategory}

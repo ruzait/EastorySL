@@ -75,18 +75,20 @@ function MapContent({ filteredData, onSelectItem, flyToCoord, selectedItem }) {
     if (flyToCoord && flyToCoord.length === 2 && (flyToCoord[0] !== prevFlyTo.current?.[0] || flyToCoord[1] !== prevFlyTo.current?.[1])) {
       prevFlyTo.current = flyToCoord
       map.flyTo(flyToCoord, 16, { duration: 0.6 })
-      setTimeout(() => {
-        const match = filteredData.find(
-          (d) =>
-            d.coordinates?.[0] === flyToCoord[0] &&
-            d.coordinates?.[1] === flyToCoord[1]
-        )
-        if (match && markerRefs.current[match.id]) {
-          markerRefs.current[match.id].openPopup()
-        }
-      }, 700)
+      if (!selectedItem) {
+        setTimeout(() => {
+          const match = filteredData.find(
+            (d) =>
+              d.coordinates?.[0] === flyToCoord[0] &&
+              d.coordinates?.[1] === flyToCoord[1]
+          )
+          if (match && markerRefs.current[match.id]) {
+            markerRefs.current[match.id].openPopup()
+          }
+        }, 700)
+      }
     }
-  }, [map, flyToCoord, filteredData])
+  }, [map, flyToCoord, filteredData, selectedItem])
 
   useEffect(() => {
     if (bounds && filteredData.length > 0 && !flyToCoord && !selectedItem) {
@@ -118,8 +120,12 @@ function MapContent({ filteredData, onSelectItem, flyToCoord, selectedItem }) {
               if (ref) markerRefs.current[item.id] = ref
             }}
             eventHandlers={{
-              click: () => onSelectItem?.(item),
-              mouseover: (e) => e.target.openPopup(),
+              click: () => {
+                onSelectItem?.(item)
+              },
+              mouseover: (e) => {
+                if (!selectedItem) e.target.openPopup()
+              },
             }}
           >
             <Popup>

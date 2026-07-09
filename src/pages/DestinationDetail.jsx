@@ -3,6 +3,7 @@ import { FiArrowLeft, FiMapPin, FiStar, FiClock, FiDollarSign, FiSun, FiNavigati
 import { motion } from 'framer-motion'
 import { destinations } from '../data/destinations'
 import { distanceFromColombo } from '../utils/distance'
+import SEO from '../components/seo/SEO'
 
 const catMeta = {
   beaches: { label: 'Beaches', color: 'sky', gradient: 'from-sky-500 to-cyan-500' },
@@ -41,8 +42,28 @@ export default function DestinationDetail() {
     )
   }
 
+  const jsonLd = item ? {
+    '@context': 'https://schema.org',
+    '@type': 'TouristAttraction',
+    name: item.name,
+    description: item.description,
+    image: item.image,
+    url: `${import.meta.env.VITE_SITE_URL || 'https://eastorysl.netlify.app'}/destinations/${category}/${id}`,
+    ...(item.location && { address: { '@type': 'PostalAddress', addressLocality: item.location, addressRegion: item.district } }),
+    ...(item.rating && { aggregateRating: { '@type': 'AggregateRating', ratingValue: item.rating, bestRating: 5 } }),
+    ...(item.coordinates && { geo: { '@type': 'GeoCoordinates', latitude: item.coordinates[0], longitude: item.coordinates[1] } }),
+  } : null
+
   return (
     <div>
+      <SEO
+        title={item.name}
+        description={`${item.description} Located in ${item.location || item.district || 'Sri Lanka'}. ${item.rating ? 'Rating: ' + item.rating + '/5' : ''}`}
+        ogImage={item.image}
+        ogUrl={`${import.meta.env.VITE_SITE_URL || 'https://eastorysl.netlify.app'}/destinations/${category}/${id}`}
+        keywords={`${item.name}, ${meta.label}, ${item.location || ''}, ${item.district || ''}, Sri Lanka travel, Eastern Sri Lanka`}
+        jsonLd={jsonLd}
+      />
       <section className="relative pt-28 md:pt-32 pb-16 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-teal-950 to-slate-900">
           <div className="absolute inset-0 opacity-10 bg-grid" />

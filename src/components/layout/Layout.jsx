@@ -2,15 +2,30 @@ import { Outlet, useLocation } from 'react-router-dom'
 import Navbar from './Navbar'
 import Footer from './Footer'
 import InstallPWA from './InstallPWA'
+import usePWAInstall from '../../hooks/usePWAInstall'
 
 export default function Layout() {
   const { pathname } = useLocation()
   const isMapPage = pathname === '/map'
+  const {
+    showPopup,
+    isIOS,
+    isInstalled,
+    deferredPrompt: _deferredPrompt,
+    handleInstall,
+    handleDismiss,
+    triggerInstall,
+  } = usePWAInstall()
 
   return (
     <div className={`${isMapPage ? 'h-screen flex flex-col overflow-hidden' : 'min-h-screen'}`}>
-      <InstallPWA />
-      <Navbar />
+      <InstallPWA
+        show={showPopup}
+        isIOS={isIOS}
+        onInstall={handleInstall}
+        onDismiss={handleDismiss}
+      />
+      <Navbar onInstallClick={triggerInstall} isInstalled={isInstalled} />
       <main className={`${isMapPage ? 'flex-1 overflow-hidden' : ''}`}>
         <Outlet />
       </main>
