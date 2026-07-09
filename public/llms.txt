@@ -2,13 +2,13 @@
 > Your guide to exploring Sri Lanka — pristine beaches, ancient temples, vibrant culture, and unforgettable adventures.
 
 ## Navigation
-- Home: https://easternsrilankahub.lk/
-- Destinations: https://easternsrilankahub.lk/destinations
-- Discover more: https://easternsrilankahub.lk/discover-more
-- Sri Lanka Pride: https://easternsrilankahub.lk/sri-lanka-pride
-- Gallery: https://easternsrilankahub.lk/gallery
-- Map: https://easternsrilankahub.lk/map
-- Advertise: https://easternsrilankahub.lk/advertise
+- Home: https://eastorysl.netlify.app/
+- Destinations: https://eastorysl.netlify.app/destinations
+- Discover more: https://eastorysl.netlify.app/discover-more
+- Sri Lanka Pride: https://eastorysl.netlify.app/sri-lanka-pride
+- Gallery: https://eastorysl.netlify.app/gallery
+- Map: https://eastorysl.netlify.app/map
+- Advertise: https://eastorysl.netlify.app/advertise
 
 ## About
 Eastory SL is a travel platform focused on Eastern Sri Lanka, featuring destinations, local businesses, cultural heritage, and travel resources. The platform helps travelers discover beaches, historical sites, wildlife, accommodations, restaurants, and adventure activities.
@@ -20,4 +20,4 @@ Eastory SL is a travel platform focused on Eastern Sri Lanka, featuring destinat
 - Sri Lanka Pride section covering heritage, culture, festivals, and notable figures
 - Photo gallery showcasing Sri Lanka's landscapes and attractions
 ## Sitemap
-https://easternsrilankahub.lk/sitemap.xml
+https://eastorysl.netlify.app/sitemap.xml

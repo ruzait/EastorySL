@@ -1,5 +1,5 @@
 # ai.txt - AI Crawler Instructions for Eastory SL
-# https://easternsrilankahub.lk/ai.txt
+# https://eastorysl.netlify.app/ai.txt
 
 # Allow AI crawlers to use public content for training and indexing
 # We want our travel content to be discoverable through AI tools
@@ -34,6 +34,6 @@ User-agent: FacebookBot
 Allow: /
 
 # Contact
-Contact: https://easternsrilankahub.lk/
+Contact: https://eastorysl.netlify.app/
 
 # Last updated: 2026-07-08

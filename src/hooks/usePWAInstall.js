@@ -2,6 +2,17 @@ import { useState, useEffect, useCallback } from 'react'
 
 const STORAGE_KEY = 'eastorysl_pwa_dismissed'
 
+// Capture beforeinstallprompt at module level (before React mounts)
+// to avoid missing the event during early page load.
+let _globalDeferredPrompt = null
+
+if (typeof window !== 'undefined') {
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault()
+    _globalDeferredPrompt = e
+  })
+}
+
 export default function usePWAInstall() {
   const [deferredPrompt, setDeferredPrompt] = useState(null)
   const [showPopup, setShowPopup] = useState(false)
@@ -22,6 +33,12 @@ export default function usePWAInstall() {
 
     const iOS = /iphone|ipad|ipod/i.test(navigator.userAgent)
 
+    // If the global listener already caught the event, adopt it
+    if (_globalDeferredPrompt) {
+      setDeferredPrompt(_globalDeferredPrompt)
+      setShowPopup(true)
+    }
+
     const handleBeforeInstallPrompt = (e) => {
       e.preventDefault()
       setDeferredPrompt(e)
@@ -39,14 +56,17 @@ export default function usePWAInstall() {
   }, [])
 
   const handleInstall = useCallback(async () => {
-    if (!deferredPrompt) return
-    deferredPrompt.prompt()
-    const { outcome } = await deferredPrompt.userChoice
+    // Use state first, fall back to the module-level capture
+    const prompt = deferredPrompt || _globalDeferredPrompt
+    if (!prompt) return
+    prompt.prompt()
+    const { outcome } = await prompt.userChoice
     if (outcome === 'accepted') {
       setShowPopup(false)
       setIsInstalled(true)
     }
     setDeferredPrompt(null)
+    _globalDeferredPrompt = null
   }, [deferredPrompt])
 
   const handleDismiss = useCallback(() => {

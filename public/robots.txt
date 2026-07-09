@@ -27,4 +27,4 @@ Allow: /
 # Crawl delay for polite crawling
 Crawl-delay: 5
 
-Sitemap: https://easternsrilankahub.lk/sitemap.xml
+Sitemap: https://eastorysl.netlify.app/sitemap.xml
