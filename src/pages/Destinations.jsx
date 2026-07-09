@@ -64,6 +64,13 @@ export default function Destinations() {
     return () => window.removeEventListener('resize', onResize)
   }, [])
 
+  useEffect(() => {
+    if (scrollRef.current) {
+      const btn = scrollRef.current.querySelector('[data-active="true"]')
+      if (btn) btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
+    }
+  }, [activeCategory])
+
   const filtered = useMemo(() => {
     const dataCat = reverseMap[activeCategory]
     let result = activeCategory === 'All' ? destinations : destinations.filter((d) => d.category === dataCat)
@@ -138,6 +145,7 @@ export default function Destinations() {
                     <button
                       key={cat}
                       onClick={() => setActiveCategory(cat)}
+                      data-active={activeCategory === cat || undefined}
                        className={`min-h-[44px] px-4 py-2 rounded-full text-sm font-bold font-['Poppins'] transition-all duration-300 whitespace-nowrap shrink-0 flex items-center gap-1.5 ${
                         activeCategory === cat
                           ? 'bg-teal-600 text-white shadow-lg shadow-teal-500/20'

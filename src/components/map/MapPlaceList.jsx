@@ -84,6 +84,13 @@ export default function MapPlaceList({ items, selectedItem, onSelect, searchQuer
     return () => window.removeEventListener('resize', onResize)
   }, [])
 
+  useEffect(() => {
+    if (scrollRef.current) {
+      const btn = scrollRef.current.querySelector('[data-active="true"]')
+      if (btn) btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
+    }
+  }, [activeCategory])
+
   const sorted = useMemo(() => {
     const tierOrder = { premium: 0, featured: 1, free: 2 }
     return [...items].sort((a, b) => (tierOrder[a.tier] ?? 2) - (tierOrder[b.tier] ?? 2))
@@ -140,6 +147,7 @@ export default function MapPlaceList({ items, selectedItem, onSelect, searchQuer
                   <button
                     key={cat}
                     onClick={() => onCategoryChange(isActive ? null : cat)}
+                    data-active={isActive || undefined}
                     className={`touch-manipulation text-[11px] font-bold font-['Poppins'] px-3 py-1 rounded-full transition-all duration-200 whitespace-nowrap shrink-0 ${
                       isActive
                         ? 'bg-teal-500 text-white shadow-sm shadow-teal-500/30'

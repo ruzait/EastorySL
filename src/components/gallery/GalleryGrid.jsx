@@ -30,6 +30,13 @@ export default function GalleryGrid({ images, categories }) {
     return () => window.removeEventListener('resize', onResize)
   }, [])
 
+  useEffect(() => {
+    if (scrollRef.current) {
+      const btn = scrollRef.current.querySelector('[data-active="true"]')
+      if (btn) btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
+    }
+  }, [activeCategory])
+
   const filtered = useMemo(() => {
     if (activeCategory === 'all') return images
     return images.filter((img) => img.category === activeCategory)
@@ -81,6 +88,7 @@ export default function GalleryGrid({ images, categories }) {
               <button
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id)}
+                data-active={activeCategory === cat.id || undefined}
                 className={`min-h-[44px] px-4 py-2 rounded-full text-sm font-bold font-['Poppins'] transition-all duration-300 whitespace-nowrap shrink-0 flex items-center gap-1.5 ${
                   activeCategory === cat.id
                     ? 'bg-teal-600 text-white shadow-lg shadow-teal-500/20'
