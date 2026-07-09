@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router-dom'
 import { FiArrowLeft, FiMapPin, FiCalendar, FiNavigation, FiAward } from 'react-icons/fi'
-import { GiCrown, GiCaveEntrance, GiTeapotLeaves } from 'react-icons/gi'
+import { GiCrown, GiCaveEntrance, GiTeapotLeaves, GiFruitTree } from 'react-icons/gi'
 import { FaLandmark, FaCity, FaUtensils, FaRoute, FaUsers } from 'react-icons/fa'
 import { prideItems } from '../data/sriLankaPride'
 import SEO from '../components/seo/SEO'
@@ -11,6 +11,7 @@ const catMeta = {
   'museums-galleries': { icon: FaLandmark, label: 'Museum & Gallery', gradient: 'from-indigo-950 to-purple-900', color: 'indigo' },
   'cities-urban': { icon: FaCity, label: 'City & Urban', gradient: 'from-blue-950 to-cyan-900', color: 'blue' },
   'food-culinary': { icon: FaUtensils, label: 'Food & Culinary', gradient: 'from-rose-950 to-red-900', color: 'red' },
+  'seasonal-foods': { icon: GiFruitTree, label: 'Seasonal Food', gradient: 'from-orange-950 to-amber-900', color: 'orange' },
   'tea-spice-trails': { icon: GiTeapotLeaves, label: 'Tea & Spice Trail', gradient: 'from-emerald-950 to-green-900', color: 'green' },
   'road-trip-routes': { icon: FaRoute, label: 'Road Trip Route', gradient: 'from-teal-950 to-sky-900', color: 'teal' },
   'famous-people': { icon: FaUsers, label: 'Famous Person', gradient: 'from-pink-950 to-rose-900', color: 'rose' },
@@ -32,6 +33,7 @@ export default function PrideDetail() {
   const Icon = meta.icon
   const isRoute = category === 'road-trip-routes'
   const isFamous = category === 'famous-people'
+  const isSeasonal = category === 'seasonal-foods'
 
   if (!item) {
     return (
@@ -140,6 +142,18 @@ export default function PrideDetail() {
                     <div className="flex items-center gap-2 text-slate-600">
                       <FiCalendar className="text-rose-500" />
                       <span>{item.birthYear} · {item.birthPlace}</span>
+                    </div>
+                  </div>
+                )}
+                {isSeasonal && item.seasonMonths && (
+                  <div className="pb-4 border-b border-slate-100 mb-4">
+                    <h3 className="text-sm font-heading font-semibold text-slate-700 mb-2">Season</h3>
+                    <div className="flex items-center gap-2 text-slate-600">
+                      <FiCalendar className="text-orange-500" />
+                      <span className="font-semibold text-orange-600">{item.seasonMonths}</span>
+                      {item.seasonName && (
+                        <span className="text-xs text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">{item.seasonName}</span>
+                      )}
                     </div>
                   </div>
                 )}

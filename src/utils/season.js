@@ -32,3 +32,9 @@ export function getSeasonalDestinations(destinations, month, category = 'All') {
   }
   return filtered.sort((a, b) => (b.rating || 0) - (a.rating || 0))
 }
+
+export function getSeasonalFoods(items, month) {
+  return items
+    .filter(d => d.category === 'seasonal-foods' && isInSeason(d.seasonMonths, month))
+    .sort((a, b) => (a.type === 'fruit' ? -1 : 1))
+}

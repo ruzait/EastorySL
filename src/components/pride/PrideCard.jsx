@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { FiMapPin, FiStar, FiClock, FiCalendar, FiNavigation } from 'react-icons/fi'
-import { GiCrown, GiCaveEntrance, GiTeapotLeaves } from 'react-icons/gi'
+import { GiCrown, GiCaveEntrance, GiTeapotLeaves, GiFruitTree } from 'react-icons/gi'
 import { FaLandmark, FaCity, FaUtensils, FaRoute, FaUsers } from 'react-icons/fa'
 import Badge from '../ui/Badge'
 
@@ -11,6 +11,7 @@ const meta = {
   'museums-galleries': { icon: FaLandmark, label: 'Museum', border: 'hover:border-indigo-200', iconColor: 'text-indigo-500' },
   'cities-urban': { icon: FaCity, label: 'Urban', border: 'hover:border-blue-200', iconColor: 'text-blue-500' },
   'food-culinary': { icon: FaUtensils, label: 'Food', border: 'hover:border-red-200', iconColor: 'text-red-500' },
+  'seasonal-foods': { icon: GiFruitTree, label: 'Seasonal', border: 'hover:border-orange-200', iconColor: 'text-orange-500' },
   'tea-spice-trails': { icon: GiTeapotLeaves, label: 'Tea & Spice', border: 'hover:border-green-200', iconColor: 'text-green-500' },
   'road-trip-routes': { icon: FaRoute, label: 'Road Trip', border: 'hover:border-teal-200', iconColor: 'text-teal-500' },
   'famous-people': { icon: FaUsers, label: 'Famous', border: 'hover:border-rose-200', iconColor: 'text-rose-500' },
@@ -22,6 +23,7 @@ const accentGradients = {
   'museums-galleries': 'from-indigo-950 to-purple-900',
   'cities-urban': 'from-blue-950 to-cyan-900',
   'food-culinary': 'from-rose-950 to-red-900',
+  'seasonal-foods': 'from-orange-950 to-amber-900',
   'tea-spice-trails': 'from-emerald-950 to-green-900',
   'road-trip-routes': 'from-teal-950 to-sky-900',
   'famous-people': 'from-pink-950 to-rose-900',
@@ -52,6 +54,7 @@ export default function PrideCard({ item, index }) {
   const Icon = m.icon
   const isFamous = item.category === 'famous-people'
   const isFood = item.category === 'food-culinary'
+  const isSeasonal = item.category === 'seasonal-foods'
 
   return (
     <motion.div
@@ -109,6 +112,19 @@ export default function PrideCard({ item, index }) {
                 ))}
               </div>
               <span className="text-xs text-slate-400">{spiceLabels[item.spiceLevel - 1]}</span>
+            </div>
+          )}
+          {isSeasonal && item.seasonMonths && (
+            <div className="flex items-center gap-2 mb-3">
+              <FiCalendar className="text-orange-500 text-xs" />
+              <span className="text-xs font-semibold text-orange-600">
+                {item.seasonMonths}
+              </span>
+              {item.seasonName && (
+                <span className="text-[10px] text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
+                  {item.seasonName}
+                </span>
+              )}
             </div>
           )}
           <p className="text-slate-600 text-sm leading-relaxed line-clamp-3 mb-3">

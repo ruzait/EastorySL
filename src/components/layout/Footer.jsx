@@ -172,9 +172,9 @@ export default function Footer() {
               © {new Date().getFullYear()} <span className="text-teal-400">EastorySL</span>. All rights reserved. Pearl of the Indian Ocean.
             </p>
             <div className="flex items-center gap-6">
-              <button className="text-slate-500 hover:text-teal-400 text-xs transition-colors cursor-pointer">Privacy Policy</button>
+              <a href="/privacy-policy" className="text-slate-500 hover:text-teal-400 text-xs transition-colors">Privacy Policy</a>
               <span className="text-slate-700 text-xs">|</span>
-              <button className="text-slate-500 hover:text-teal-400 text-xs transition-colors cursor-pointer">Terms of Service</button>
+              <a href="/terms-of-service" className="text-slate-500 hover:text-teal-400 text-xs transition-colors">Terms of Service</a>
               <button
                 onClick={scrollToTop}
                 className="w-9 h-9 rounded-xl bg-slate-800 hover:bg-teal-600 flex items-center justify-center text-slate-400 hover:text-white transition-all duration-300 hover:shadow-lg hover:shadow-teal-500/20 hover:-translate-y-0.5"

@@ -1,6 +1,7 @@
 import { useMemo, useState, useRef, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { FiGrid, FiSearch, FiChevronLeft, FiChevronRight } from 'react-icons/fi'
-import { GiCrown, GiCaveEntrance, GiTeapotLeaves } from 'react-icons/gi'
+import { GiCrown, GiCaveEntrance, GiTeapotLeaves, GiFruitTree } from 'react-icons/gi'
 import { FaLandmark, FaCity, FaUtensils, FaRoute, FaUsers } from 'react-icons/fa'
 import SectionTitle from '../components/ui/SectionTitle'
 import SEO from '../components/seo/SEO'
@@ -14,6 +15,7 @@ const prideCategoryMap = {
   'museums-galleries': 'Museums & Galleries',
   'cities-urban': 'Cities & Urban',
   'food-culinary': 'Food & Culinary',
+  'seasonal-foods': 'Seasonal Foods',
   'tea-spice-trails': 'Tea & Spice Trails',
   'road-trip-routes': 'Road Trip Routes',
   'famous-people': 'Famous People',
@@ -25,7 +27,8 @@ const categories = ['All', ...Object.values(prideCategoryMap)]
 const catIcons = {
   'Ancient Kingdoms': GiCrown, 'Caves & Geology': GiCaveEntrance,
   'Museums & Galleries': FaLandmark, 'Cities & Urban': FaCity,
-  'Food & Culinary': FaUtensils, 'Tea & Spice Trails': GiTeapotLeaves,
+  'Food & Culinary': FaUtensils, 'Seasonal Foods': GiFruitTree,
+  'Tea & Spice Trails': GiTeapotLeaves,
   'Road Trip Routes': FaRoute, 'Famous People': FaUsers,
 }
 
@@ -40,8 +43,9 @@ const subCategories = [
 ]
 
 export default function SriLankaPride() {
+  const [searchParams] = useSearchParams()
   const [search, setSearch] = useState('')
-  const [activeCategory, setActiveCategory] = useState('All')
+  const [activeCategory, setActiveCategory] = useState(searchParams.get('category') || 'All')
   const [showSearch, setShowSearch] = useState(false)
   const [activeSub, setActiveSub] = useState('all')
   const [scrollStart, setScrollStart] = useState(true)
@@ -83,7 +87,9 @@ export default function SriLankaPride() {
           (d.location && d.location.toLowerCase().includes(q)) ||
           (d.district && d.district.toLowerCase().includes(q)) ||
           (d.origin && d.origin.toLowerCase().includes(q)) ||
-          (d.birthPlace && d.birthPlace.toLowerCase().includes(q))
+          (d.birthPlace && d.birthPlace.toLowerCase().includes(q)) ||
+          (d.seasonMonths && d.seasonMonths.toLowerCase().includes(q)) ||
+          (d.seasonName && d.seasonName.toLowerCase().includes(q))
       )
     }
     return result
@@ -100,6 +106,7 @@ export default function SriLankaPride() {
         title="Sri Lanka Pride"
         description="Discover Sri Lanka's proudest achievements — ancient kingdoms, UNESCO sites, cultural treasures, and natural wonders that make the island unique."
         keywords="Sri Lanka pride, Sri Lanka heritage, UNESCO Sri Lanka, ancient kingdoms Sri Lanka, Sri Lanka culture"
+        ogImage="https://eastorysl.netlify.app/images/home/Sri_Lanka_Pride.png"
       />
       <section className="relative pt-28 md:pt-32 pb-10 md:pb-12 overflow-hidden px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0">

@@ -10,6 +10,7 @@ export default function Home() {
   return (
     <>
       <SEO
+        title="Home"
         description="Discover the beauty of Sri Lanka — pristine beaches, rich cultural heritage, local businesses, and unforgettable travel experiences all in one place."
         keywords="Sri Lanka travel, Eastern Sri Lanka, Sri Lanka tourism, travel guide, Sri Lanka beaches"
       />

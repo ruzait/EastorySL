@@ -138,6 +138,7 @@ export default function Map() {
         title="Map"
         description="Explore Sri Lanka with our interactive map — find destinations, hotels, restaurants, and points of interest across the island."
         keywords="Sri Lanka map, Sri Lanka travel map, Sri Lanka attractions map, Eastern Sri Lanka map, Sri Lanka guide"
+        ogImage="https://eastorysl.netlify.app/images/home/hero.png"
       />
       <div className="absolute inset-0 pt-16 md:pt-20">
         <div className="h-full flex overflow-hidden relative">
@@ -209,6 +210,7 @@ export default function Map() {
                     : 'text-slate-500 hover:text-teal-600 hover:bg-white'
               }`}
               title={isLocating ? 'Locating...' : 'Show my location'}
+              aria-label={isLocating ? 'Locating...' : 'Show my location'}
             >
               <FiNavigation className={`text-sm ${isLocating ? 'animate-spin' : ''}`} />
             </button>
@@ -216,6 +218,7 @@ export default function Map() {
               onClick={() => setShowLayers(!showLayers)}
               className="touch-manipulation w-10 h-10 rounded-xl bg-white/90 backdrop-blur-xl shadow-lg border border-white/30 flex items-center justify-center text-slate-500 hover:text-teal-600 hover:bg-white transition-all duration-200"
               title="Toggle layers"
+              aria-label="Toggle map layers"
             >
               <FiMap className="text-sm" />
             </button>

@@ -13,8 +13,9 @@ export default function Hero() {
 
   return (
     <>
-    <section className="relative min-h-screen flex items-center overflow-hidden not-italic">
+      <section className="relative min-h-screen flex items-center overflow-hidden">
       <div className="absolute inset-0 bg-cover bg-no-repeat bg-center max-[768px]:bg-[right_top]" style={{ backgroundImage: 'url(/images/home/hero.png)' }} />
+      <img src="/images/home/hero.png" alt="Sri Lanka travel hero" className="sr-only" />
       <div className="absolute inset-0 bg-gradient-to-r from-slate-900/80 via-slate-900/40 to-transparent" />
       <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-slate-900/20" />
 
@@ -26,15 +27,15 @@ export default function Hero() {
             transition={{ duration: 0.6 }}
             className="max-w-2xl"
           >
-<span className="inline-block text-teal-400 font-['Dynalight'] text-2xl sm:text-3xl md:text-4xl mb-2">
-  Welcome to
-</span>
-            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-['Poppins'] font-extrabold text-white leading-tight mb-4">
+            <span className="inline-block text-teal-400 font-['Dynalight'] not-italic text-2xl sm:text-3xl md:text-4xl mb-2">
+              Welcome to
+            </span>
+            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-['Poppins'] font-extrabold not-italic text-white leading-tight mb-4">
               Sri Lanka
             </h1>
-<p className="text-white/70 text-base sm:text-lg md:text-xl max-w-lg leading-relaxed mb-8 font-['Averia_Serif_Libre'] italic">
-  Explore pristine beaches, ancient temples, and vibrant culture across the Pearl of the Indian Ocean.
-</p>
+            <p className="text-white/70 text-base sm:text-lg md:text-xl max-w-lg leading-relaxed mb-8 font-['Averia_Serif_Libre'] italic">
+              Explore pristine beaches, ancient temples, and vibrant culture across the Pearl of the Indian Ocean.
+            </p>
             <div className="flex flex-col sm:flex-row items-start gap-3">
               <Link
                 to="/destinations"
@@ -70,8 +71,8 @@ export default function Hero() {
                     <stat.icon className="text-teal-400 text-sm sm:text-lg lg:text-xl" />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-white font-bold text-sm sm:text-base lg:text-lg leading-tight font-['Inter']">{stat.value} {stat.label}</p>
-                    {stat.sub && <p className="text-white/50 text-xs sm:text-xs lg:text-sm leading-tight mt-0.5 font-['Inter']">{stat.sub}</p>}
+                    <p className="text-white font-bold text-sm sm:text-base lg:text-lg leading-tight font-['Inter'] not-italic">{stat.value} {stat.label}</p>
+                    {stat.sub && <p className="text-white/50 text-xs sm:text-xs lg:text-sm leading-tight mt-0.5 font-['Inter'] not-italic">{stat.sub}</p>}
                   </div>
                 </div>
               ))}

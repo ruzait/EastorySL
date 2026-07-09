@@ -1,11 +1,13 @@
 import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { FiArrowRight, FiStar, FiMapPin, FiSun, FiClock, FiDollarSign, FiAward, FiNavigation } from 'react-icons/fi'
+import { FiArrowRight, FiStar, FiMapPin, FiSun, FiClock, FiDollarSign, FiAward, FiNavigation, FiCalendar } from 'react-icons/fi'
+import { GiFruitTree } from 'react-icons/gi'
 import { motion, AnimatePresence } from 'framer-motion'
 import SectionTitle from '../ui/SectionTitle'
 import Badge from '../ui/Badge'
 import { destinations } from '../../data/destinations'
-import { getSeasonalDestinations, monthName } from '../../utils/season'
+import { prideItems } from '../../data/sriLankaPride'
+import { getSeasonalDestinations, getSeasonalFoods, monthName } from '../../utils/season'
 import { distanceFromColombo } from '../../utils/distance'
 
 const popularCategories = [
@@ -13,12 +15,12 @@ const popularCategories = [
 ]
 
 const catEmoji = {
-  beaches: '🏖️', nature: '🌿', wildlife: '🦁', historical: '🏛️',
-  waterfalls: '💧', cultural: '🎭', 'adventure-activities': '🧗',
-  religious: '🛕', parks: '🏞️', mountains: '⛰️', forts: '🏰',
-  'lakes & rivers': '🌊', islands: '🏝️', 'botanical gardens': '🌺',
-  'scenic train journeys': '🚂', viewpoints: '👁️', 'marine attractions': '🐠',
-  'festivals & events': '🎪',
+  beaches: '\u{1F3D6}\u{FE0F}', nature: '\u{1F33F}', wildlife: '\u{1F981}', historical: '\u{1F3DB}\u{FE0F}',
+  waterfalls: '\u{1F4A7}', cultural: '\u{1F3AD}', 'adventure-activities': '\u{1F9D7}',
+  religious: '\u{1F6D5}', parks: '\u{1F3DE}\u{FE0F}', mountains: '\u{26F0}\u{FE0F}', forts: '\u{1F3F0}',
+  'lakes & rivers': '\u{1F30A}', islands: '\u{1F3DD}\u{FE0F}', 'botanical gardens': '\u{1F33A}',
+  'scenic train journeys': '\u{1F682}', viewpoints: '\u{1F441}\u{FE0F}', 'marine attractions': '\u{1F420}',
+  'festivals & events': '\u{1F389}',
 }
 
 const categoryColors = {
@@ -49,7 +51,7 @@ function SeasonalCard({ dest, i }) {
     >
       <Link to={`/destinations/${encodeURIComponent(dest.category)}/${dest.id}`} className="block cursor-pointer h-full">
         <div className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-slate-100 italic h-full flex flex-col">
-          <div className={`relative overflow-hidden ${dest.tier === 'premium' ? 'h-56 sm:h-64' : 'h-48 sm:h-56'}`}>
+          <div className="relative overflow-hidden h-48 sm:h-56">
             <img
               src={dest.image}
               alt={dest.name}
@@ -124,15 +126,69 @@ function SeasonalCard({ dest, i }) {
             </div>
             {dest.coordinates && (
               <div className="pt-2 border-t border-slate-100 mt-auto">
-                <a
-                  href={`https://www.google.com/maps/dir/?api=1&destination=${dest.coordinates[0]},${dest.coordinates[1]}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  onClick={(e) => {
+                    e.preventDefault()
+                    window.open(`https://www.google.com/maps/dir/?api=1&destination=${dest.coordinates[0]},${dest.coordinates[1]}`, '_blank', 'noopener,noreferrer')
+                  }}
                   className="inline-flex items-center justify-center gap-2 w-full min-h-[40px] px-4 py-2 rounded-xl bg-gradient-to-r from-teal-500 to-ocean-600 text-white text-sm font-semibold shadow-md shadow-teal-500/20 hover:shadow-teal-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
                 >
                   <FiNavigation className="text-sm" />
                   Get Directions
-                </a>
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </Link>
+    </motion.div>
+  )
+}
+
+function SeasonalFoodCard({ food, i }) {
+  const isFruit = food.type === 'fruit'
+  return (
+    <motion.div
+      layout
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.5, delay: i * 0.06 }}
+      viewport={{ once: true }}
+    >
+      <Link to={`/sri-lanka-pride/seasonal-foods/${food.id}`} className="block cursor-pointer h-full">
+        <div className="group rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-teal-200 h-full flex flex-col bg-white">
+          <div className="relative h-48 sm:h-56 overflow-hidden">
+            <img
+              src={food.image}
+              alt={food.name}
+              loading="lazy"
+              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent" />
+            <div className="absolute bottom-3 left-4 right-4">
+              <h3 className="text-white font-heading font-bold text-lg leading-tight truncate">
+                {food.name}
+              </h3>
+            </div>
+          </div>
+          <div className="p-4 flex flex-col flex-1">
+            <p className="text-slate-600 text-sm leading-relaxed line-clamp-2 mb-3">
+              {food.description}
+            </p>
+            <div className="flex items-center flex-wrap gap-x-3 gap-y-1 text-xs text-slate-500 mb-2">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-teal-50 text-teal-700 font-semibold">
+                <FiCalendar className="text-[10px]" />
+                {food.seasonMonths}
+              </span>
+              <span>
+                {food.seasonName}
+              </span>
+            </div>
+            {food.origin && (
+              <div className="flex items-center gap-1 text-xs text-slate-500 mt-auto pt-2 border-t border-slate-100">
+                <FiMapPin className="text-teal-500" />
+                <span className="truncate">{food.origin}</span>
               </div>
             )}
           </div>
@@ -149,8 +205,10 @@ export default function Featured() {
   const currentMonth = monthName(now.getMonth() + 1)
   const monthLabel = now.toLocaleString('default', { month: 'long' })
 
-  const seasonal = useMemo(() => {
-    return getSeasonalDestinations(destinations, currentMonth, activeCategory).slice(0, 3)
+  const { places, foods } = useMemo(() => {
+    const dests = getSeasonalDestinations(destinations, currentMonth, activeCategory).slice(0, 3)
+    const seasonalFoods = getSeasonalFoods(prideItems, currentMonth).slice(0, 3)
+    return { places: dests, foods: seasonalFoods }
   }, [currentMonth, activeCategory])
 
   return (
@@ -166,7 +224,7 @@ export default function Featured() {
         <SectionTitle
           subtitle={`Seasonal Picks — ${monthLabel}`}
           title={`Best Places to Visit in ${monthLabel}`}
-          description={`Top-rated destinations perfect for a ${monthLabel} getaway — from misty mountains to sun-drenched beaches.`}
+          description={`Top-rated destinations and seasonal fruits at their peak in ${monthLabel}.`}
         />
 
         {/* Filter bar */}
@@ -195,27 +253,57 @@ export default function Featured() {
           )}
         </div>
 
-        {/* 2x4 Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 max-w-5xl mx-auto mb-10">
-          <AnimatePresence mode="popLayout">
-            {seasonal.map((dest, i) => (
-              <SeasonalCard key={dest.id} dest={dest} i={i} />
-            ))}
-          </AnimatePresence>
-        </div>
-
-        {seasonal.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-slate-400 text-sm">No destinations found for this category in {monthLabel}.</p>
+        {/* Places row */}
+        {places.length > 0 && (
+          <div className="mb-8">
+            <h3 className="text-sm font-heading font-bold text-slate-500 uppercase tracking-wider mb-4 text-center">
+              Places to Visit
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 max-w-5xl mx-auto">
+              <AnimatePresence mode="popLayout">
+                {places.map((dest, i) => (
+                  <SeasonalCard key={dest.id} dest={dest} i={i} />
+                ))}
+              </AnimatePresence>
+            </div>
           </div>
         )}
 
-        <div className="text-center">
+        {/* Foods row */}
+        {foods.length > 0 && (
+          <div className="mb-10">
+            <h3 className="text-sm font-heading font-bold text-slate-500 uppercase tracking-wider mb-4 text-center">
+              In Season Now
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 max-w-5xl mx-auto">
+              <AnimatePresence mode="popLayout">
+                {foods.map((f, i) => (
+                  <SeasonalFoodCard key={f.id} food={f} i={i} />
+                ))}
+              </AnimatePresence>
+            </div>
+          </div>
+        )}
+
+        {places.length === 0 && foods.length === 0 && (
+          <div className="text-center py-12">
+            <p className="text-slate-400 text-sm">No seasonal picks found for {monthLabel}.</p>
+          </div>
+        )}
+
+        <div className="flex flex-wrap items-center justify-center gap-3">
           <Link
             to="/destinations"
             className="group inline-flex items-center gap-2 px-7 py-3 rounded-xl bg-gradient-to-r from-teal-600 to-ocean-500 text-white font-heading font-semibold italic text-sm shadow-lg shadow-teal-500/20 hover:shadow-xl hover:shadow-teal-500/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
           >
             View All Destinations
+            <FiArrowRight className="group-hover:translate-x-1 transition-transform duration-300" />
+          </Link>
+          <Link
+            to="/sri-lanka-pride?category=Seasonal+Foods"
+            className="group inline-flex items-center gap-2 px-7 py-3 rounded-xl bg-white text-slate-700 font-heading font-semibold italic text-sm border border-slate-200 shadow-sm hover:border-teal-300 hover:text-teal-700 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+          >
+            Explore Seasonal Foods
             <FiArrowRight className="group-hover:translate-x-1 transition-transform duration-300" />
           </Link>
         </div>
