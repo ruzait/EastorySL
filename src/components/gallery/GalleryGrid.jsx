@@ -158,6 +158,7 @@ export default function GalleryGrid({ images, categories }) {
           >
             <button
               onClick={() => setSelectedImage(null)}
+              aria-label="Close"
               className="absolute top-4 right-4 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors z-10"
             >
               <FiX className="text-xl" />
@@ -166,6 +167,7 @@ export default function GalleryGrid({ images, categories }) {
             {currentIndex > 0 && (
               <button
                 onClick={(e) => { e.stopPropagation(); handlePrev() }}
+                aria-label="Previous image"
                 className="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors z-10"
               >
                 <FiChevronLeft className="text-xl" />
@@ -174,6 +176,7 @@ export default function GalleryGrid({ images, categories }) {
             {currentIndex < filtered.length - 1 && (
               <button
                 onClick={(e) => { e.stopPropagation(); handleNext() }}
+                aria-label="Next image"
                 className="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors z-10"
               >
                 <FiChevronRight className="text-xl" />

@@ -5,6 +5,8 @@ export default function Logo({ color = '#231F20', className = 'h-10 w-auto' }) {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 180 40"
       className={className}
+      role="img"
+      aria-label="Eastory SL"
     >
       <g>
         <g>

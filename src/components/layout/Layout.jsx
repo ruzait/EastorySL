@@ -11,7 +11,6 @@ export default function Layout() {
     showPopup,
     isIOS,
     isInstalled,
-    deferredPrompt: _deferredPrompt,
     handleInstall,
     handleDismiss,
     triggerInstall,

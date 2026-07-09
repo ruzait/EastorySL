@@ -72,6 +72,8 @@ export default function SriLankaPride() {
     return () => window.removeEventListener('resize', onResize)
   }, [])
 
+  const subScrollRef = useRef(null)
+
   useEffect(() => {
     if (scrollRef.current) {
       const btn = scrollRef.current.querySelector('[data-active="true"]')
@@ -79,9 +81,18 @@ export default function SriLankaPride() {
     }
   }, [activeCategory])
 
+  useEffect(() => {
+    if (subScrollRef.current) {
+      const btn = subScrollRef.current.querySelector('[data-active-sub="true"]')
+      if (btn) btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
+    }
+  }, [activeSub])
+
+  const shuffled = useMemo(() => [...prideItems].sort(() => Math.random() - 0.5), [])
+
   const filtered = useMemo(() => {
     const dataCat = reverseMap[activeCategory]
-    let result = activeCategory === 'All' ? prideItems : prideItems.filter((d) => d.category === dataCat)
+    let result = activeCategory === 'All' ? shuffled : shuffled.filter((d) => d.category === dataCat)
     if (activeCategory === 'Famous People' && activeSub !== 'all') {
       result = result.filter((d) => d.subCategory === activeSub)
     }
@@ -100,7 +111,7 @@ export default function SriLankaPride() {
       )
     }
     return result
-  }, [search, activeCategory, activeSub])
+  }, [search, activeCategory, activeSub, shuffled])
 
   const handleCategoryChange = (cat) => {
     setActiveCategory(cat)
@@ -192,18 +203,16 @@ export default function SriLankaPride() {
               </button>
             </div>
           </div>
-          <div className={`mb-6 ${showSearch ? '' : 'lg:hidden'}`}>
-            <SearchBar value={search} onChange={setSearch} placeholder="Search pride content..." />
-          </div>
           {activeCategory === 'Famous People' && (
-            <div className="flex flex-wrap gap-2 mb-6">
+            <div ref={subScrollRef} className="flex gap-2 mb-6 overflow-x-auto scroll-smooth no-scrollbar">
               {subCategories.map((sub) => {
                 const isActive = activeSub === sub.key
                 return (
                   <button
                     key={sub.key}
                     onClick={() => setActiveSub(sub.key)}
-                      className={`min-h-[36px] px-4 py-1.5 rounded-full text-xs font-bold font-['Poppins'] transition-all duration-300 ${
+                    data-active-sub={isActive || undefined}
+                    className={`min-h-[36px] px-4 py-1.5 rounded-full text-xs font-bold font-['Poppins'] transition-all duration-300 whitespace-nowrap shrink-0 ${
                       isActive
                         ? 'bg-teal-600 text-white shadow-lg shadow-teal-500/20'
                         : 'bg-white text-slate-600 hover:bg-teal-50 hover:text-teal-700 border border-slate-200'
@@ -215,6 +224,9 @@ export default function SriLankaPride() {
               })}
             </div>
           )}
+          <div className={`mb-6 ${showSearch ? '' : 'lg:hidden'}`}>
+            <SearchBar value={search} onChange={setSearch} placeholder="Search pride content..." />
+          </div>
           {filtered.length === 0 ? (
             <div className="text-center py-16">
               <p className="text-slate-400 text-lg mb-2">No results found</p>

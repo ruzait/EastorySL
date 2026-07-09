@@ -38,6 +38,11 @@ export const galleryCategories = [
   { id: 'shopping', label: 'Shopping' },
 ]
 
+export const galleryImages = [
+  // Add standalone gallery images here:
+  // { id: 'custom-1', src: 'https://...', alt: 'Description', category: 'beaches', location: 'Galle' },
+]
+
 export function buildGalleryImages(destinations, businesses, prideItems) {
   const destMap = {
     beaches: 'beaches',
@@ -85,6 +90,7 @@ export function buildGalleryImages(destinations, businesses, prideItems) {
     'museums-galleries': 'cultural',
     'tea-spice-trails': 'food-culinary',
     'road-trip-routes': 'adventure',
+    'seasonal-foods': 'food-culinary',
   }
 
   const images = []
@@ -128,5 +134,12 @@ export function buildGalleryImages(destinations, businesses, prideItems) {
     }
   })
 
-  return images
+  galleryImages.forEach((g) => {
+    const cat = destMap[g.category] || g.category
+    if (cat) {
+      images.push({ id: g.id, src: g.src, alt: g.alt, category: cat, location: g.location || '' })
+    }
+  })
+
+  return images.sort(() => Math.random() - 0.5)
 }

@@ -55,7 +55,7 @@ export default function PrideDetail() {
     description: item.description,
     image: item.image,
     url: `${SITE_URL}/sri-lanka-pride/${category}/${id}`,
-    ...(item.period && !isFamous && { dateCreated: item.period }),
+    ...(item.period && !isFamous && { description: `${item.description} Period: ${item.period}` }),
     ...(isFamous && item.birthYear && { birthDate: item.birthYear, birthPlace: item.birthPlace }),
     ...(item.coordinates && { geo: { '@type': 'GeoCoordinates', latitude: item.coordinates[0], longitude: item.coordinates[1] } }),
   } : null

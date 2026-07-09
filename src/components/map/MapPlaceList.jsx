@@ -1,6 +1,6 @@
 import { useMemo, useRef, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { FiMapPin, FiStar, FiSearch, FiX, FiChevronRight, FiChevronLeft } from 'react-icons/fi'
+import { FiMapPin, FiSearch, FiX, FiChevronRight, FiChevronLeft } from 'react-icons/fi'
 
 const CATEGORIES = [
   'All Destinations', 'Beaches', 'Waterfalls', 'Mountains', 'Historical Sites',
@@ -106,7 +106,7 @@ export default function MapPlaceList({ items, selectedItem, onSelect, searchQuer
               <span className="ml-1.5 text-xs font-normal text-slate-400">({items.length})</span>
             </h1>
             {onClose && (
-              <button onClick={onClose} className="touch-manipulation w-9 h-9 rounded-lg bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-400 hover:text-slate-600 transition-all duration-200">
+              <button onClick={onClose} aria-label="Close list" className="touch-manipulation w-9 h-9 rounded-lg bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-400 hover:text-slate-600 transition-all duration-200">
                 <FiX size={16} />
               </button>
             )}
@@ -117,7 +117,7 @@ export default function MapPlaceList({ items, selectedItem, onSelect, searchQuer
               type="text"
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              placeholder="Search places..."
+              placeholder="Search places..." aria-label="Search places"
               className="w-full pl-10 pr-9 py-2.5 rounded-xl bg-slate-100 border-0 text-xs text-slate-800 placeholder:text-slate-400 italic outline-none focus:bg-white focus:ring-2 focus:ring-teal-500/20 focus:shadow-sm transition-all duration-200"
             />
             {searchQuery && (
@@ -218,12 +218,6 @@ export default function MapPlaceList({ items, selectedItem, onSelect, searchQuer
                       )}
                     </div>
                     <div className="flex items-center gap-2 mt-1">
-                      {item.rating && (
-                        <span className="flex items-center gap-0.5 text-[11px] text-amber-600 font-semibold">
-                          <FiStar className="fill-current" size={11} />
-                          {item.rating}
-                        </span>
-                      )}
                       <span className="flex items-center gap-0.5 text-[11px] text-slate-400 truncate">
                         <FiMapPin className="shrink-0" size={11} />
                         {item.location || item.district}

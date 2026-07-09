@@ -34,13 +34,21 @@ async function main() {
 
   const all = [...staticPages, ...destUrls, ...prideUrls]
 
+  function encodeLoc(path) {
+    const segs = path.split('/')
+    return segs.map(s => encodeURIComponent(s)).join('/')
+  }
+
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${all.map((p) => `  <url>
-    <loc>${SITE_URL}${p.loc}</loc>
+${all.map((p) => {
+  const loc = SITE_URL + encodeLoc(p.loc)
+  return `  <url>
+    <loc>${loc}</loc>
     <changefreq>${p.changefreq}</changefreq>
     <priority>${p.priority}</priority>
-  </url>`).join('\n')}
+  </url>`
+}).join('\n')}
 </urlset>`
 
   writeFileSync(resolve(__dirname, '../public/sitemap.xml'), xml, 'utf-8')

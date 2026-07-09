@@ -85,7 +85,7 @@ export default function Advertise() {
     setSubmitted(true)
     const pkg = packages.find((p) => p.id === selectedPackage)
     const msg = `Hi! I'm interested in advertising with Eastory SL.\n\nBusiness: ${form.businessName}\nType: ${form.type}\nLocation: ${form.location}\nPhone: ${form.contact}\nEmail: ${form.email}\nPackage: ${pkg?.name || 'N/A'}\n\n${form.description}`
-    window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank')
+    window.open(`https://wa.me/94771234567?text=${encodeURIComponent(msg)}`, '_blank')
   }
 
   if (submitted) {

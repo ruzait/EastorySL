@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { FiMapPin, FiStar, FiPhone, FiGlobe, FiAward, FiNavigation } from 'react-icons/fi'
+import { FiMapPin, FiPhone, FiGlobe, FiAward, FiNavigation } from 'react-icons/fi'
 import { FaFacebook, FaInstagram, FaYoutube } from 'react-icons/fa'
 import Badge from '../ui/Badge'
 import { distanceFromColombo } from '../../utils/distance'
@@ -31,7 +31,7 @@ export default function BusinessCard({ business, index }) {
       transition={{ duration: 0.5, delay: index * 0.1 }}
       className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-slate-100"
     >
-      <div className={`relative overflow-hidden ${business.tier === 'premium' ? 'h-52 sm:h-56' : 'h-44 sm:h-48'}`}>
+      <div className="relative overflow-hidden h-52 sm:h-56">
         <img
           src={business.image}
           alt={business.name}
@@ -62,15 +62,9 @@ export default function BusinessCard({ business, index }) {
       </div>
       <div className="p-5">
         <div className="flex items-center gap-2 mb-2">
-          {business.rating && (
-            <span className="flex items-center gap-1 text-xs">
-              <FiStar className="text-amber-500" />
-              <span className="font-semibold text-slate-700">{business.rating}</span>
-            </span>
-          )}
           <span className="text-xs text-slate-400">{business.subCategory || business.category}</span>
         </div>
-        <p className="text-slate-600 text-sm leading-relaxed mb-4 line-clamp-2">
+        <p className="text-slate-600 text-sm leading-relaxed mb-4 truncate">
           {business.description}
         </p>
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-500 mb-3">

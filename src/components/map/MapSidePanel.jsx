@@ -1,7 +1,10 @@
-import { FiX, FiStar, FiMapPin, FiClock, FiDollarSign, FiSun, FiPhone, FiGlobe, FiNavigation, FiExternalLink, FiChevronRight } from 'react-icons/fi'
+import { FiX, FiMapPin, FiClock, FiDollarSign, FiSun, FiPhone, FiGlobe, FiNavigation, FiExternalLink, FiChevronRight } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 
 function getDetailPath(item) {
+  if (item._source === 'destinations') return `/destinations/${encodeURIComponent(item.category)}/${item.id}`
+  if (item._source === 'pride') return `/sri-lanka-pride/${encodeURIComponent(item.category)}/${item.id}`
+  if (item._source === 'businesses') return '/discover-more'
   if (item.type) return '/discover-more'
   if (item.period) return '/sri-lanka-pride'
   return '/destinations'
@@ -48,6 +51,7 @@ export default function MapSidePanel({ item, onClose }) {
         <div className="absolute inset-0 bg-gradient-to-r from-black/10 to-transparent" />
         <button
           onClick={onClose}
+          aria-label="Close panel"
           className="touch-manipulation absolute top-3 left-3 w-8 h-8 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center hover:bg-white/40 hover:scale-105 active:scale-95 transition-all duration-200 shadow-lg"
         >
           <FiX className="text-sm" />
@@ -60,12 +64,6 @@ export default function MapSidePanel({ item, onClose }) {
             {item.name}
           </h2>
           <div className="flex items-center gap-3 mt-1.5">
-            {item.rating && (
-              <span className="flex items-center gap-1 text-xs text-amber-300 font-semibold">
-                <FiStar className="fill-current" />
-                {item.rating}
-              </span>
-            )}
             {item.district && (
               <span className="flex items-center gap-1 text-xs text-white/80">
                 <FiMapPin className="text-white/80" />

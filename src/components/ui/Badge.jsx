@@ -7,7 +7,7 @@ export default function Badge({ children, variant = 'featured', className = '' }
   }
 
   return (
-    <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold border ${variants[variant]} ${className}`}>
+    <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold border ${variants[variant] || variants.free} ${className}`}>
       {children}
     </span>
   )

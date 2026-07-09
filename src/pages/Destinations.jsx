@@ -71,9 +71,11 @@ export default function Destinations() {
     }
   }, [activeCategory])
 
+  const shuffled = useMemo(() => [...destinations].sort(() => Math.random() - 0.5), [])
+
   const filtered = useMemo(() => {
     const dataCat = reverseMap[activeCategory]
-    let result = activeCategory === 'All' ? destinations : destinations.filter((d) => d.category === dataCat)
+    let result = activeCategory === 'All' ? shuffled : shuffled.filter((d) => d.category === dataCat)
     if (search.trim()) {
       const q = search.toLowerCase()
       result = result.filter(
@@ -85,7 +87,7 @@ export default function Destinations() {
       )
     }
     return result
-  }, [search, activeCategory])
+  }, [search, activeCategory, shuffled])
 
   return (
     <div>

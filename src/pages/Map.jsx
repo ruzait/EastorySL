@@ -43,19 +43,25 @@ export default function Map() {
 
     if (activeCategory) {
       const catMap = {
-        'All Destinations': ['religious', 'historical', 'nature', 'cultural', 'adventure'],
+        'All Destinations': [
+          'religious', 'historical', 'nature', 'cultural', 'adventure',
+          'beaches', 'waterfalls', 'mountains', 'wildlife', 'parks',
+          'forts', 'lakes & rivers', 'islands', 'botanical gardens',
+          'scenic train journeys', 'viewpoints', 'marine attractions',
+          'adventure activities', 'festivals & events',
+        ],
         'Beaches': ['beaches'],
-        'Waterfalls': ['nature'],
-        'Mountains': ['nature'],
+        'Waterfalls': ['waterfalls'],
+        'Mountains': ['mountains'],
         'Historical Sites': ['historical'],
         'Religious Places': ['religious'],
-        'Restaurants': ['Dining', 'Restaurant'],
-        'Hotels': ['Accommodation', 'Hotel'],
-        'Shopping': ['Shopping', 'Shop'],
-        'Discover more': ['Service'],
-        'Museums': ['cultural'],
-        'Wildlife': ['nature'],
-        'Parks': ['nature'],
+        'Restaurants': [],
+        'Hotels': ['Accommodation'],
+        'Shopping': ['Shopping'],
+        'Discover more': ['Tours', 'Water Sports'],
+        'Museums': ['cultural', 'museums-galleries'],
+        'Wildlife': ['wildlife'],
+        'Parks': ['parks'],
       }
       const cats = catMap[activeCategory]
       if (cats) {

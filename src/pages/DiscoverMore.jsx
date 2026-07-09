@@ -53,8 +53,10 @@ export default function DiscoverMore() {
     }
   }, [activeCategory])
 
+  const shuffled = useMemo(() => [...businesses].sort(() => Math.random() - 0.5), [])
+
   const filtered = useMemo(() => {
-    let result = activeCategory === 'All' ? businesses : businesses.filter((b) => b.subCategory === activeCategory)
+    let result = activeCategory === 'All' ? shuffled : shuffled.filter((b) => b.subCategory === activeCategory)
     if (search.trim()) {
       const q = search.toLowerCase()
       result = result.filter(
@@ -66,7 +68,7 @@ export default function DiscoverMore() {
       )
     }
     return result
-  }, [activeCategory, search])
+  }, [activeCategory, search, shuffled])
 
   return (
     <div>

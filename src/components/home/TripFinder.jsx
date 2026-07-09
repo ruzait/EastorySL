@@ -59,7 +59,7 @@ const questions = [
 ]
 
 function recommendPlan(answers) {
-  const { experience, companions, budget, duration, style: _style } = answers
+  const { experience, companions, budget, duration } = answers
 
   const categoryMatch = {
     beaches: [],
@@ -70,15 +70,14 @@ function recommendPlan(answers) {
 
   let candidateDests = []
   if (experience === 'beaches') {
-    candidateDests = [...destinations].sort((a, b) => b.rating - a.rating)
+    candidateDests = destinations.filter((d) => d.category === 'beaches')
   } else {
     candidateDests = destinations
       .filter((d) => categoryMatch[experience]?.includes(d.category))
-      .sort((a, b) => b.rating - a.rating)
   }
 
   if (candidateDests.length < 2) {
-    candidateDests = [...destinations].sort((a, b) => b.rating - a.rating)
+    candidateDests = [...destinations]
   }
 
   const destCount = { weekend: 2, short: 3, extended: 4 }
@@ -86,7 +85,6 @@ function recommendPlan(answers) {
 
   let beachCandidates = destinations
     .filter((d) => d.category === 'beaches')
-    .sort((a, b) => b.rating - a.rating)
 
   const companionTips = {
     solo: ['Perfect for independent exploration', 'Great hostel & guesthouse options available'],
@@ -322,10 +320,6 @@ export default function TripFinder() {
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent" />
-                        <div className="absolute top-2 right-2 flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs font-semibold">
-                          <FiStar className="text-amber-400" />
-                          {dest.rating}
-                        </div>
                         <div className="absolute bottom-2 left-3 right-3">
                           <h3 className="text-white font-heading font-bold text-sm sm:text-base leading-tight">{dest.name}</h3>
                           <span className="text-white/70 text-xs capitalize">{dest.category}</span>
@@ -348,7 +342,7 @@ export default function TripFinder() {
                     <div>
                       <p className="font-semibold text-slate-900 text-xs">Top Beach Pick</p>
                       <p className="text-slate-700 text-xs mt-0.5">
-                        {plan.beach.name} — <span className="text-slate-500"><FiStar className="inline text-amber-400 -mt-0.5" /> {plan.beach.rating}</span>
+                        {plan.beach.name}
                       </p>
                       <p className="text-[11px] text-slate-500 mt-0.5">{plan.beach.description?.slice(0, 80)}...</p>
                     </div>

@@ -25,6 +25,7 @@ export default function MapLayers({ activeLayers, onToggle }) {
           <button
             key={layer.id}
             onClick={() => onToggle(layer.id)}
+            aria-pressed={active}
             className={`touch-manipulation flex items-center gap-2 w-full px-3 py-2.5 text-xs font-medium transition-all duration-200 cursor-pointer ${
               active
                 ? 'text-slate-800 hover:bg-slate-50'

@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
-import { Link } from 'react-router-dom'
-import { FiArrowRight, FiStar, FiMapPin, FiSun, FiClock, FiDollarSign, FiAward, FiNavigation, FiCalendar } from 'react-icons/fi'
-import { GiFruitTree } from 'react-icons/gi'
+import { Link, useNavigate } from 'react-router-dom'
+import { FiArrowRight, FiMapPin, FiSun, FiClock, FiDollarSign, FiAward, FiNavigation, FiCalendar } from 'react-icons/fi'
+
 import { motion, AnimatePresence } from 'framer-motion'
 import SectionTitle from '../ui/SectionTitle'
 import Badge from '../ui/Badge'
@@ -38,7 +38,20 @@ const tierConfig = {
 }
 
 function SeasonalCard({ dest, i }) {
+  const navigate = useNavigate()
   const tier = tierConfig[dest.tier] || tierConfig.free
+
+  function handleClick(e) {
+    if (e.target.closest('button')) return
+    navigate(`/destinations/${encodeURIComponent(dest.category)}/${dest.id}`)
+  }
+
+  function handleKeyDown(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      navigate(`/destinations/${encodeURIComponent(dest.category)}/${dest.id}`)
+    }
+  }
 
   return (
     <motion.div
@@ -48,105 +61,101 @@ function SeasonalCard({ dest, i }) {
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.5, delay: i * 0.06 }}
       viewport={{ once: true }}
+      onClick={handleClick}
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
+      role="link"
+      className="cursor-pointer h-full"
     >
-      <Link to={`/destinations/${encodeURIComponent(dest.category)}/${dest.id}`} className="block cursor-pointer h-full">
-        <div className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-slate-100 italic h-full flex flex-col">
-          <div className="relative overflow-hidden h-48 sm:h-56">
-            <img
-              src={dest.image}
-              alt={dest.name}
-              loading="lazy"
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent" />
-            <div className="absolute top-3 right-3 flex gap-2">
-              {dest.tier && tier.label && (
-                <Badge variant={tier.badge}>
-                  <FiAward className="text-[10px]" />
-                  {tier.label}
-                </Badge>
-              )}
-              <Badge variant={categoryColors[dest.category]?.badge || 'free'}>
-                {catEmoji[dest.category] || ''} {dest.category}
+      <div className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-slate-100 italic h-full flex flex-col">
+        <div className="relative overflow-hidden h-48 sm:h-56">
+          <img
+            src={dest.image}
+            alt={dest.name}
+            loading="lazy"
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent" />
+          <div className="absolute top-3 right-3 flex gap-2">
+            {dest.tier && tier.label && (
+              <Badge variant={tier.badge}>
+                <FiAward className="text-[10px]" />
+                {tier.label}
               </Badge>
-            </div>
-            <div className="absolute bottom-3 left-4 right-4">
-              <div className="flex items-center gap-1 text-white text-xs mb-1">
-                <FiMapPin className="text-teal-400" />
-                <span className="text-white/80">{dest.location}</span>
-              </div>
-              <h3 className="text-white font-heading font-bold text-lg leading-tight truncate">
-                {dest.name}
-              </h3>
-            </div>
-          </div>
-          <div className="p-4 flex flex-col flex-1">
-            <p className="text-slate-600 text-sm leading-relaxed mb-3 line-clamp-2">
-              {dest.description}
-            </p>
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-500 mb-2">
-              {dest.district && (
-                <span className="flex items-center gap-1 text-slate-400">
-                  <FiMapPin className="text-teal-500" />
-                  {dest.district} District
-                </span>
-              )}
-              {dest.coordinates && (
-                <span className="flex items-center gap-1 text-slate-400">
-                  <FiNavigation className="text-teal-500" />
-                  {distanceFromColombo(dest.coordinates)} km
-                </span>
-              )}
-            </div>
-            <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 mb-3">
-              {dest.rating && (
-                <span className="flex items-center gap-1">
-                  <FiStar className="text-amber-500" />
-                  <span className="font-semibold text-slate-700">{dest.rating}</span>
-                </span>
-              )}
-              {dest.duration && (
-                <span className="flex items-center gap-1">
-                  <FiClock className="text-teal-500" />
-                  {dest.duration}
-                </span>
-              )}
-              {dest.entryFee && (
-                <span className="flex items-center gap-1">
-                  <FiDollarSign className="text-teal-500" />
-                  {dest.entryFee}
-                </span>
-              )}
-              {dest.bestTime && (
-                <span className="flex items-center gap-1 ml-auto text-amber-600">
-                  <FiSun className="text-amber-500" />
-                  {dest.bestTime}
-                </span>
-              )}
-            </div>
-            {dest.coordinates && (
-              <div className="pt-2 border-t border-slate-100 mt-auto">
-                <button
-                  onClick={(e) => {
-                    e.preventDefault()
-                    window.open(`https://www.google.com/maps/dir/?api=1&destination=${dest.coordinates[0]},${dest.coordinates[1]}`, '_blank', 'noopener,noreferrer')
-                  }}
-                  className="inline-flex items-center justify-center gap-2 w-full min-h-[40px] px-4 py-2 rounded-xl bg-gradient-to-r from-teal-500 to-ocean-600 text-white text-sm font-semibold shadow-md shadow-teal-500/20 hover:shadow-teal-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
-                >
-                  <FiNavigation className="text-sm" />
-                  Get Directions
-                </button>
-              </div>
             )}
+            <Badge variant={categoryColors[dest.category]?.badge || 'free'}>
+              {catEmoji[dest.category] || ''} {dest.category}
+            </Badge>
+          </div>
+          <div className="absolute bottom-3 left-4 right-4">
+            <div className="flex items-center gap-1 text-white text-xs mb-1">
+              <FiMapPin className="text-teal-400" />
+              <span className="text-white/80">{dest.location}</span>
+            </div>
+            <h3 className="text-white font-heading font-bold text-lg leading-tight truncate">
+              {dest.name}
+            </h3>
           </div>
         </div>
-      </Link>
+        <div className="p-4 flex flex-col flex-1">
+          <p className="text-slate-600 text-sm leading-relaxed mb-3 line-clamp-2">
+            {dest.description}
+          </p>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-500 mb-2">
+            {dest.district && (
+              <span className="flex items-center gap-1 text-slate-400">
+                <FiMapPin className="text-teal-500" />
+                {dest.district} District
+              </span>
+            )}
+            {dest.coordinates && (
+              <span className="flex items-center gap-1 text-slate-400">
+                <FiNavigation className="text-teal-500" />
+                {distanceFromColombo(dest.coordinates)} km
+              </span>
+            )}
+          </div>
+          <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 mb-3">
+            {dest.duration && (
+              <span className="flex items-center gap-1">
+                <FiClock className="text-teal-500" />
+                {dest.duration}
+              </span>
+            )}
+            {dest.entryFee && (
+              <span className="flex items-center gap-1">
+                <FiDollarSign className="text-teal-500" />
+                {dest.entryFee}
+              </span>
+            )}
+            {dest.bestTime && (
+              <span className="flex items-center gap-1 ml-auto text-amber-600">
+                <FiSun className="text-amber-500" />
+                {dest.bestTime}
+              </span>
+            )}
+          </div>
+          {dest.coordinates && (
+            <div className="pt-2 border-t border-slate-100 mt-auto">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation()
+                  window.open(`https://www.google.com/maps/dir/?api=1&destination=${dest.coordinates[0]},${dest.coordinates[1]}`, '_blank', 'noopener,noreferrer')
+                }}
+                className="inline-flex items-center justify-center gap-2 w-full min-h-[40px] px-4 py-2 rounded-xl bg-gradient-to-r from-teal-500 to-ocean-600 text-white text-sm font-semibold shadow-md shadow-teal-500/20 hover:shadow-teal-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+              >
+                <FiNavigation className="text-sm" />
+                Get Directions
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
     </motion.div>
   )
 }
 
 function SeasonalFoodCard({ food, i }) {
-  const isFruit = food.type === 'fruit'
   return (
     <motion.div
       layout
@@ -200,7 +209,6 @@ function SeasonalFoodCard({ food, i }) {
 
 export default function Featured() {
   const [activeCategory, setActiveCategory] = useState('All')
-  const [showAllFilters, setShowAllFilters] = useState(false)
   const now = new Date()
   const currentMonth = monthName(now.getMonth() + 1)
   const monthLabel = now.toLocaleString('default', { month: 'long' })
@@ -228,12 +236,12 @@ export default function Featured() {
         />
 
         {/* Filter bar */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
-          {popularCategories.slice(0, showAllFilters ? undefined : 5).map((cat) => (
+        <div className="flex gap-2 mb-8 overflow-x-auto scroll-smooth no-scrollbar justify-start lg:flex-wrap lg:justify-center lg:overflow-visible">
+          {popularCategories.map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-4 py-2 rounded-xl text-sm font-bold font-['Poppins'] transition-all duration-300 ${
+              className={`px-4 py-2 rounded-xl text-sm font-bold font-['Poppins'] transition-all duration-300 whitespace-nowrap shrink-0 lg:whitespace-normal lg:shrink ${
                 activeCategory === cat
                   ? 'bg-gradient-to-r from-teal-600 to-teal-500 text-white shadow-lg shadow-teal-500/30 scale-[1.02]'
                   : 'bg-white text-slate-600 border border-slate-200 hover:border-teal-300 hover:text-teal-600 hover:shadow-md hover:-translate-y-0.5'
@@ -243,14 +251,6 @@ export default function Featured() {
               {cat}
             </button>
           ))}
-          {popularCategories.length > 5 && (
-            <button
-              onClick={() => setShowAllFilters(!showAllFilters)}
-              className="px-3 py-2 rounded-xl text-xs font-bold font-['Poppins'] text-slate-400 hover:text-teal-600 transition-colors"
-            >
-              {showAllFilters ? 'Less' : `+${popularCategories.length - 5} more`}
-            </button>
-          )}
         </div>
 
         {/* Places row */}

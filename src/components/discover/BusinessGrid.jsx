@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { FiTrendingUp, FiUsers, FiStar, FiGlobe, FiArrowRight, FiPlus } from 'react-icons/fi'
+import { FiTrendingUp, FiArrowRight, FiPlus } from 'react-icons/fi'
 import BusinessCard from './BusinessCard'
 
 const tierOrder = { premium: 0, featured: 1, free: 2 }
@@ -16,7 +16,7 @@ function CtaCard() {
       className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-slate-100 col-span-1"
     >
       <Link to="/advertise" className="block">
-        <div className="relative h-44 sm:h-48 overflow-hidden">
+        <div className="relative h-52 sm:h-56 overflow-hidden">
           <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url(/images/discover/hero.png)' }} />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
           <div className="absolute inset-0 opacity-[0.06]" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '16px 16px' }} />
@@ -43,22 +43,7 @@ function CtaCard() {
           <p className="text-slate-500 text-sm leading-relaxed mb-4 line-clamp-2">
             Reach thousands of travelers exploring Sri Lanka. Stand out with featured placement and connect with a global audience.
           </p>
-          <div className="flex items-center gap-2 pt-3 border-t border-slate-100">
-            <div className="flex items-center gap-1.5 text-xs text-slate-400">
-              <FiUsers className="text-teal-500" />
-              <span>Monthly reach</span>
-            </div>
-            <span className="text-slate-200">|</span>
-            <div className="flex items-center gap-1.5 text-xs text-slate-400">
-              <FiStar className="text-teal-500" />
-              <span>Premium tiers</span>
-            </div>
-            <span className="text-slate-200">|</span>
-            <div className="flex items-center gap-1.5 text-xs text-slate-400">
-              <FiGlobe className="text-teal-500" />
-              <span>Global audience</span>
-            </div>
-          </div>
+
           <div className="mt-4 flex items-center justify-center gap-2 w-full min-h-[44px] rounded-xl bg-gradient-to-r from-teal-500 to-ocean-600 text-white text-sm font-semibold shadow-md hover:shadow-lg hover:shadow-teal-500/20 transition-all duration-300">
             <span>List Your Business Free</span>
             <FiArrowRight className="group-hover:translate-x-1 transition-transform" />

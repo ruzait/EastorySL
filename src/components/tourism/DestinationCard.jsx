@@ -1,10 +1,12 @@
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { FiMapPin, FiStar, FiClock, FiDollarSign, FiSun, FiAward, FiNavigation } from 'react-icons/fi'
+import { FiMapPin, FiClock, FiDollarSign, FiSun, FiAward, FiNavigation } from 'react-icons/fi'
 import Badge from '../ui/Badge'
 import { distanceFromColombo } from '../../utils/distance'
 
 export default function DestinationCard({ destination, index }) {
+  const navigate = useNavigate()
+
   const categoryColors = {
     religious: { badge: 'featured' },
     historical: { badge: 'premium' },
@@ -21,19 +23,31 @@ export default function DestinationCard({ destination, index }) {
 
   const tier = tierConfig[destination.tier] || tierConfig.free
 
+  function handleCardClick(e) {
+    if (e.target.closest('button')) return
+    navigate(`/destinations/${encodeURIComponent(destination.category)}/${destination.id}`)
+  }
+
+  function handleCardKeyDown(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      navigate(`/destinations/${encodeURIComponent(destination.category)}/${destination.id}`)
+    }
+  }
+
   return (
-    <Link
-      to={`/destinations/${encodeURIComponent(destination.category)}/${destination.id}`}
-      className="block cursor-pointer"
-    >
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-slate-100 italic"
+      onClick={handleCardClick}
+      onKeyDown={handleCardKeyDown}
+      tabIndex={0}
+      role="link"
+      className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-slate-100 italic cursor-pointer"
     >
-      <div className={`relative overflow-hidden ${destination.tier === 'premium' ? 'h-56 sm:h-64' : 'h-48 sm:h-56'}`}>
+      <div className="relative overflow-hidden h-48 sm:h-56">
         <img
           src={destination.image}
           alt={destination.name}
@@ -63,7 +77,7 @@ export default function DestinationCard({ destination, index }) {
         </div>
       </div>
       <div className="p-5">
-        <p className="text-slate-600 text-sm leading-relaxed mb-4 line-clamp-2">
+        <p className="text-slate-600 text-sm leading-relaxed mb-4 truncate">
           {destination.description}
         </p>
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-500 mb-3">
@@ -81,12 +95,6 @@ export default function DestinationCard({ destination, index }) {
           )}
         </div>
         <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 mb-4">
-          {destination.rating && (
-            <span className="flex items-center gap-1">
-              <FiStar className="text-amber-500" />
-              <span className="font-semibold text-slate-700">{destination.rating}</span>
-            </span>
-          )}
           {destination.duration && (
             <span className="flex items-center gap-1">
               <FiClock className="text-teal-500" />
@@ -110,20 +118,20 @@ export default function DestinationCard({ destination, index }) {
               </div>
             )}
             {destination.coordinates && (
-              <a
-                href={`https://www.google.com/maps/dir/?api=1&destination=${destination.coordinates[0]},${destination.coordinates[1]}`}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                onClick={(e) => {
+                  e.stopPropagation()
+                  window.open(`https://www.google.com/maps/dir/?api=1&destination=${destination.coordinates[0]},${destination.coordinates[1]}`, '_blank', 'noopener,noreferrer')
+                }}
                 className="inline-flex items-center justify-center gap-2 w-full min-h-[48px] px-4 py-2.5 rounded-xl bg-gradient-to-r from-teal-500 to-ocean-600 text-white text-sm font-semibold shadow-lg shadow-teal-500/20 hover:shadow-teal-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
               >
                 <FiNavigation className="text-sm" />
                 Get Directions
-              </a>
+              </button>
             )}
           </div>
         )}
       </div>
     </motion.div>
-    </Link>
   )
 }

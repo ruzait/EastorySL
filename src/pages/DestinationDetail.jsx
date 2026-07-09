@@ -1,5 +1,5 @@
 import { useParams, Link } from 'react-router-dom'
-import { FiArrowLeft, FiMapPin, FiStar, FiClock, FiDollarSign, FiSun, FiNavigation, FiAward } from 'react-icons/fi'
+import { FiArrowLeft, FiMapPin, FiClock, FiDollarSign, FiSun, FiNavigation, FiAward } from 'react-icons/fi'
 import { motion } from 'framer-motion'
 import { destinations } from '../data/destinations'
 import { distanceFromColombo } from '../utils/distance'
@@ -50,7 +50,6 @@ export default function DestinationDetail() {
     image: item.image,
     url: `${import.meta.env.VITE_SITE_URL || 'https://eastorysl.netlify.app'}/destinations/${category}/${id}`,
     ...(item.location && { address: { '@type': 'PostalAddress', addressLocality: item.location, addressRegion: item.district } }),
-    ...(item.rating && { aggregateRating: { '@type': 'AggregateRating', ratingValue: item.rating, bestRating: 5 } }),
     ...(item.coordinates && { geo: { '@type': 'GeoCoordinates', latitude: item.coordinates[0], longitude: item.coordinates[1] } }),
   } : null
 
@@ -58,7 +57,7 @@ export default function DestinationDetail() {
     <div>
       <SEO
         title={item.name}
-        description={`${item.description} Located in ${item.location || item.district || 'Sri Lanka'}. ${item.rating ? 'Rating: ' + item.rating + '/5' : ''}`}
+        description={`${item.description} Located in ${item.location || item.district || 'Sri Lanka'}.`}
         ogImage={item.image}
         ogUrl={`${import.meta.env.VITE_SITE_URL || 'https://eastorysl.netlify.app'}/destinations/${category}/${id}`}
         keywords={`${item.name}, ${meta.label}, ${item.location || ''}, ${item.district || ''}, Sri Lanka travel, Eastern Sri Lanka`}
@@ -121,13 +120,6 @@ export default function DestinationDetail() {
               >
                 <h2 className="text-xl font-heading font-bold text-slate-900 mb-4">Quick Info</h2>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                  {item.rating && (
-                    <div className="bg-slate-50 rounded-xl p-4 text-center">
-                      <FiStar className="text-amber-500 text-xl mx-auto mb-1" />
-                      <div className="text-lg font-bold text-slate-800">{item.rating}</div>
-                      <div className="text-xs text-slate-500">Rating</div>
-                    </div>
-                  )}
                   {item.duration && (
                     <div className="bg-slate-50 rounded-xl p-4 text-center">
                       <FiClock className="text-teal-500 text-xl mx-auto mb-1" />

@@ -11,7 +11,8 @@ export function isInSeason(bestTime, month) {
   if (m === -1) return false
 
   const ranges = bestTime.split(',').map(s => s.trim())
-  for (const range of ranges) {
+  for (let range of ranges) {
+    range = range.replace(/\s*\([^)]*\)/g, '').trim()
     if (/^[A-Z][a-z]{2}-[A-Z][a-z]{2}$/.test(range)) {
       const [start, end] = range.split('-').map(s => monthNames.indexOf(s))
       if (start <= end) {
@@ -30,11 +31,11 @@ export function getSeasonalDestinations(destinations, month, category = 'All') {
   if (category !== 'All') {
     filtered = filtered.filter(d => d.category === category.toLowerCase().replace(/\s+/g, '-'))
   }
-  return filtered.sort((a, b) => (b.rating || 0) - (a.rating || 0))
+  return filtered
 }
 
 export function getSeasonalFoods(items, month) {
   return items
     .filter(d => d.category === 'seasonal-foods' && isInSeason(d.seasonMonths, month))
-    .sort((a, b) => (a.type === 'fruit' ? -1 : 1))
+    .sort((a, _b) => (a.type === 'fruit' ? -1 : 1))
 }

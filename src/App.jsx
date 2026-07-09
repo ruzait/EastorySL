@@ -26,6 +26,9 @@ export default function App() {
           <Route path="destinations/:category/:id" element={<DestinationDetail />} />
           <Route path="gallery" element={<Gallery />} />
           <Route path="advertise" element={<Advertise />} />
+          <Route path="privacy-policy" element={<div className="section-padding container-custom"><h1 className="text-2xl font-bold">Privacy Policy</h1><p className="mt-4 text-slate-600">Page under construction.</p></div>} />
+          <Route path="terms-of-service" element={<div className="section-padding container-custom"><h1 className="text-2xl font-bold">Terms of Service</h1><p className="mt-4 text-slate-600">Page under construction.</p></div>} />
+          <Route path="*" element={<div className="section-padding container-custom text-center"><h1 className="text-4xl font-bold text-slate-900">404</h1><p className="mt-2 text-slate-500">Page not found.</p></div>} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-cluster'
 import * as L from 'leaflet'
 import { Link } from 'react-router-dom'
-import { FiStar, FiMapPin, FiArrowRight, FiNavigation } from 'react-icons/fi'
+import { FiMapPin, FiArrowRight, FiNavigation } from 'react-icons/fi'
 import 'leaflet.markercluster/dist/MarkerCluster.css'
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
 
@@ -46,9 +46,9 @@ function createMarkerIcon(icon, isSelected = false, name = '') {
 }
 
 function getDetailPath(item) {
-  if (item.type) return '/discover-more'
-  if (item.period) return '/sri-lanka-pride'
-  return '/destinations'
+  if (item._source === 'destinations') return `/destinations/${encodeURIComponent(item.category)}/${item.id}`
+  if (item._source === 'pride') return `/sri-lanka-pride/${encodeURIComponent(item.category)}/${item.id}`
+  return '/discover-more'
 }
 
 function getCategoryLabel(item) {
@@ -182,12 +182,6 @@ function MapContent({ filteredData, onSelectItem, flyToCoord, selectedItem, user
                     <h3 className="font-heading font-bold text-xs text-slate-900 leading-tight">
                       {item.name}
                     </h3>
-                    {item.rating && (
-                      <span className="flex items-center gap-1 text-[10px] text-amber-500 shrink-0">
-                        <FiStar className="fill-current" />
-                        {item.rating}
-                      </span>
-                    )}
                   </div>
                   <p className="text-[10px] text-slate-500 leading-relaxed line-clamp-2">
                     {item.description}
