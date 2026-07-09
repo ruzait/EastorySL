@@ -14,8 +14,8 @@ export default function Hero() {
   return (
     <>
       <section className="relative min-h-screen flex items-center overflow-hidden">
-      <div className="absolute inset-0 bg-cover bg-no-repeat bg-center max-[768px]:bg-[right_top]" style={{ backgroundImage: 'url(/images/home/hero.png)' }} />
-      <img src="/images/home/hero.png" alt="Sri Lanka travel hero" className="sr-only" />
+      <div className="absolute inset-0 bg-cover bg-no-repeat bg-center max-[768px]:bg-[right_top]" style={{ backgroundImage: 'url(/images/home/hero_ins.png)' }} />
+      <img src="/images/home/hero_ins.png" alt="Sri Lanka travel hero" className="sr-only" />
       <div className="absolute inset-0 bg-gradient-to-r from-slate-900/80 via-slate-900/40 to-transparent" />
       <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-slate-900/20" />
 
