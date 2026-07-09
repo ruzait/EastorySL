@@ -1,6 +1,6 @@
-import { useState, useMemo, useCallback } from 'react'
+import { useState, useMemo, useCallback, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FiMap, FiList } from 'react-icons/fi'
+import { FiMap, FiList, FiNavigation } from 'react-icons/fi'
 import MapView from '../components/map/MapView'
 import MapLayers from '../components/map/MapLayers'
 import SEO from '../components/seo/SEO'
@@ -29,6 +29,9 @@ export default function Map() {
   const [showLayers, setShowLayers] = useState(true)
   const [showList, setShowList] = useState(true)
   const [activeCategory, setActiveCategory] = useState(null)
+  const [userLocation, setUserLocation] = useState(null)
+  const [isLocating, setIsLocating] = useState(false)
+  const [locateError, setLocateError] = useState(null)
 
   const filteredData = useMemo(() => {
     let data = ALL_DATA.filter((item) => {
@@ -89,6 +92,46 @@ export default function Map() {
     setSelectedItem(null)
   }, [])
 
+  const fetchLocation = useCallback((flyTo) => {
+    if (!navigator.geolocation) {
+      setLocateError('Geolocation is not supported by your browser')
+      return
+    }
+    setIsLocating(true)
+    setLocateError(null)
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const coord = [pos.coords.latitude, pos.coords.longitude]
+        setUserLocation(coord)
+        if (flyTo) setFlyToCoord(coord)
+        setIsLocating(false)
+        setLocateError(null)
+      },
+      (err) => {
+        setIsLocating(false)
+        setLocateError(
+          err.code === 1 ? 'Location access denied. Please enable location permissions.'
+          : err.code === 2 ? 'Location unavailable. Try again.'
+          : 'Location request timed out. Try again.'
+        )
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+    )
+  }, [])
+
+  const hasAutoLocated = useRef(false)
+
+  useEffect(() => {
+    if (!hasAutoLocated.current) {
+      hasAutoLocated.current = true
+      fetchLocation(false)
+    }
+  }, []) // eslint-disable-line
+
+  const handleLocate = useCallback(() => {
+    fetchLocation(true)
+  }, [fetchLocation])
+
   return (
     <div className="h-full relative">
       <SEO
@@ -130,6 +173,7 @@ export default function Map() {
             onSelectItem={handleSelectItem}
             flyToCoord={flyToCoord}
             selectedItem={selectedItem}
+            userLocation={userLocation}
           />
         </div>
 
@@ -152,14 +196,35 @@ export default function Map() {
       </div>
 
         {!selectedItem && (
-        <div className="fixed md:top-24 top-20 right-4 z-50 flex-col gap-2 items-end">
-          <button
-            onClick={() => setShowLayers(!showLayers)}
-            className="touch-manipulation w-10 h-10 rounded-xl bg-white/90 backdrop-blur-xl shadow-lg border border-white/30 flex items-center justify-center text-slate-500 hover:text-teal-600 hover:bg-white transition-all duration-200"
-            title="Toggle layers"
-          >
-            <FiMap className="text-sm" />
-          </button>
+        <div className="fixed md:top-24 top-20 right-4 z-50 flex flex-col gap-2 items-end">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleLocate}
+              disabled={isLocating}
+              className={`touch-manipulation w-10 h-10 rounded-xl bg-white/90 backdrop-blur-xl shadow-lg border border-white/30 flex items-center justify-center transition-all duration-200 ${
+                locateError
+                  ? 'text-red-400 hover:text-red-500 border-red-200'
+                  : userLocation
+                    ? 'text-teal-600 bg-teal-50 border-teal-200'
+                    : 'text-slate-500 hover:text-teal-600 hover:bg-white'
+              }`}
+              title={isLocating ? 'Locating...' : 'Show my location'}
+            >
+              <FiNavigation className={`text-sm ${isLocating ? 'animate-spin' : ''}`} />
+            </button>
+            <button
+              onClick={() => setShowLayers(!showLayers)}
+              className="touch-manipulation w-10 h-10 rounded-xl bg-white/90 backdrop-blur-xl shadow-lg border border-white/30 flex items-center justify-center text-slate-500 hover:text-teal-600 hover:bg-white transition-all duration-200"
+              title="Toggle layers"
+            >
+              <FiMap className="text-sm" />
+            </button>
+          </div>
+          {locateError && (
+            <div className="w-56 p-2.5 bg-red-50 border border-red-200 rounded-lg shadow-lg">
+              <p className="text-xs text-red-700">{locateError}</p>
+            </div>
+          )}
           {showLayers && (
             <MapLayers activeLayers={activeLayers} onToggle={handleToggleLayer} />
           )}

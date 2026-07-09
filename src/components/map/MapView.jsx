@@ -60,7 +60,38 @@ function getCategoryLabel(item) {
 }
 
 
-function MapContent({ filteredData, onSelectItem, flyToCoord, selectedItem }) {
+const userLocationIcon = L.divIcon({
+  className: '',
+  html: `
+    <svg width="22" height="30" viewBox="0 0 22 30" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 1px 4px rgba(0,0,0,0.3));">
+      <path d="M11 0C4.94 0 0 4.94 0 11c0 8.25 11 19.25 11 19.25S22 19.25 22 11C22 4.94 17.06 0 11 0z" fill="#EA4335"/>
+      <circle cx="11" cy="11" r="5.5" fill="white"/>
+      <circle cx="11" cy="11" r="4" fill="#EA4335"/>
+    </svg>
+  `,
+  iconSize: [22, 30],
+  iconAnchor: [11, 30],
+  popupAnchor: [0, -30],
+})
+
+function UserLocationMarker({ position }) {
+  const map = useMap()
+
+  useEffect(() => {
+    if (!position) return
+
+    const marker = L.marker(position, { icon: userLocationIcon })
+    marker.addTo(map)
+
+    return () => {
+      map.removeLayer(marker)
+    }
+  }, [map, position])
+
+  return null
+}
+
+function MapContent({ filteredData, onSelectItem, flyToCoord, selectedItem, userLocation }) {
   const map = useMap()
   const markerRefs = useRef({})
   const prevFlyTo = useRef(null)
@@ -108,6 +139,8 @@ function MapContent({ filteredData, onSelectItem, flyToCoord, selectedItem }) {
   }, [map, filteredData, flyToCoord])
 
   return (
+    <>
+      {userLocation && <UserLocationMarker position={userLocation} />}
     <MarkerClusterGroup chunkedLoading maxClusterRadius={50}>
       {filteredData.filter((d) => d.coordinates?.length === 2).map((item) => {
         const isSelected = selectedItem?.id === item.id
@@ -170,15 +203,13 @@ function MapContent({ filteredData, onSelectItem, flyToCoord, selectedItem }) {
                       <FiArrowRight className="text-[10px]" />
                     </Link>
                     {item.coordinates && (
-                      <a
-                        href={`https://www.google.com/maps/dir/?api=1&destination=${item.coordinates[0]},${item.coordinates[1]}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-1 px-2 min-h-[44px] text-[10px] font-semibold text-slate-600 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 transition-all duration-200"
+                      <button
+                        onClick={() => window.open(`https://www.google.com/maps/dir/?api=1&destination=${item.coordinates[0]},${item.coordinates[1]}`, '_blank', 'noopener')}
+                        className="flex items-center justify-center gap-1 px-2 min-h-[44px] text-[10px] font-semibold text-slate-600 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 transition-all duration-200 cursor-pointer"
                       >
                         <FiNavigation className="text-[10px]" />
                         Directions
-                      </a>
+                      </button>
                     )}
                   </div>
                 </div>
@@ -188,10 +219,11 @@ function MapContent({ filteredData, onSelectItem, flyToCoord, selectedItem }) {
         )
       })}
     </MarkerClusterGroup>
+    </>
   )
 }
 
-export default function MapView({ filteredData, onSelectItem, flyToCoord, selectedItem }) {
+export default function MapView({ filteredData, onSelectItem, flyToCoord, selectedItem, userLocation }) {
   return (
     <MapContainer
       center={[8.0, 81.0]}
@@ -205,7 +237,7 @@ export default function MapView({ filteredData, onSelectItem, flyToCoord, select
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
         url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
       />
-      <MapContent filteredData={filteredData} onSelectItem={onSelectItem} flyToCoord={flyToCoord} selectedItem={selectedItem} />
+      <MapContent filteredData={filteredData} onSelectItem={onSelectItem} flyToCoord={flyToCoord} selectedItem={selectedItem} userLocation={userLocation} />
     </MapContainer>
   )
 }
