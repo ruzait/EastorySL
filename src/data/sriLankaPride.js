@@ -1,118 +1,24 @@
 export const prideItems = [
   {
-    "id": "ak-anuradhapura",
-    "name": "Kingdom of Anuradhapura",
-    "category": "ancient-kingdoms",
-    "description": "Sri Lanka's first great capital, ruling for over a millennium with monumental dagobas and advanced irrigation works.",
-    "detail": "Discover the rich heritage and fascinating story behind this landmark, a true gem of Sri Lankan culture.",
-    "image": "https://placehold.co/800x600?text=Kingdom%20of%20Anuradhapura",
-    "period": "377 BCE - 1017 CE",
-    "location": "Anuradhapura",
-    "coordinates": [
-      8.3114,
-      80.4037
-    ]
+    id: 'ak-anuradhapura',
+    name: 'Kingdom of Anuradhapura',
+    category: 'ancient-kingdoms',
+    description: "The first and longest-serving capital of ancient Sri Lanka, renowned for its sacred Buddhist heritage, colossal stupas, royal ruins, and remarkable ancient irrigation systems.",
+    detail: `<section class="destination-content"><h2>Overview</h2><p>The Kingdom of Anuradhapura was the first capital of ancient Sri Lanka and one of the world's oldest continuously inhabited cities. Flourishing from 377 BCE to 1017 CE, it became the heart of Sinhalese civilization and Theravada Buddhism. The kingdom is celebrated for its magnificent stupas, royal palaces, monasteries, and sophisticated irrigation systems that transformed the dry zone into a thriving agricultural region.</p><h2>Why Visit Anuradhapura?</h2><ul><li>UNESCO World Heritage Site</li><li>Home to the sacred Sri Maha Bodhi Tree</li><li>Explore colossal ancient stupas</li><li>Discover royal palaces and monasteries</li><li>Marvel at advanced ancient reservoirs and canals</li><li>Experience one of Buddhism's holiest pilgrimage sites</li><li>Rich archaeological and cultural heritage</li></ul><h2>Top Attractions</h2><ul><li>Sri Maha Bodhi</li><li>Ruwanwelisaya</li><li>Jetavanaramaya</li><li>Abhayagiri Monastery</li><li>Thuparamaya</li><li>Lovamahapaya (Brazen Palace)</li><li>Isurumuniya Temple</li><li>Twin Ponds (Kuttam Pokuna)</li><li>Samadhi Buddha Statue</li><li>Tissa Wewa Reservoir</li></ul><h2>Things to Do</h2><ul><li>🛕 Visit sacred Buddhist temples</li><li>🚶 Explore ancient ruins and monasteries</li><li>📸 Photograph monumental stupas</li><li>🚴 Cycle around the archaeological city</li><li>🌳 Worship at the Sri Maha Bodhi Tree</li><li>🏛️ Learn about Sri Lanka's ancient civilization</li><li>🌅 Enjoy sunrise or sunset at the sacred sites</li></ul><h2>Best Time to Visit</h2><table><thead><tr><th>Season</th><th>Months</th><th>Activities</th></tr></thead><tbody><tr><td>Dry Season</td><td>May – September</td><td>Sightseeing and exploring archaeological sites</td></tr><tr><td>Cool Season</td><td>December – February</td><td>Pilgrimages and comfortable daytime visits</td></tr><tr><td>Festival Season</td><td>May – June</td><td>Religious festivals and cultural celebrations</td></tr></tbody></table><h2>Historical Significance</h2><p>Anuradhapura served as Sri Lanka's capital for nearly 1,400 years and was a major center of Theravada Buddhism after the arrival of Arahat Mahinda and the Sacred Sri Maha Bodhi sapling. Its kings constructed enormous stupas, sophisticated reservoirs, and intricate irrigation systems that remain engineering marvels today.</p><h2>Facilities</h2><ul><li>UNESCO archaeological park</li><li>Museums and visitor centers</li><li>Licensed tourist guides</li><li>Hotels and guesthouses</li><li>Restaurants and cafés</li><li>Parking facilities</li><li>Bicycle rentals</li><li>Public restrooms</li><li>Souvenir shops</li><li>Easy road and rail access</li></ul></section>`,
+    image: 'https://raw.githubusercontent.com/eastorysl/storyimages/main/pride/KingdomofAnuradhapura.png',
+    period: '377 BCE - 1017 CE',
+    location: 'Anuradhapura',
+    coordinates: [8.3114, 80.4037],
   },
   {
-    "id": "cg-dambulla",
-    "name": "Dambulla Cave Temple",
-    "category": "caves-geological-wonders",
-    "description": "Vast cave complex of Buddhist murals and statues carved into a granite outcrop over 2,000 years old.",
-    "detail": "Discover the rich heritage and fascinating story behind this landmark, a true gem of Sri Lankan culture.",
-    "image": "https://placehold.co/800x600?text=Dambulla%20Cave%20Temple",
-    "location": "Dambulla",
-    "district": "Matale",
-    "coordinates": [
-      7.8567,
-      80.6489
-    ]
-  },
-  {
-    "id": "mg-nationalmuseum",
-    "name": "National Museum of Colombo",
-    "category": "museums-galleries",
-    "description": "Sri Lanka's largest museum, housing royal regalia, ancient sculpture and archaeological treasures.",
-    "detail": "Discover the rich heritage and fascinating story behind this landmark, a true gem of Sri Lankan culture.",
-    "image": "https://placehold.co/800x600?text=National%20Museum%20of%20Colombo",
-    "location": "Colombo",
-    "district": "Colombo",
-    "coordinates": [
-      6.9106,
-      79.8619
-    ]
-  },
-  {
-    "id": "cu-colombo",
-    "name": "Colombo",
-    "category": "cities-urban",
-    "description": "Sri Lanka's commercial capital, blending colonial architecture with modern skyscrapers and buzzing markets.",
-    "detail": "Discover the rich heritage and fascinating story behind this landmark, a true gem of Sri Lankan culture.",
-    "image": "https://placehold.co/800x600?text=Colombo",
-    "location": "Colombo",
-    "district": "Colombo",
-    "coordinates": [
-      6.9271,
-      79.8612
-    ]
-  },
-  {
-    "id": "fc-kottu",
-    "name": "Kottu Roti",
-    "category": "food-culinary",
-    "description": "Chopped roti stir-fried with vegetables, egg, meat and spices, cooked to a signature clanging rhythm.",
-    "detail": "Discover the rich heritage and fascinating story behind this landmark, a true gem of Sri Lankan culture.",
-    "image": "https://placehold.co/800x600?text=Kottu%20Roti",
-    "origin": "Island-wide, Batticaloa influence",
-    "spiceLevel": 3
-  },
-  {
-    "id": "ts-nuwaraeliya",
-    "name": "Nuwara Eliya Tea Country",
-    "category": "tea-spice-trails",
-    "description": "High-grown tea estates around Sri Lanka's coolest hill town, producing some of the world's finest black tea.",
-    "detail": "Discover the rich heritage and fascinating story behind this landmark, a true gem of Sri Lankan culture.",
-    "image": "https://placehold.co/800x600?text=Nuwara%20Eliya%20Tea%20Country",
-    "location": "Nuwara Eliya",
-    "district": "Nuwara Eliya",
-    "coordinates": [
-      6.9497,
-      80.7891
-    ]
-  },
-  {
-    "id": "rt-coastalhighway",
-    "name": "Southern Coastal Highway",
-    "category": "road-trip-routes",
-    "description": "Palm-fringed coastal drive linking beach towns, fishing villages and colonial forts along the south.",
-    "detail": "Discover the rich heritage and fascinating story behind this landmark, a true gem of Sri Lankan culture.",
-    "image": "https://placehold.co/800x600?text=Southern%20Coastal%20Highway",
-    "duration": "2-3 days",
-    "stops": 6,
-    "coordinates": [
-      6.0269,
-      80.217
-    ]
-  },
-  {
-    "id": "fp-dharmapala",
-    "name": "Anagarika Dharmapala",
-    "category": "famous-people",
-    "subCategory": "national-heroes",
-    "description": "Buddhist revivalist and independence-era activist who championed Sri Lankan national identity.",
-    "detail": "Discover the rich heritage and fascinating story behind this landmark, a true gem of Sri Lankan culture.",
-    "image": "https://placehold.co/400x400?text=Anagarika%20Dharmapala",
-    "birthYear": 1864,
-    "birthPlace": "Colombo"
-  },
-  {
-    "id": "sf-mango",
-    "name": "Mango (Mee)",
-    "category": "seasonal-foods",
-    "description": "Sweet, golden-yellow king of Sri Lankan fruits at its peak during the dry season.",
-    "image": "https://placehold.co/800x600?text=Seasonal%20Mango",
-    "seasonMonths": "Apr-Jul",
-    "seasonName": "Yala (Southwest Monsoon)",
-    "origin": "Jaffna, Batticaloa, Polonnaruwa",
-    "type": "fruit"
+    id: 'ak-polonnaruwa',
+    name: 'Kingdom of Polonnaruwa',
+    category: 'ancient-kingdoms',
+    description: 'The medieval capital of Sri Lanka, celebrated for its magnificent stone temples, royal palaces, massive reservoirs, and remarkable achievements under King Parakramabahu I.',
+    detail: `<section class='destination-content'><h2>Overview</h2><p>The Kingdom of Polonnaruwa was the second major capital of ancient Sri Lanka, flourishing between the 11th and 13th centuries. Reaching its golden age under King Parakramabahu I, the kingdom became renowned for its advanced irrigation systems, magnificent palaces, sacred Buddhist monuments, and impressive stone architecture. Today, Polonnaruwa is one of Sri Lanka's best-preserved archaeological cities and a UNESCO World Heritage Site.</p><h2>Why Visit Polonnaruwa?</h2><ul><li>UNESCO World Heritage Site</li><li>Explore remarkably preserved ancient ruins</li><li>Visit monumental Buddhist temples and shrines</li><li>Discover royal palaces and audience halls</li><li>Witness the engineering marvel of Parakrama Samudraya</li><li>Experience Sri Lanka's medieval royal capital</li><li>Ideal destination for history and culture enthusiasts</li></ul><h2>Top Attractions</h2><ul><li>Royal Palace of King Parakramabahu I</li><li>Gal Vihara</li><li>Parakrama Samudraya</li><li>Vatadage</li><li>Rankoth Vehera</li><li>Lankatilaka Image House</li><li>Thuparama Image House</li><li>Nissanka Latha Mandapaya</li><li>Council Chamber</li><li>Pabalu Vehera</li></ul><h2>Things to Do</h2><ul><li>🚴 Cycle through the archaeological park</li><li>🏛️ Explore ancient palaces and temples</li><li>📸 Photograph the famous Gal Vihara Buddha statues</li><li>🛕 Visit sacred Buddhist monuments</li><li>🌅 Enjoy scenic views of Parakrama Samudraya</li><li>📖 Learn about Sri Lanka's medieval history</li><li>🎧 Join a guided archaeological tour</li></ul><h2>Best Time to Visit</h2><table><thead><tr><th>Season</th><th>Months</th><th>Activities</th></tr></thead><tbody><tr><td>Dry Season</td><td>May – September</td><td>Comfortable sightseeing and cycling</td></tr><tr><td>Cool Season</td><td>December – February</td><td>Temple visits and archaeological exploration</td></tr><tr><td>Peak Tourist Season</td><td>December – April</td><td>Historical tours and cultural experiences</td></tr></tbody></table><h2>Historical Significance</h2><p>Following the decline of Anuradhapura, Polonnaruwa became Sri Lanka's capital and reached its greatest prosperity under King Parakramabahu I (1153–1186 CE). The king constructed the vast Parakrama Samudraya reservoir and numerous temples, palaces, and public buildings, leaving behind one of Asia's finest examples of medieval urban planning and hydraulic engineering.</p><h2>Facilities</h2><ul><li>UNESCO archaeological park</li><li>Museums and visitor center</li><li>Licensed tourist guides</li><li>Bicycle rental services</li><li>Hotels and guesthouses</li><li>Restaurants and cafés</li><li>Parking facilities</li><li>Public restrooms</li><li>Souvenir shops</li><li>Easy road access</li></ul></section>`,
+    image: 'https://github.com/eastorysl/storyimages/blob/main/pride/KingdomofPolonnaruwa.jpg?raw=true',
+    period: '1055 - 1212 CE',
+    location: 'Polonnaruwa',
+    coordinates: [7.9403, 81.0188],
   }
 ]

@@ -109,6 +109,46 @@
   }
 }
 
+.destination-content {
+  font-style: normal;
+}
+
+.destination-content h2 {
+  @apply text-xl font-heading font-bold text-slate-900 mt-6 mb-3;
+}
+
+.destination-content a {
+  @apply text-teal-600 underline hover:text-teal-700;
+}
+
+.destination-content h2:first-child {
+  @apply mt-0;
+}
+
+.destination-content p {
+  @apply text-slate-600 leading-relaxed mb-4;
+}
+
+.destination-content ul {
+  @apply list-disc list-inside space-y-1.5 text-slate-600 mb-4;
+}
+
+.destination-content table {
+  @apply w-full text-sm border-collapse mb-4;
+}
+
+.destination-content th {
+  @apply bg-teal-50 text-slate-800 font-heading font-semibold px-4 py-2.5 text-left border border-slate-200;
+}
+
+.destination-content td {
+  @apply px-4 py-2.5 border border-slate-200 text-slate-600;
+}
+
+.destination-content tr:nth-child(even) td {
+  @apply bg-slate-50;
+}
+
 .leaflet-container {
   height: 100%;
   width: 100%;

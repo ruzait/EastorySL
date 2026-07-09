@@ -1,324 +1,36 @@
 export const destinations = [
   {
-    "id": "beach-mirissa",
-    "name": "Mirissa Beach",
-    "location": "Mirissa",
-    "district": "Matara",
-    "category": "beaches",
-    "tier": "premium",
-    "description": "Crescent-shaped beach famous for whale watching boat trips and palm-lined shores.",
-    "detail": "Plan your visit to this remarkable destination and explore its natural beauty, cultural significance, and the unique experiences it offers to every traveler who sets foot here.",
-    "image": "https://placehold.co/800x600?text=Mirissa%20Beach",
-    "bestTime": "Nov-Apr",
-    "entryFee": "Free",
-    "duration": "2-4 hours",
-    "coordinates": [
-      5.9483,
-      80.4589
-    ]
+    id: "beach-mirissa",
+    name: "Mirissa Beach",
+    location: "Mirissa",
+    district: "Matara",
+    category: "beaches",
+    tier: "premium",
+    description:
+      "A picturesque crescent-shaped beach renowned for golden sands, turquoise waters, blue whale watching, surfing, and spectacular tropical sunsets.",
+    detail:
+      "<section class='destination-content'><h2>Overview</h2><p>Mirissa Beach is one of Sri Lanka's most famous tropical beach destinations, renowned for its golden sandy shoreline, crystal-clear turquoise waters, swaying coconut palms, and breathtaking sunsets. It is an ideal destination for relaxation, adventure, and marine wildlife experiences.</p><h2>Why Visit Mirissa?</h2><ul><li>Beautiful crescent-shaped beach</li><li>World-famous blue whale watching</li><li>Excellent surfing conditions</li><li>Scenic viewpoints</li><li>Fresh seafood restaurants</li><li>Vibrant nightlife</li><li>Relaxed tropical atmosphere</li></ul><h2>Top Attractions</h2><ul><li>Mirissa Beach</li><li>Parrot Rock</li><li>Coconut Tree Hill</li><li>Secret Beach</li><li>Mirissa Fisheries Harbor</li><li>Nearby Weligama and Galle</li></ul><h2>Things to Do</h2><ul><li>🐋 Whale and dolphin watching</li><li>🏄 Surfing</li><li>🤿 Snorkeling</li><li>🏊 Swimming</li><li>🚤 Boat tours</li><li>🌅 Sunset photography</li><li>🍤 Enjoy fresh seafood</li><li>🚶 Beach walks</li><li>📸 Visit Coconut Tree Hill and Parrot Rock for panoramic views</li></ul><h2>Best Time to Visit</h2><table><thead><tr><th>Season</th><th>Months</th><th>Activities</th></tr></thead><tbody><tr><td>Dry Season</td><td>November – April</td><td>Swimming, whale watching, beach activities</td></tr><tr><td>Surf Season</td><td>April – October</td><td>Surfing</td></tr><tr><td>Peak Whale Watching</td><td>December – April</td><td>Blue whales and dolphins</td></tr></tbody></table><h2>Marine Wildlife</h2><p>Mirissa is internationally recognized as one of the best places to see magnificent marine wildlife in its natural habitat.</p><ul><li>Blue Whales</li><li>Sperm Whales</li><li>Spinner Dolphins</li><li>Sea Turtles</li><li>Flying Fish (occasionally)</li></ul><h2>Facilities</h2><ul><li>Luxury resorts</li><li>Boutique hotels</li><li>Budget guesthouses</li><li>Beach cafés</li><li>Seafood restaurants</li><li>Surf schools</li><li>Diving centers</li><li>ATM facilities</li><li>Tuk-tuks and taxis</li><li>Free public beach access</li></ul></section>",
+    image: "https://raw.githubusercontent.com/eastorysl/storyimages/main/destination/MirissaBeach.jpg",
+    bestTime: "Nov-Apr",
+    entryFee: "Free",
+    duration: "3–5 hours",
+    coordinates: [5.9483, 80.4589],
   },
   {
-    "id": "nat-sinharaja",
-    "name": "Sinharaja Forest Reserve",
-    "location": "Sinharaja",
-    "district": "Ratnapura",
-    "category": "nature",
-    "tier": "premium",
-    "description": "UNESCO rainforest biosphere reserve with rich endemic flora and fauna.",
-    "detail": "Plan your visit to this remarkable destination and explore its natural beauty, cultural significance, and the unique experiences it offers to every traveler who sets foot here.",
-    "image": "https://placehold.co/800x600?text=Sinharaja%20Forest%20Reserve",
-    "bestTime": "Jan-Mar, Aug-Sep",
-    "entryFee": "Paid",
-    "duration": "4-6 hours",
-    "coordinates": [
-      6.4064,
-      80.4922
-    ]
-  },
-  {
-    "id": "wf-diyaluma",
-    "name": "Diyaluma Falls",
-    "location": "Koslanda",
-    "district": "Badulla",
-    "category": "waterfalls",
-    "tier": "premium",
-    "description": "Sri Lanka's second-tallest waterfall, with natural infinity pools at the top.",
-    "detail": "Plan your visit to this remarkable destination and explore its natural beauty, cultural significance, and the unique experiences it offers to every traveler who sets foot here.",
-    "image": "https://placehold.co/800x600?text=Diyaluma%20Falls",
-    "bestTime": "Year-round",
-    "entryFee": "Free",
-    "duration": "2-3 hours",
-    "coordinates": [
-      6.7333,
-      81.0333
-    ]
-  },
-  {
-    "id": "mtn-adamspeak",
-    "name": "Adam's Peak (Sri Pada)",
-    "location": "Ratnapura",
-    "district": "Ratnapura",
-    "category": "mountains",
-    "tier": "premium",
-    "description": "Sacred conical peak climbed overnight to watch sunrise from the summit.",
-    "detail": "Plan your visit to this remarkable destination and explore its natural beauty, cultural significance, and the unique experiences it offers to every traveler who sets foot here.",
-    "image": "https://placehold.co/800x600?text=Adam%27s%20Peak%20%28Sri%20Pada%29",
-    "bestTime": "Dec-May",
-    "entryFee": "Free",
-    "duration": "6-8 hours (climb)",
-    "coordinates": [
-      6.8092,
-      80.4994
-    ]
-  },
-  {
-    "id": "wl-yala",
-    "name": "Yala National Park",
-    "location": "Yala",
-    "district": "Hambantota",
-    "category": "wildlife",
-    "tier": "premium",
-    "description": "Sri Lanka's most visited park, famed for having one of the highest leopard densities in the world.",
-    "detail": "Plan your visit to this remarkable destination and explore its natural beauty, cultural significance, and the unique experiences it offers to every traveler who sets foot here.",
-    "image": "https://placehold.co/800x600?text=Yala%20National%20Park",
-    "bestTime": "Feb-Jun",
-    "entryFee": "Paid",
-    "duration": "3-4 hours (safari)",
-    "coordinates": [
-      6.3725,
-      81.5185
-    ]
-  },
-  {
-    "id": "park-viharamahadevi",
-    "name": "Viharamahadevi Park",
-    "location": "Colombo",
-    "district": "Colombo",
-    "category": "parks",
-    "description": "Colombo's oldest and largest public park, next to the Town Hall.",
-    "detail": "Plan your visit to this remarkable destination and explore its natural beauty, cultural significance, and the unique experiences it offers to every traveler who sets foot here.",
-    "image": "https://placehold.co/800x600?text=Viharamahadevi%20Park",
-    "bestTime": "Year-round",
-    "entryFee": "Free",
-    "duration": "1 hour",
-    "coordinates": [
-      6.9161,
-      79.8636
-    ]
-  },
-  {
-    "id": "hist-sigiriya",
-    "name": "Sigiriya Rock Fortress",
-    "location": "Sigiriya",
-    "district": "Matale",
-    "category": "historical",
-    "tier": "premium",
-    "description": "Ancient rock citadel with frescoes and mirror wall, a UNESCO World Heritage Site.",
-    "detail": "Plan your visit to this remarkable destination and explore its natural beauty, cultural significance, and the unique experiences it offers to every traveler who sets foot here.",
-    "image": "https://placehold.co/800x600?text=Sigiriya%20Rock%20Fortress",
-    "bestTime": "Jan-Mar",
-    "entryFee": "Paid",
-    "duration": "3-4 hours",
-    "coordinates": [
-      7.957,
-      80.7603
-    ]
-  },
-  {
-    "id": "rel-toothrelic",
-    "name": "Temple of the Sacred Tooth Relic",
-    "location": "Kandy",
-    "district": "Kandy",
-    "category": "religious",
-    "tier": "premium",
-    "description": "Sri Lanka's most sacred Buddhist shrine, housing a relic of the Buddha's tooth.",
-    "detail": "Plan your visit to this remarkable destination and explore its natural beauty, cultural significance, and the unique experiences it offers to every traveler who sets foot here.",
-    "image": "https://placehold.co/800x600?text=Temple%20of%20the%20Sacred%20Tooth%20Relic",
-    "bestTime": "Year-round",
-    "entryFee": "Paid",
-    "duration": "1-2 hours",
-    "coordinates": [
-      7.2936,
-      80.6414
-    ]
-  },
-  {
-    "id": "fort-galle",
-    "name": "Galle Fort",
-    "location": "Galle",
-    "district": "Galle",
-    "category": "forts",
-    "tier": "premium",
-    "description": "UNESCO-listed Dutch colonial fort with ramparts, boutiques and cafes.",
-    "detail": "Plan your visit to this remarkable destination and explore its natural beauty, cultural significance, and the unique experiences it offers to every traveler who sets foot here.",
-    "image": "https://placehold.co/800x600?text=Galle%20Fort",
-    "bestTime": "Nov-Apr",
-    "entryFee": "Free",
-    "duration": "Half day",
-    "coordinates": [
-      6.0269,
-      80.217
-    ]
-  },
-  {
-    "id": "lake-gregory",
-    "name": "Gregory Lake",
-    "location": "Nuwara Eliya",
-    "district": "Nuwara Eliya",
-    "category": "lakes & rivers",
-    "tier": "featured",
-    "description": "Scenic highland lake offering boating and lakeside picnic spots.",
-    "detail": "Plan your visit to this remarkable destination and explore its natural beauty, cultural significance, and the unique experiences it offers to every traveler who sets foot here.",
-    "image": "https://placehold.co/800x600?text=Gregory%20Lake",
-    "bestTime": "Year-round",
-    "entryFee": "Free",
-    "duration": "1-2 hours",
-    "coordinates": [
-      6.9497,
-      80.7622
-    ]
-  },
-  {
-    "id": "isl-delft",
-    "name": "Delft Island",
-    "location": "Delft",
-    "district": "Jaffna",
-    "category": "islands",
-    "tier": "featured",
-    "description": "Remote coral island with wild ponies, baobab trees and Dutch ruins.",
-    "detail": "Plan your visit to this remarkable destination and explore its natural beauty, cultural significance, and the unique experiences it offers to every traveler who sets foot here.",
-    "image": "https://placehold.co/800x600?text=Delft%20Island",
-    "bestTime": "Year-round",
-    "entryFee": "Free",
-    "duration": "Full day",
-    "coordinates": [
-      9.5167,
-      79.6667
-    ]
-  },
-  {
-    "id": "bot-peradeniya",
-    "name": "Royal Botanical Gardens Peradeniya",
-    "location": "Peradeniya",
-    "district": "Kandy",
-    "category": "botanical gardens",
-    "tier": "premium",
-    "description": "147-hectare gardens with a giant bamboo collection and orchid house.",
-    "detail": "Plan your visit to this remarkable destination and explore its natural beauty, cultural significance, and the unique experiences it offers to every traveler who sets foot here.",
-    "image": "https://placehold.co/800x600?text=Royal%20Botanical%20Gardens%20Peradeniya",
-    "bestTime": "Year-round",
-    "entryFee": "Paid",
-    "duration": "2-3 hours",
-    "coordinates": [
-      7.2716,
-      80.5977
-    ]
-  },
-  {
-    "id": "cul-teamuseum",
-    "name": "Ceylon Tea Museum",
-    "location": "Kandy",
-    "district": "Kandy",
-    "category": "cultural",
-    "description": "Former tea factory turned museum tracing Sri Lanka's tea heritage.",
-    "detail": "Plan your visit to this remarkable destination and explore its natural beauty, cultural significance, and the unique experiences it offers to every traveler who sets foot here.",
-    "image": "https://placehold.co/800x600?text=Ceylon%20Tea%20Museum",
-    "bestTime": "Year-round",
-    "entryFee": "Paid",
-    "duration": "1-2 hours",
-    "coordinates": [
-      7.2547,
-      80.6122
-    ]
-  },
-  {
-    "id": "train-kandyella",
-    "name": "Kandy to Ella Train",
-    "location": "Kandy to Ella",
-    "district": "Badulla",
-    "category": "scenic train journeys",
-    "tier": "premium",
-    "description": "One of the world's most scenic rail journeys, winding through tea country and mountains.",
-    "detail": "Plan your visit to this remarkable destination and explore its natural beauty, cultural significance, and the unique experiences it offers to every traveler who sets foot here.",
-    "image": "https://placehold.co/800x600?text=Kandy%20to%20Ella%20Train",
-    "bestTime": "Year-round",
-    "entryFee": "Paid (ticket)",
-    "duration": "6-7 hours",
-    "coordinates": [
-      7,
-      80.9
-    ]
-  },
-  {
-    "id": "vp-liptonseat",
-    "name": "Lipton's Seat",
-    "location": "Haputale",
-    "district": "Badulla",
-    "category": "viewpoints",
-    "tier": "featured",
-    "description": "Panoramic tea-estate viewpoint said to be favored by Sir Thomas Lipton himself.",
-    "detail": "Plan your visit to this remarkable destination and explore its natural beauty, cultural significance, and the unique experiences it offers to every traveler who sets foot here.",
-    "image": "https://placehold.co/800x600?text=Lipton%27s%20Seat",
-    "bestTime": "Year-round",
-    "entryFee": "Free",
-    "duration": "1-2 hours",
-    "coordinates": [
-      6.7833,
-      81.0833
-    ]
-  },
-  {
-    "id": "marine-pigeonreef",
-    "name": "Pigeon Island Coral Reef",
-    "location": "Nilaveli",
-    "district": "Trincomalee",
-    "category": "marine attractions",
-    "tier": "featured",
-    "description": "Protected reef with reef sharks and colorful coral, ideal for snorkeling.",
-    "detail": "Plan your visit to this remarkable destination and explore its natural beauty, cultural significance, and the unique experiences it offers to every traveler who sets foot here.",
-    "image": "https://placehold.co/800x600?text=Pigeon%20Island%20Coral%20Reef",
-    "bestTime": "May-Sep",
-    "entryFee": "Paid",
-    "duration": "2-3 hours",
-    "coordinates": [
-      8.7233,
-      81.2039
-    ]
-  },
-  {
-    "id": "adv-kitulgalarafting",
-    "name": "Kitulgala White Water Rafting",
-    "location": "Kitulgala",
-    "district": "Nuwara Eliya",
-    "category": "adventure activities",
-    "tier": "featured",
-    "description": "Grade 2-3 rapids on the Kelani River, Sri Lanka's top rafting spot.",
-    "detail": "Plan your visit to this remarkable destination and explore its natural beauty, cultural significance, and the unique experiences it offers to every traveler who sets foot here.",
-    "image": "https://placehold.co/800x600?text=Kitulgala%20White%20Water%20Rafting",
-    "bestTime": "Year-round",
-    "entryFee": "Paid",
-    "duration": "2-3 hours",
-    "coordinates": [
-      6.9833,
-      80.4167
-    ]
-  },
-  {
-    "id": "fest-eslaperahera",
-    "name": "Kandy Esala Perahera",
-    "location": "Kandy",
-    "district": "Kandy",
-    "category": "festivals & events",
-    "tier": "premium",
-    "description": "Grand annual procession of drummers, dancers and decorated elephants honoring the Tooth Relic.",
-    "detail": "Plan your visit to this remarkable destination and explore its natural beauty, cultural significance, and the unique experiences it offers to every traveler who sets foot here.",
-    "image": "https://placehold.co/800x600?text=Kandy%20Esala%20Perahera",
-    "bestTime": "Jul-Aug",
-    "entryFee": "Free/Paid seating",
-    "duration": "10 nights (annual)",
-    "coordinates": [
-      7.2936,
-      80.6414
-    ]
+    id: "beach-unawatuna",
+    name: "Unawatuna Beach",
+    location: "Unawatuna",
+    district: "Galle",
+    category: "beaches",
+    tier: "premium",
+    description:
+      "A beautiful horseshoe-shaped beach famous for its calm turquoise waters, golden sands, snorkeling, diving, and vibrant beachfront atmosphere.",
+    detail:
+      "<section class='destination-content'><h2>Overview</h2><p>Unawatuna Beach is one of Sri Lanka's most popular coastal destinations, located just south of Galle. Known for its horseshoe-shaped bay, golden sandy beach, and calm turquoise waters, it is an ideal destination for swimming, snorkeling, diving, and relaxing under tropical palm trees. The lively beachfront is lined with cafés, seafood restaurants, boutique hotels, and vibrant nightlife, making Unawatuna a favorite among both local and international travelers.</p><h2>Why Visit Unawatuna?</h2><ul><li>Safe, calm waters for swimming</li><li>Excellent snorkeling and scuba diving</li><li>Beautiful golden sandy beach</li><li>Vibrant cafés and seafood restaurants</li><li>Spectacular sunsets</li><li>Family-friendly atmosphere</li><li>Close to Galle Fort</li></ul><h2>Top Attractions</h2><ul><li>Unawatuna Beach</li><li>Jungle Beach</li><li>Japanese Peace Pagoda</li><li>Rumassala Hill</li><li>Galle Fort</li><li>Yatagala Raja Maha Viharaya</li></ul><h2>Things to Do</h2><ul><li>🏊 Swim in calm waters</li><li>🤿 Snorkeling among coral reefs</li><li>🤿 Scuba diving</li><li>🚤 Glass-bottom boat rides</li><li>🌅 Watch breathtaking sunsets</li><li>🍤 Enjoy fresh seafood</li><li>🚶 Walk along the beachfront</li><li>📸 Visit Jungle Beach and the Japanese Peace Pagoda</li></ul><h2>Best Time to Visit</h2><table><thead><tr><th>Season</th><th>Months</th><th>Activities</th></tr></thead><tbody><tr><td>Dry Season</td><td>November – April</td><td>Swimming, snorkeling, diving, beach activities</td></tr><tr><td>Diving Season</td><td>November – April</td><td>Scuba diving and marine exploration</td></tr><tr><td>Shoulder Season</td><td>May – September</td><td>Sightseeing and relaxing with fewer crowds</td></tr></tbody></table><h2>Marine Life</h2><p>Unawatuna's coral reefs are home to a variety of tropical marine species, making it one of Sri Lanka's best snorkeling and diving destinations.</p><ul><li>Sea Turtles</li><li>Colorful Coral Reefs</li><li>Tropical Reef Fish</li><li>Starfish</li><li>Occasional Reef Sharks</li></ul><h2>Facilities</h2><ul><li>Luxury resorts</li><li>Boutique hotels</li><li>Budget guesthouses</li><li>Beach cafés</li><li>Seafood restaurants</li><li>Diving centers</li><li>Snorkeling equipment rentals</li><li>ATM facilities</li><li>Tuk-tuks and taxis</li><li>Free public beach access</li></ul></section>",
+    image: "https://github.com/eastorysl/storyimages/blob/main/destination/UnawatunaBeach.jpg?raw=true",
+    bestTime: "Nov-Apr",
+    entryFee: "Free",
+    duration: "3–5 hours",
+    coordinates: [6.0108, 80.2496],
   }
 ]

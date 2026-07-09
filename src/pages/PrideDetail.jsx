@@ -115,7 +115,7 @@ export default function PrideDetail() {
 
       <section className="section-padding">
         <div className="container-custom">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
             <div className="lg:col-span-2 space-y-6">
               <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-6 md:p-8">
                 {item.period && (
@@ -158,28 +158,28 @@ export default function PrideDetail() {
                   </div>
                 )}
                 <h2 className="text-xl font-heading font-bold text-slate-900 mb-4">About</h2>
-                <p className="text-slate-600 leading-relaxed">{item.detail || item.description}</p>
+                <div dangerouslySetInnerHTML={{ __html: item.detail || item.description }} />
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-6 space-y-4">
+            <div className="bg-white rounded-xl shadow border border-slate-100 p-4 space-y-3">
               <div>
-                <h3 className="text-sm font-heading font-semibold text-slate-700 mb-3">Category</h3>
-                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-br ${meta.gradient} text-white`}>
-                  <Icon className="text-sm" />
+                <h3 className="text-xs font-heading font-semibold text-slate-700 mb-2 uppercase tracking-wider">Category</h3>
+                <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-gradient-to-br ${meta.gradient} text-white`}>
+                  <Icon className="text-xs" />
                   {meta.label}
                 </span>
               </div>
               {item.coordinates && (
-                <div className="pt-4 border-t border-slate-100">
-                  <h3 className="text-sm font-heading font-semibold text-slate-700 mb-3">Location</h3>
+                <div className="pt-3 border-t border-slate-100">
+                  <h3 className="text-xs font-heading font-semibold text-slate-700 mb-2 uppercase tracking-wider">Location</h3>
                   <a
                     href={`https://www.google.com/maps/dir/?api=1&destination=${item.coordinates[0]},${item.coordinates[1]}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 w-full min-h-[44px] rounded-xl bg-teal-50 text-teal-700 text-sm font-semibold hover:bg-teal-100 transition-all"
+                    className="flex items-center justify-center gap-1.5 w-full py-2 rounded-lg bg-teal-50 text-teal-700 text-xs font-semibold hover:bg-teal-100 transition-all"
                   >
-                    <FiNavigation /> Get Directions
+                    <FiNavigation className="text-xs" /> Get Directions
                   </a>
                 </div>
               )}

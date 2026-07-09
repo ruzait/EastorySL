@@ -10,7 +10,7 @@ export const galleryCatIcons = {
   'historical': FaLandmark,
   'religious': FaChurch,
   'forts': GiCastle,
-  'cultural': FiCamera,
+  'cultural': undefined,
   'ancient-kingdoms': GiCrown,
   'food-culinary': GiCookingPot,
   'cities-urban': FaCity,
@@ -38,10 +38,7 @@ export const galleryCategories = [
   { id: 'shopping', label: 'Shopping' },
 ]
 
-export const galleryImages = [
-  // Add standalone gallery images here:
-  // { id: 'custom-1', src: 'https://...', alt: 'Description', category: 'beaches', location: 'Galle' },
-]
+export const galleryImages = []
 
 export function buildGalleryImages(destinations, businesses, prideItems) {
   const destMap = {
@@ -68,7 +65,7 @@ export function buildGalleryImages(destinations, businesses, prideItems) {
   const bizMap = {
     Hotels: 'accommodation',
     Resorts: 'accommodation',
-    'Surfing': 'adventure',
+    Surfing: 'adventure',
     Diving: 'adventure',
     Snorkeling: 'adventure',
     'Whale Watching': 'adventure',
