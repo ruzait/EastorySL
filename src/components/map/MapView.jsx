@@ -30,15 +30,18 @@ function getIcon(item) {
   return iconMap[item.category] || iconMap.default
 }
 
-function createMarkerIcon(icon, isSelected = false) {
+function createMarkerIcon(icon, isSelected = false, name = '') {
+  const label = name
+    ? `<span class="marker-label">${name}</span>`
+    : ''
   return L.divIcon({
     className: `custom-marker${isSelected ? ' selected' : ''}`,
-    html: `<div class="marker-inner"><i class="fa-solid ${icon}"></i>${
-      isSelected ? '<div style="position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(13,148,136,0.3);animation:pulse-ring 1.5s infinite"></div>' : ''
+    html: `<div class="marker-body">${label}<span class="marker-circle"><i class="fa-solid ${icon}"></i></span>${
+      isSelected ? '<div class="marker-ring"></div>' : ''
     }</div>`,
-    iconSize: [54, 54],
-    iconAnchor: [27, 27],
-    popupAnchor: [0, -27],
+    iconSize: [54, 72],
+    iconAnchor: [27, 72],
+    popupAnchor: [0, -72],
   })
 }
 
@@ -148,7 +151,7 @@ function MapContent({ filteredData, onSelectItem, flyToCoord, selectedItem, user
           <Marker
             key={item.id}
             position={item.coordinates}
-            icon={createMarkerIcon(getIcon(item), isSelected)}
+            icon={createMarkerIcon(getIcon(item), isSelected, item.name)}
             ref={(ref) => {
               if (ref) markerRefs.current[item.id] = ref
             }}

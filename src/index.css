@@ -221,7 +221,17 @@
   border: none !important;
 }
 
-.custom-marker .marker-inner {
+.custom-marker .marker-body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  width: 54px;
+  height: 72px;
+}
+
+.custom-marker .marker-circle {
   width: 40px;
   height: 40px;
   font-size: 16px;
@@ -236,7 +246,7 @@
   color: #0d9488;
 }
 
-.custom-marker.selected .marker-inner {
+.custom-marker.selected .marker-circle {
   width: 54px;
   height: 54px;
   font-size: 22px;
@@ -245,21 +255,75 @@
   transform: scale(1.15);
 }
 
+.marker-label {
+  position: relative;
+  white-space: nowrap;
+  font-size: 10px;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(135deg, #0d9488, #0891b2);
+  padding: 2px 10px;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(13,148,136,0.35);
+  font-family: 'Sansita', system-ui, sans-serif;
+  font-style: italic;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.marker-label::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid #0891b2;
+}
+
+.custom-marker.selected .marker-label {
+  background: linear-gradient(135deg, #0f766e, #0d9488);
+  box-shadow: 0 3px 12px rgba(13,148,136,0.5);
+}
+
+.custom-marker.selected .marker-label::after {
+  border-top-color: #0d9488;
+}
+
+.marker-ring {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid rgba(13,148,136,0.3);
+  animation: pulse-ring 1.5s infinite;
+}
+
 @media (max-width: 767px) {
-  .custom-marker .marker-inner {
+  .custom-marker .marker-circle {
     width: 34px;
     height: 34px;
     font-size: 13px;
   }
-  .custom-marker.selected .marker-inner {
+  .custom-marker.selected .marker-circle {
     width: 42px;
     height: 42px;
     font-size: 18px;
   }
+  .marker-label {
+    font-size: 8px;
+    padding: 1px 8px;
+    max-width: 90px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .custom-marker .marker-inner {
+  .custom-marker .marker-circle {
     transition: none;
   }
 }
