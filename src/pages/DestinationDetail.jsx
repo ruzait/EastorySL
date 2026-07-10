@@ -5,6 +5,7 @@ import { destinations } from '../data/destinations'
 import { distanceFromColombo } from '../utils/distance'
 import SEO from '../components/seo/SEO'
 import { handleImgError } from '../utils/fallback'
+import SimilarPlaces from '../components/ui/SimilarPlaces'
 
 const catMeta = {
   beaches: { label: 'Beaches', color: 'sky', gradient: 'from-sky-500 to-cyan-500' },
@@ -205,48 +206,54 @@ export default function DestinationDetail() {
               </motion.div>
             </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="bg-white rounded-2xl shadow-lg border border-slate-100 p-6 space-y-4 self-start"
-            >
-              <div>
-                <h3 className="text-sm font-heading font-semibold text-slate-700 mb-3">Category</h3>
-                <div className="flex items-center gap-2">
-                  <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-br ${meta.gradient} text-white`}>
-                    {meta.label}
-                  </span>
-                  <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold ${
-                    item.tier === 'premium' ? 'bg-amber-100 text-amber-800' :
-                    item.tier === 'featured' ? 'bg-blue-100 text-blue-800' :
-                    'bg-slate-100 text-slate-600'
-                  }`}>
-                    <FiAward className="text-sm" />
-                    {item.tier === 'premium' ? 'Premium Pick' : item.tier === 'featured' ? 'Featured' : 'Free'}
-                  </span>
-                </div>
-              </div>
-              {item.coordinates && (
-                <div className="pt-4 border-t border-slate-100">
-                  <h3 className="text-sm font-heading font-semibold text-slate-700 mb-3">Location</h3>
-                  <div className="text-xs text-slate-500 mb-3">
-                    {item.coordinates.lat.toFixed(4)}°N, {item.coordinates.lng.toFixed(4)}°E
-                    <div className="mt-1 text-teal-600 font-medium">
-                      {item.name} in {Math.round(distanceFromColombo([item.coordinates.lat, item.coordinates.lng]))} km from Colombo
-                    </div>
+            <div className="space-y-6 self-start">
+              <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-6 space-y-4">
+                <div>
+                  <h3 className="text-sm font-heading font-semibold text-slate-700 mb-3">Category</h3>
+                  <div className="flex items-center gap-2">
+                    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-br ${meta.gradient} text-white`}>
+                      {meta.label}
+                    </span>
+                    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold ${
+                      item.tier === 'premium' ? 'bg-amber-100 text-amber-800' :
+                      item.tier === 'featured' ? 'bg-blue-100 text-blue-800' :
+                      'bg-slate-100 text-slate-600'
+                    }`}>
+                      <FiAward className="text-sm" />
+                      {item.tier === 'premium' ? 'Premium Pick' : item.tier === 'featured' ? 'Featured' : 'Free'}
+                    </span>
                   </div>
-                  <a
-                    href={item.googleMapsLink || `https://www.google.com/maps/dir/?api=1&destination=${item.coordinates.lat},${item.coordinates.lng}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 w-full min-h-[44px] rounded-xl bg-teal-50 text-teal-700 text-sm font-semibold hover:bg-teal-100 transition-all"
-                  >
-                    <FiNavigation /> Get Directions
-                  </a>
                 </div>
-              )}
-            </motion.div>
+                {item.coordinates && (
+                  <div className="pt-4 border-t border-slate-100">
+                    <h3 className="text-sm font-heading font-semibold text-slate-700 mb-3">Location</h3>
+                    <div className="text-xs text-slate-500 mb-3">
+                      {item.coordinates.lat.toFixed(4)}°N, {item.coordinates.lng.toFixed(4)}°E
+                      <div className="mt-1 text-teal-600 font-medium">
+                        {item.name} in {Math.round(distanceFromColombo([item.coordinates.lat, item.coordinates.lng]))} km from Colombo
+                      </div>
+                    </div>
+                    <a
+                      href={item.googleMapsLink || `https://www.google.com/maps/dir/?api=1&destination=${item.coordinates.lat},${item.coordinates.lng}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-2 w-full min-h-[44px] rounded-xl bg-teal-50 text-teal-700 text-sm font-semibold hover:bg-teal-100 transition-all"
+                    >
+                      <FiNavigation /> Get Directions
+                    </a>
+                  </div>
+                )}
+              </div>
+
+              <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-6">
+                <SimilarPlaces
+                  items={destinations}
+                  currentItem={item}
+                  basePath="destinations"
+                  category={item.category}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>

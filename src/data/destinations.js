@@ -34,5 +34,5 @@ export const destinations = [
     duration: "3–5 hours",
     coordinates: { lat: 6.009856616197469, lng: 80.24841602246705 },
     googleMapsLink: 'https://maps.app.goo.gl/SK9Y1iUTRGUfBtmg8',
-  }
+  },
 ]

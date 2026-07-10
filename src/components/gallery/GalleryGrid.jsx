@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FiX, FiChevronLeft, FiChevronRight, FiMapPin, FiArrowLeft, FiSearch } from 'react-icons/fi'
+import { FiX, FiChevronLeft, FiChevronRight, FiMapPin, FiArrowLeft, FiSearch, FiExternalLink } from 'react-icons/fi'
 import { handleImgError } from '../../utils/fallback'
 
 export default function GalleryGrid({ images, initialItem, showAllLink }) {
@@ -168,7 +168,17 @@ export default function GalleryGrid({ images, initialItem, showAllLink }) {
                 className="w-full max-h-[80vh] object-contain rounded-2xl cursor-pointer"
               />
               <div className="text-center mt-4">
-                <p className="text-white text-lg font-medium">{selectedImage.alt}</p>
+                <p className="text-white text-lg font-medium inline">
+                  {selectedImage.alt}
+                  {selectedImage.page && (
+                    <button
+                      onClick={() => navigate('/' + selectedImage.page + '/' + selectedImage.category + '/' + selectedImage.itemId)}
+                      className="text-teal-400 hover:text-teal-300 text-sm font-semibold ml-2 underline underline-offset-2 italic transition-colors inline-flex items-center gap-1"
+                    >
+                      View Page <FiExternalLink className="text-xs" />
+                    </button>
+                  )}
+                </p>
                 {selectedImage.location && (
                   <p className="text-white/60 text-sm mt-1">{selectedImage.location}</p>
                 )}

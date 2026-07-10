@@ -88,9 +88,6 @@ export default function Map() {
         case 'Shopping':
           data = data.filter((item) => item._source === 'businesses' && item.type === 'shop')
           break
-        case 'Discover more':
-          data = data.filter((item) => item._source === 'businesses' || item._source === 'pride')
-          break
         default:
           break
       }

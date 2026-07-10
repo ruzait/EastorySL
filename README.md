@@ -123,6 +123,7 @@ Defined in `src/App.jsx`. All routes are nested under `<Layout />` (Navbar + Foo
 - Quick Info cards: duration, entry fee, best time, district
 - Main content renders `item.detail` as HTML
 - Sidebar: category badge, coordinates, distance from Colombo, Google Maps link
+- Similar Places: 5 random same-category items in sidebar (horizontal scroll on mobile)
 - JSON-LD: `TouristAttraction` schema
 
 ### Sri Lanka Pride (`/sri-lanka-pride`)
@@ -138,6 +139,7 @@ Defined in `src/App.jsx`. All routes are nested under `<Layout />` (Navbar + Foo
 - Same layout as DestinationDetail with category-specific metadata
 - JSON-LD types: `TouristAttraction`, `Person` (famous-people), `TouristTrip` (road-trip-routes)
 - Extra sections: Routes (stops/duration), Famous People (birth year/place), Seasonal Foods (months/name)
+- Similar Places: 5 random same-category items in sidebar (horizontal scroll on mobile)
 
 ### Discover More (`/discover-more`)
 **File:** `src/pages/DiscoverMore.jsx`
@@ -164,6 +166,7 @@ Defined in `src/App.jsx`. All routes are nested under `<Layout />` (Navbar + Foo
 - 15 gallery category filters
 - Responsive grid: 5 columns (xl), 4 (lg), 3 (md), 2 (sm/mobile)
 - Lightbox with keyboard navigation
+- "View Page" link in lightbox to navigate to item detail page
 
 ### Advertise (`/advertise`)
 **File:** `src/pages/Advertise.jsx`
@@ -388,6 +391,7 @@ Two parts:
 ### Map
 - Full-screen Leaflet map with clustered markers
 - 4 layer toggles: All, Ancient Kingdoms, Beaches, Businesses
+- 12 category filters (All, Beaches, Waterfalls, Mountains, Ancient Kingdoms, Religious Places, Restaurants, Hotels, Shopping, Museums, Wildlife, Parks)
 - Side panel (desktop) / bottom sheet (mobile)
 - Fly-to animation on place selection
 - Geolocation support (auto-locate on first visit)
@@ -443,6 +447,7 @@ Build script generates static HTML files for every destination and pride item so
 - **Glassmorphism** navbars and overlays
 - **Gradient overlays** on hero sections
 - **Scroll-reveal** via Intersection Observer (`AnimatedSection`)
+- **Responsive tables** — horizontal scroll on mobile, full layout on desktop
 
 ---
 

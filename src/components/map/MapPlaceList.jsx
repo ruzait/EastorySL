@@ -6,7 +6,7 @@ import { handleImgError } from '../../utils/fallback'
 
 const CATEGORIES = [
   'All', 'Beaches', 'Waterfalls', 'Mountains', 'Ancient Kingdoms',
-  'Religious Places', 'Restaurants', 'Hotels', 'Shopping', 'Discover more',
+  'Religious Places', 'Restaurants', 'Hotels', 'Shopping',
   'Museums', 'Wildlife', 'Parks',
 ]
 
