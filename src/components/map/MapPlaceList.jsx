@@ -5,7 +5,7 @@ import { getCategoryClass, getCategoryLabel } from '../../utils/mapHelpers'
 import { handleImgError } from '../../utils/fallback'
 
 const CATEGORIES = [
-  'All Destinations', 'Beaches', 'Waterfalls', 'Mountains', 'Historical Sites',
+  'All', 'Beaches', 'Waterfalls', 'Mountains', 'Ancient Kingdoms',
   'Religious Places', 'Restaurants', 'Hotels', 'Shopping', 'Discover more',
   'Museums', 'Wildlife', 'Parks',
 ]

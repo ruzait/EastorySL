@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FiMapPin, FiMail, FiArrowUp, FiSend, FiChevronRight } from 'react-icons/fi'
-import { FaFacebook, FaYoutube, FaWhatsapp, FaUmbrellaBeach } from 'react-icons/fa'
+import { FaFacebook, FaWhatsapp, FaInstagram, FaUmbrellaBeach } from 'react-icons/fa'
+import { FiPhone } from 'react-icons/fi'
 import { GiLion, GiElephantHead } from 'react-icons/gi'
 import Logo from '../ui/Logo'
 
@@ -51,9 +52,10 @@ export default function Footer() {
             </p>
             <div className="flex items-center gap-2.5 mb-6">
               {[
-                { icon: FaWhatsapp, href: 'https://wa.me/94771234567', label: 'WhatsApp' },
-                { icon: FaFacebook, href: 'https://facebook.com', label: 'Facebook' },
-                { icon: FaYoutube, href: 'https://youtube.com', label: 'YouTube' },
+                { icon: FaWhatsapp, href: 'https://wa.me/94724362001', label: 'WhatsApp' },
+                { icon: FaFacebook, href: 'https://www.facebook.com/profile.php?id=61591629429221', label: 'Facebook' },
+                { icon: FaInstagram, href: 'https://www.instagram.com/eastory.sl', label: 'Instagram' },
+                { icon: FiPhone, href: 'tel:+94724362001', label: 'Call' },
               ].map((s) => (
                 <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
                   className="w-9 h-9 rounded-full bg-slate-800 hover:bg-teal-600 flex items-center justify-center text-slate-400 hover:text-white transition-all duration-300 hover:shadow-lg hover:shadow-teal-500/20 hover:-translate-y-0.5"

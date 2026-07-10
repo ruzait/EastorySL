@@ -1,5 +1,6 @@
+import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { FiMapPin, FiPhone, FiGlobe, FiAward, FiNavigation } from 'react-icons/fi'
+import { FiMapPin, FiPhone, FiGlobe, FiAward, FiNavigation, FiMap } from 'react-icons/fi'
 import { FaFacebook, FaInstagram, FaYoutube } from 'react-icons/fa'
 import Badge from '../ui/Badge'
 import { handleImgError } from '../../utils/fallback'
@@ -133,15 +134,24 @@ export default function BusinessCard({ business, index }) {
           )}
         </div>
         {business.coordinates && (
-          <a
-            href={business.googleMapsLink || `https://www.google.com/maps/dir/?api=1&destination=${business.coordinates[0]},${business.coordinates[1]}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-2 flex items-center justify-center gap-2 w-full min-h-[44px] rounded-xl bg-coral-50 text-coral-700 text-sm font-semibold shadow-sm hover:bg-coral-100 hover:shadow-md transition-all duration-300"
-          >
-            <FiNavigation className="text-base" />
-            Get Directions
-          </a>
+          <div className="flex gap-2 mt-2">
+            <Link
+              to={`/map?item=${business.id}`}
+              className="flex-1 flex items-center justify-center gap-2 min-h-[44px] rounded-xl bg-teal-50 text-teal-700 text-sm font-semibold shadow-sm hover:bg-teal-100 hover:shadow-md transition-all duration-300"
+            >
+              <FiMap className="text-base" />
+              Show on Map
+            </Link>
+            <a
+              href={business.googleMapsLink || `https://www.google.com/maps/dir/?api=1&destination=${business.coordinates[0]},${business.coordinates[1]}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 flex items-center justify-center gap-2 min-h-[44px] rounded-xl bg-coral-50 text-coral-700 text-sm font-semibold shadow-sm hover:bg-coral-100 hover:shadow-md transition-all duration-300"
+            >
+              <FiNavigation className="text-base" />
+              Get Directions
+            </a>
+          </div>
         )}
       </div>
     </motion.div>

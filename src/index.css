@@ -34,7 +34,10 @@
   }
 
   .destination-content table {
-    @apply w-full text-sm mb-6 rounded-xl overflow-hidden border;
+    @apply w-full text-sm mb-6 rounded-xl border;
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .destination-content thead {

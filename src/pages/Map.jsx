@@ -52,30 +52,47 @@ export default function Map() {
     })
 
     if (activeCategory) {
-      const catMap = {
-        'All Destinations': [
-          'religious', 'historical', 'nature', 'cultural', 'adventure',
-          'beaches', 'waterfalls', 'mountains', 'wildlife', 'parks',
-          'forts', 'lakes & rivers', 'islands', 'botanical gardens',
-          'scenic train journeys', 'viewpoints', 'marine attractions',
-          'adventure activities', 'festivals & events',
-        ],
-        'Beaches': ['beaches'],
-        'Waterfalls': ['waterfalls'],
-        'Mountains': ['mountains'],
-        'Historical Sites': ['historical'],
-        'Religious Places': ['religious'],
-        'Restaurants': [],
-        'Hotels': ['Accommodation'],
-        'Shopping': ['Shopping'],
-        'Discover more': ['Tours', 'Water Sports'],
-        'Museums': ['cultural', 'museums-galleries'],
-        'Wildlife': ['wildlife'],
-        'Parks': ['parks'],
-      }
-      const cats = catMap[activeCategory]
-      if (cats) {
-        data = data.filter((item) => cats.includes(item.category))
+      switch (activeCategory) {
+        case 'All':
+          break
+        case 'Beaches':
+          data = data.filter((item) => item.category === 'beaches')
+          break
+        case 'Waterfalls':
+          data = data.filter((item) => item.category === 'waterfalls')
+          break
+        case 'Mountains':
+          data = data.filter((item) => item.category === 'mountains')
+          break
+        case 'Ancient Kingdoms':
+          data = data.filter((item) => item.category === 'historical' || item.category === 'ancient-kingdoms')
+          break
+        case 'Religious Places':
+          data = data.filter((item) => item.category === 'religious')
+          break
+        case 'Wildlife':
+          data = data.filter((item) => item.category === 'wildlife')
+          break
+        case 'Parks':
+          data = data.filter((item) => item.category === 'parks')
+          break
+        case 'Museums':
+          data = data.filter((item) => item.category === 'cultural' || item.category === 'museums-galleries')
+          break
+        case 'Hotels':
+          data = data.filter((item) => item._source === 'businesses' && (item.subCategory === 'Guest Houses' || item.subCategory === 'Resorts'))
+          break
+        case 'Restaurants':
+          data = data.filter((item) => item._source === 'businesses' && item.type === 'restaurant')
+          break
+        case 'Shopping':
+          data = data.filter((item) => item._source === 'businesses' && item.type === 'shop')
+          break
+        case 'Discover more':
+          data = data.filter((item) => item._source === 'businesses' || item._source === 'pride')
+          break
+        default:
+          break
       }
     }
 
