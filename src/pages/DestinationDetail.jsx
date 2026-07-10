@@ -1,5 +1,5 @@
-import { useParams, Link } from 'react-router-dom'
-import { FiArrowLeft, FiMapPin, FiClock, FiDollarSign, FiSun, FiNavigation, FiAward, FiCamera } from 'react-icons/fi'
+import { useParams, Link, useLocation } from 'react-router-dom'
+import { FiArrowLeft, FiMapPin, FiClock, FiDollarSign, FiSun, FiNavigation, FiAward, FiCamera, FiMap, FiShare2 } from 'react-icons/fi'
 import { motion } from 'framer-motion'
 import { destinations } from '../data/destinations'
 import { distanceFromColombo } from '../utils/distance'
@@ -29,8 +29,24 @@ const catMeta = {
 
 export default function DestinationDetail() {
   const { category, id } = useParams()
+  const location = useLocation()
   const item = destinations.find((d) => d.id === id && d.category === category)
   const meta = catMeta[category] || { label: 'Destination', color: 'teal', gradient: 'from-teal-500 to-cyan-500' }
+
+  const SITE_URL = import.meta.env.VITE_SITE_URL || 'https://eastorysl.netlify.app'
+  const shareUrl = `${SITE_URL}${location.pathname}`
+  const shareTitle = `Discover ${item?.name} in Sri Lanka`
+  const shareText = item?.description || ''
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: shareTitle, text: shareText, url: shareUrl })
+      } catch {}
+    } else {
+      await navigator.clipboard.writeText(shareUrl)
+    }
+  }
 
   if (!item) {
     return (
@@ -105,12 +121,29 @@ export default function DestinationDetail() {
                 </div>
               )}
               <p className="text-white/90 text-base md:text-lg max-w-2xl leading-relaxed">{item.description}</p>
-              <Link
-                to={`/gallery?item=${item.id}`}
-                className="inline-flex items-center gap-2 mt-5 px-8 py-3.5 rounded-full bg-teal-600 hover:bg-teal-500 text-white text-base font-semibold transition-all shadow-lg shadow-teal-500/30 hover:shadow-xl hover:shadow-teal-500/40"
-              >
-                <FiCamera /> View Gallery
-              </Link>
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-5">
+                <Link
+                  to={`/gallery?item=${item.id}`}
+                  className="inline-flex items-center gap-1.5 sm:gap-2 px-4 sm:px-8 py-2.5 sm:py-3.5 rounded-full bg-teal-600 hover:bg-teal-500 text-white text-sm sm:text-base font-semibold transition-all shadow-lg shadow-teal-500/30 hover:shadow-xl hover:shadow-teal-500/40"
+                >
+                  <FiCamera /> View Gallery
+                </Link>
+                {item.coordinates && (
+                  <Link
+                    to={`/map?item=${item.id}`}
+                    className="inline-flex items-center gap-1.5 sm:gap-2 px-4 sm:px-8 py-2.5 sm:py-3.5 rounded-full bg-white/20 hover:bg-white/30 text-white text-sm sm:text-base font-semibold transition-all border border-white/30 backdrop-blur-sm"
+                  >
+                    <FiMap /> View on Map
+                  </Link>
+                )}
+                <button
+                  onClick={handleShare}
+                  className="inline-flex items-center justify-center w-[38px] h-[38px] sm:w-[46px] sm:h-[46px] rounded-full bg-white/20 hover:bg-white/30 text-white text-sm sm:text-base transition-all border border-white/30 backdrop-blur-sm cursor-pointer shrink-0"
+                  title="Share"
+                >
+                  <FiShare2 />
+                </button>
+              </div>
             </div>
           </div>
         </div>

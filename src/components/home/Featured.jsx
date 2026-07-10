@@ -290,10 +290,10 @@ export default function Featured() {
 
         <div className="flex flex-wrap items-center justify-center gap-3">
           <Link
-            to="/destinations"
+            to={`/destinations?month=${currentMonth}`}
             className="group inline-flex items-center gap-2 px-7 py-3 rounded-xl bg-gradient-to-r from-teal-600 to-ocean-500 text-white font-heading font-semibold italic text-sm shadow-lg shadow-teal-500/20 hover:shadow-xl hover:shadow-teal-500/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
           >
-            View All Destinations
+            View Seasonal Destinations
             <FiArrowRight className="group-hover:translate-x-1 transition-transform duration-300" />
           </Link>
           <Link

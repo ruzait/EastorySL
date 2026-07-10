@@ -1,92 +1,141 @@
+import { useRef, useState, useEffect, useCallback } from 'react'
+import { FiSun } from 'react-icons/fi'
+import { GiElephantHead } from 'react-icons/gi'
+import { FaLandmark } from 'react-icons/fa'
 import AnimatedSection from '../ui/AnimatedSection'
 
-const content = [
-'<section class="destination-content text-left">',
-
-'<h2>Overview</h2>',
-'<p>Sri Lanka is one of the world\'s most breathtaking tropical islands, renowned for its golden sandy shoreline, crystal-clear turquoise waters, swaying coconut palms, and breathtaking sunsets. It is an ideal destination for relaxation, adventure, and marine wildlife experiences.</p>',
-
-'<h2>Why Visit Sri Lanka?</h2>',
-'<ul>',
-'<li>Beautiful tropical beaches</li>',
-'<li>World-famous wildlife safaris</li>',
-'<li>Excellent surfing conditions</li>',
-'<li>Scenic mountain landscapes</li>',
-'<li>Rich cultural heritage</li>',
-'<li>UNESCO World Heritage Sites</li>',
-'<li>Warm tropical atmosphere</li>',
-'</ul>',
-
-'<h2>Top Attractions</h2>',
-'<ul>',
-'<li>Sigiriya Rock Fortress</li>',
-'<li>Temple of the Sacred Tooth Relic</li>',
-'<li>Mirissa &amp; Unawatuna Beaches</li>',
-'<li>Yala &amp; Udawalawe National Parks</li>',
-'<li>Ella &amp; Nuwara Eliya</li>',
-'<li>Galle Fort</li>',
-'<li>Kandy &amp; the Hill Country</li>',
-'</ul>',
-
-'<h2>Things to Do</h2>',
-'<ul>',
-'<li>🐘 Elephant safaris</li>',
-'<li>🐋 Whale watching</li>',
-'<li>🏄 Surfing</li>',
-'<li>🤿 Snorkeling &amp; diving</li>',
-'<li>🏊 Swimming</li>',
-'<li>🚂 Scenic train rides</li>',
-'<li>🏯 Explore ancient ruins</li>',
-'<li>🍛 Cooking classes</li>',
-'<li>🌅 Sunset photography</li>',
-'<li>🚶 Nature walks</li>',
-'</ul>',
-
-'<h2>Best Time to Visit</h2>',
-'<table>',
-'<thead>',
-'<tr><th>Season</th><th>Months</th><th>Activities</th></tr>',
-'</thead>',
-'<tbody>',
-'<tr><td>Dry Season</td><td>November – April</td><td>Swimming, whale watching, beach activities</td></tr>',
-'<tr><td>Surf Season</td><td>April – October</td><td>Surfing</td></tr>',
-'<tr><td>Peak Whale Watching</td><td>December – April</td><td>Blue whales and dolphins</td></tr>',
-'</tbody>',
-'</table>',
-
-'<h2>Wildlife</h2>',
-'<p>Sri Lanka is internationally recognized as one of the best places to see magnificent wildlife in its natural habitat.</p>',
-'<ul>',
-'<li>Elephants</li>',
-'<li>Leopards</li>',
-'<li>Blue Whales</li>',
-'<li>Sperm Whales</li>',
-'<li>Spinner Dolphins</li>',
-'<li>Sea Turtles</li>',
-'<li>Endemic Birds</li>',
-'</ul>',
-
-'</section>',
-].join('\n')
+const cards = [
+  {
+    icon: FiSun,
+    title: 'Natural Paradise',
+    items: [
+      { icon: '🏖️', text: 'Beautiful tropical beaches with golden sands' },
+      { icon: '🌊', text: 'Crystal-clear turquoise waters & swaying palms' },
+      { icon: '🌅', text: 'Breathtaking sunsets & scenic mountains' },
+      { icon: '🌴', text: 'Warm tropical atmosphere year-round' },
+    ],
+    gradient: 'from-amber-500 to-orange-500',
+    iconBg: 'from-amber-500/20 to-orange-500/20',
+  },
+  {
+    icon: GiElephantHead,
+    title: 'Wildlife & Adventure',
+    items: [
+      { icon: '🐘', text: 'World-famous elephant & leopard safaris' },
+      { icon: '🐋', text: 'Blue whale & dolphin watching' },
+      { icon: '🏄', text: 'Excellent surfing, snorkeling & diving' },
+      { icon: '🚂', text: 'Scenic train rides & nature walks' },
+    ],
+    gradient: 'from-emerald-500 to-teal-500',
+    iconBg: 'from-emerald-500/20 to-teal-500/20',
+  },
+  {
+    icon: FaLandmark,
+    title: 'Culture & Heritage',
+    items: [
+      { icon: '🏯', text: 'Sigiriya Rock Fortress & ancient ruins' },
+      { icon: '🛕', text: 'Temple of the Sacred Tooth Relic' },
+      { icon: '🏛️', text: 'UNESCO World Heritage Sites' },
+      { icon: '🍛', text: 'Rich cuisine & cooking classes' },
+    ],
+    gradient: 'from-purple-500 to-pink-500',
+    iconBg: 'from-purple-500/20 to-pink-500/20',
+  },
+]
 
 export default function AboutSriLanka() {
+  const scrollRef = useRef(null)
+  const [activeDot, setActiveDot] = useState(0)
+
+  const onScroll = useCallback(() => {
+    const el = scrollRef.current
+    if (!el) return
+    const idx = Math.round(el.scrollLeft / (el.scrollWidth / 3))
+    setActiveDot(Math.min(idx, 2))
+  }, [])
+
+  useEffect(() => {
+    const el = scrollRef.current
+    if (!el) return
+    el.addEventListener('scroll', onScroll, { passive: true })
+    return () => el.removeEventListener('scroll', onScroll)
+  }, [onScroll])
+
   return (
-    <section className="section-padding relative overflow-hidden">
+    <section className="section-padding pt-10 md:pt-16 relative overflow-hidden">
       <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/images/home/slfleg.png)' }} />
       <div className="absolute inset-0 backdrop-blur-sm" />
       <div className="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-teal-950/70 to-slate-900/80" />
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-teal-500/30 to-transparent" />
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-teal-500/30 to-transparent" />
       <div className="container-custom relative z-10">
-        <AnimatedSection className="max-w-4xl mx-auto">
-          <span className="block text-xs font-bold text-teal-400 uppercase tracking-widest mb-8 text-center">
-            Pearl of the Indian Ocean
-          </span>
-          <div
-            className="destination-content prose prose-invert max-w-none"
-            dangerouslySetInnerHTML={{ __html: content }}
-          />
+        <AnimatedSection className="text-center mb-12">
+          <span className="text-xs font-bold text-teal-400 uppercase tracking-widest">Pearl of the Indian Ocean</span>
+          <h2 className="text-3xl md:text-4xl font-heading font-bold text-white mt-3 mb-3">Why Sri Lanka?</h2>
+          <p className="text-white/70 max-w-xl mx-auto">
+            A tropical island paradise offering unforgettable experiences for every traveler.
+          </p>
         </AnimatedSection>
+        <div ref={scrollRef} className="flex md:hidden gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar -mx-4 px-4">
+          {cards.map((card) => {
+            const Icon = card.icon
+            return (
+              <div key={card.title} className="w-[80vw] shrink-0 snap-center bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 flex flex-col not-italic">
+                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${card.iconBg} flex items-center justify-center mb-5 shadow-lg`}>
+                  <Icon className="text-2xl text-white" />
+                </div>
+                <h3 className="text-xl font-heading font-bold text-white mb-4 italic">{card.title}</h3>
+                <ul className="space-y-2.5 flex-1">
+                  {card.items.map((item) => (
+                    <li key={item.text} className="flex items-start gap-2.5 text-white/70 text-sm leading-relaxed">
+                      <span className="text-teal-400 shrink-0 italic">&#10003;</span>
+                      <span className="italic">{item.text}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )
+          })}
+        </div>
+        <div className="hidden md:grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          {cards.map((card, i) => {
+            const Icon = card.icon
+            return (
+              <AnimatedSection key={card.title} delay={i * 0.1}>
+                <div className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 h-full flex flex-col not-italic">
+                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${card.iconBg} flex items-center justify-center mb-5 shadow-lg`}>
+                    <Icon className="text-2xl text-white not-italic" />
+                  </div>
+                  <h3 className="text-xl font-heading font-bold text-white mb-4 italic">{card.title}</h3>
+                  <ul className="space-y-2.5 flex-1">
+                    {card.items.map((item) => (
+                      <li key={item.text} className="flex items-start gap-2.5 text-white/70 text-sm leading-relaxed">
+                        <span className="text-teal-400 shrink-0 italic">&#10003;</span>
+                        <span className="italic">{item.text}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </AnimatedSection>
+            )
+          })}
+        </div>
+        <div className="flex items-center justify-center gap-2 mt-6 md:hidden">
+          {cards.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => {
+                const el = scrollRef.current
+                if (el) {
+                  el.scrollTo({ left: (el.scrollWidth / 3) * i, behavior: 'smooth' })
+                }
+              }}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                i === activeDot ? 'w-6 bg-teal-400' : 'bg-white/30'
+              }`}
+            />
+          ))}
+        </div>
       </div>
     </section>
   )

@@ -1,4 +1,5 @@
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiMap, FiList, FiNavigation } from 'react-icons/fi'
 import MapView from '../components/map/MapView'
@@ -23,6 +24,9 @@ const ALL_DATA = [
 ]
 
 export default function Map() {
+  const [searchParams] = useSearchParams()
+  const hasAutoSelected = useRef(false)
+
   const [activeLayers, setActiveLayers] = useState({
     destinations: true,
     beaches: true,
@@ -139,6 +143,17 @@ export default function Map() {
       fetchLocation(false)
     }
   }, []) // eslint-disable-line
+
+  useEffect(() => {
+    if (hasAutoSelected.current) return
+    const itemId = searchParams.get('item')
+    if (!itemId) return
+    const found = ALL_DATA.find((d) => d.id === itemId)
+    if (found) {
+      hasAutoSelected.current = true
+      handleSelectItem(found)
+    }
+  }, [searchParams]) // eslint-disable-line
 
   const handleLocate = useCallback(() => {
     fetchLocation(true)

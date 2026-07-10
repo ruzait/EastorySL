@@ -19,10 +19,10 @@ export default function CTA() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
-                to="/destinations"
+                to="/sri-lanka-pride"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-teal-500 to-ocean-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-teal-500/30 transition-all duration-300"
               >
-                Explore Destinations
+                Explore Sri Lanka's Pride
                 <FiArrowRight />
               </Link>
             <Link

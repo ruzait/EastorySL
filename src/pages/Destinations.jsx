@@ -6,6 +6,7 @@ import SearchBar from '../components/ui/SearchBar'
 import SEO from '../components/seo/SEO'
 import DestinationGrid from '../components/tourism/DestinationGrid'
 import { handleImgError } from '../utils/fallback'
+import { getSeasonalDestinations } from '../utils/season'
 import { FiSearch, FiChevronLeft, FiChevronRight, FiMap } from 'react-icons/fi'
 import { GiBeachBall, GiTreeBranch, GiWaterfall, GiMountainCave, GiElephantHead, GiForest, GiCastle, GiIsland, GiFlowerPot, GiBinoculars, GiDolphin, GiParachute, GiPartyPopper } from 'react-icons/gi'
 import { FaLandmark, FaChurch, FaMusic, FaTrain } from 'react-icons/fa'
@@ -37,9 +38,20 @@ const categoryMap = {
 const reverseMap = Object.fromEntries(Object.entries(categoryMap).map(([k, v]) => [v, k]))
 
 export default function Destinations() {
-  const [searchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
   const [search, setSearch] = useState(searchParams.get('search') || '')
-  const [activeCategory, setActiveCategory] = useState('All')
+  const seasonMonth = searchParams.get('month')
+  const [activeCategory, setActiveCategory] = useState(seasonMonth ? '' : 'All')
+
+  const clearSeason = () => {
+    if (seasonMonth) {
+      setSearchParams((prev) => {
+        const next = new URLSearchParams(prev)
+        next.delete('month')
+        return next
+      }, { replace: true })
+    }
+  }
   const [showSearch, setShowSearch] = useState(false)
   const [scrollStart, setScrollStart] = useState(true)
   const [scrollEnd, setScrollEnd] = useState(false)
@@ -74,9 +86,25 @@ export default function Destinations() {
 
   const shuffled = useMemo(() => [...destinations].sort(() => Math.random() - 0.5), [])
 
+  const handleCategoryChange = (cat) => {
+    clearSeason()
+    setActiveCategory(cat)
+  }
+
+  const handleSearchChange = (val) => {
+    clearSeason()
+    setSearch(val)
+  }
+
   const filtered = useMemo(() => {
-    const dataCat = reverseMap[activeCategory]
-    let result = activeCategory === 'All' ? shuffled : shuffled.filter((d) => d.category === dataCat)
+    let result = shuffled
+    if (seasonMonth) {
+      const cat = !activeCategory || activeCategory === 'All' ? 'All' : reverseMap[activeCategory]
+      result = getSeasonalDestinations(result, seasonMonth, cat)
+    } else {
+      const dataCat = reverseMap[activeCategory]
+      if (activeCategory && activeCategory !== 'All') result = result.filter((d) => d.category === dataCat)
+    }
     if (search.trim()) {
       const q = search.toLowerCase()
       result = result.filter(
@@ -88,7 +116,7 @@ export default function Destinations() {
       )
     }
     return result
-  }, [search, activeCategory, shuffled])
+  }, [search, activeCategory, shuffled, seasonMonth])
 
   return (
     <div>
@@ -147,7 +175,7 @@ export default function Destinations() {
                   return (
                     <button
                       key={cat}
-                      onClick={() => setActiveCategory(cat)}
+                      onClick={() => handleCategoryChange(cat)}
                       data-active={activeCategory === cat || undefined}
                        className={`min-h-[44px] px-4 py-2 rounded-full text-sm font-bold font-['Poppins'] transition-all duration-300 whitespace-nowrap shrink-0 flex items-center gap-1.5 ${
                         activeCategory === cat
@@ -176,7 +204,7 @@ export default function Destinations() {
             </div>
           </div>
           <div className={`mb-6 ${showSearch ? '' : 'lg:hidden'}`}>
-            <SearchBar value={search} onChange={setSearch} placeholder="Search destinations..." />
+            <SearchBar value={search} onChange={handleSearchChange} placeholder="Search destinations..." />
           </div>
           {filtered.length === 0 ? (
             <div className="text-center py-16">
