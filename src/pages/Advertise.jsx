@@ -8,7 +8,7 @@ import SEO from '../components/seo/SEO'
 import AnimatedSection from '../components/ui/AnimatedSection'
 
 // WhatsApp number for business enquiries - update with your actual number
-const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || '94771234567'
+const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || '94724362001'
 
 const packages = [
   {
