@@ -19,7 +19,11 @@ export default function Navbar({ onInstallClick, isInstalled }) {
   const [scrolled, setScrolled] = useState(false)
   const { pathname } = useLocation()
   const isMapPage = pathname === '/map'
-  const isTransparent = !isMapPage && !scrolled
+  const noBannerRoutes = ['/map', '/privacy-policy', '/terms-of-service']
+  const hasBanner = noBannerRoutes.includes(pathname)
+    ? false
+    : pathname === '/' || pathname.startsWith('/destinations') || pathname.startsWith('/discover-more') || pathname.startsWith('/sri-lanka-pride') || pathname.startsWith('/gallery') || pathname.startsWith('/advertise')
+  const isTransparent = hasBanner && !scrolled
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 0)

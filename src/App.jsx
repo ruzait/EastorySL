@@ -10,6 +10,7 @@ import DestinationDetail from './pages/DestinationDetail'
 import Gallery from './pages/Gallery'
 import Advertise from './pages/Advertise'
 import Map from './pages/Map'
+import NotFound from './pages/NotFound'
 
 export default function App() {
   return (
@@ -28,7 +29,7 @@ export default function App() {
           <Route path="advertise" element={<Advertise />} />
           <Route path="privacy-policy" element={<div className="section-padding container-custom"><h1 className="text-2xl font-bold">Privacy Policy</h1><p className="mt-4 text-slate-600">Page under construction.</p></div>} />
           <Route path="terms-of-service" element={<div className="section-padding container-custom"><h1 className="text-2xl font-bold">Terms of Service</h1><p className="mt-4 text-slate-600">Page under construction.</p></div>} />
-          <Route path="*" element={<div className="section-padding container-custom text-center"><h1 className="text-4xl font-bold text-slate-900">404</h1><p className="mt-2 text-slate-500">Page not found.</p></div>} />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </BrowserRouter>
