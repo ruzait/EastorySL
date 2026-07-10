@@ -13,7 +13,7 @@ export const businesses = [
     image: 'https://q-xx.bstatic.com/xdata/images/hotel/max1024x683/60170006.jpg?k=30d84cb4992ee1633d38a5635b9a973bb6e07a5a288f8bed7376f5a0a4c9cf71&o=&a=1538557',
     coordinates: { lat: 8.565879169481878, lng: 81.23979759575427 },
     phone: '+94 262 225 313',
-    website: 'www.google.com',
+    website: '',
     googleMapsLink: 'https://maps.app.goo.gl/3MeX5zHpxqNweyPP9',
     social: { facebook: 'https://www.facebook.com/dykerest.trincomalee/' },
   },
