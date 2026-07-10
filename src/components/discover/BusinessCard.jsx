@@ -2,7 +2,6 @@ import { motion } from 'framer-motion'
 import { FiMapPin, FiPhone, FiGlobe, FiAward, FiNavigation } from 'react-icons/fi'
 import { FaFacebook, FaInstagram, FaYoutube } from 'react-icons/fa'
 import Badge from '../ui/Badge'
-import { distanceFromColombo } from '../../utils/distance'
 
 const subBadge = {
   Hotels: 'premium', Resorts: 'premium', Villas: 'premium',
@@ -74,12 +73,7 @@ export default function BusinessCard({ business, index }) {
               {business.district} District
             </span>
           )}
-          {business.coordinates && (
-            <span className="flex items-center gap-1 text-slate-400">
-              <FiNavigation className="text-coral-500" />
-              {distanceFromColombo(business.coordinates)} km from Colombo
-            </span>
-          )}
+
         </div>
         <div className="flex flex-wrap gap-2 pt-3 border-t border-slate-100">
           {business.phone && (
@@ -138,7 +132,7 @@ export default function BusinessCard({ business, index }) {
         </div>
         {business.coordinates && (
           <a
-            href={`https://www.google.com/maps/dir/?api=1&destination=${business.coordinates[0]},${business.coordinates[1]}`}
+            href={business.googleMapsLink || `https://www.google.com/maps/dir/?api=1&destination=${business.coordinates[0]},${business.coordinates[1]}`}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-2 flex items-center justify-center gap-2 w-full min-h-[44px] rounded-xl bg-coral-50 text-coral-700 text-sm font-semibold shadow-sm hover:bg-coral-100 hover:shadow-md transition-all duration-300"

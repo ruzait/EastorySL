@@ -95,7 +95,7 @@ export default function Destinations() {
         title="Destinations"
         description="Explore the best destinations in Sri Lanka — beaches, mountains, wildlife sanctuaries, historical sites, and cultural landmarks across the island."
         keywords="Sri Lanka destinations, Sri Lanka attractions, best places to visit Sri Lanka, Sri Lanka beaches, Sri Lanka nature"
-        ogImage="https://eastorysl.netlify.app/images/home/Destinations.png"
+        ogImage="/images/home/Destinations.png"
       />
       <section className="relative pt-28 md:pt-32 pb-10 md:pb-12 overflow-hidden px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0">

@@ -59,12 +59,12 @@
     <meta name="twitter:image:alt" content="Eastory SL — Travel Guide" />
 
     <!-- Google / Search Console Verification -->
-    <meta name="google-site-verification" content="YOUR_GOOGLE_VERIFICATION_CODE" />
-    <meta name="msvalidate.01" content="YOUR_BING_VERIFICATION_CODE" />
-    <meta name="yandex-verification" content="YOUR_YANDEX_VERIFICATION_CODE" />
+    <meta name="google-site-verification" content="%%GOOGLE_VERIFICATION_CODE%%" />
+    <meta name="msvalidate.01" content="%%BING_VERIFICATION_CODE%%" />
+    <meta name="yandex-verification" content="%%YANDEX_VERIFICATION_CODE%%" />
 
     <!-- Pinterest -->
-    <meta name="p:domain_verify" content="YOUR_PINTEREST_VERIFICATION_CODE" />
+    <meta name="p:domain_verify" content="%%PINTEREST_VERIFICATION_CODE%%" />
 
     <!-- Schema.org Structured Data -->
     <script type="application/ld+json">
@@ -99,7 +99,7 @@
       "logo": "https://eastorysl.netlify.app/images/logo/logo.svg",
       "contactPoint": {
         "@type": "ContactPoint",
-        "telephone": "+94-XX-XXXXXXX",
+        "telephone": "%%CONTACT_PHONE%%",
         "contactType": "customer service",
         "availableLanguage": ["English", "Sinhala", "Tamil"]
       },
@@ -199,12 +199,14 @@
     <script type="module" src="/src/main.jsx"></script>
 
     <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=%%GA_MEASUREMENT_ID%%"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-XXXXXXXXXX');
+      gtag('config', '%%GA_MEASUREMENT_ID%%');
     </script>
   </body>
 </html>
+
+

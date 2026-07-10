@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import { FiMapPin, FiArrowRight, FiNavigation } from 'react-icons/fi'
 import 'leaflet.markercluster/dist/MarkerCluster.css'
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
+import { getCategoryLabel, getDetailPath } from '../../utils/mapHelpers'
 
 const iconMap = {
   religious: 'fa-place-of-worship', historical: 'fa-landmark', nature: 'fa-leaf', beaches: 'fa-umbrella-beach',
@@ -45,22 +46,7 @@ function createMarkerIcon(icon, isSelected = false, name = '') {
   })
 }
 
-function getDetailPath(item) {
-  if (item._source === 'destinations') return `/destinations/${encodeURIComponent(item.category)}/${item.id}`
-  if (item._source === 'pride') return `/sri-lanka-pride/${encodeURIComponent(item.category)}/${item.id}`
-  return '/discover-more'
-}
 
-function getCategoryLabel(item) {
-  if (item.subCategory) return item.subCategory
-  if (item.type === 'hotel') return 'Hotel'
-  if (item.type === 'restaurant') return 'Restaurant'
-  if (item.type === 'shop') return 'Shop'
-  if (item.type === 'service') return 'Service'
-  if (item.category === 'beaches') return 'Beach'
-  if (item.period) return 'Cultural'
-  return item.category
-}
 
 
 const userLocationIcon = L.divIcon({
@@ -238,3 +224,4 @@ export default function MapView({ filteredData, onSelectItem, flyToCoord, select
     </MapContainer>
   )
 }
+

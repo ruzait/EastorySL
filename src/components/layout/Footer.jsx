@@ -15,12 +15,9 @@ const quickLinks = [
 ]
 
 const destinations = [
-  { name: 'Sigiriya' },
-  { name: 'Kandy' },
-  { name: 'Galle' },
-  { name: 'Trincomalee' },
-  { name: 'Arugam Bay' },
-  { name: 'Yala' },
+  { name: 'Mirissa Beach', path: '/destinations/beaches/beach-mirissa' },
+  { name: 'Unawatuna Beach', path: '/destinations/beaches/beach-unawatuna' },
+  { name: 'Kingdom of Anuradhapura', path: '/sri-lanka-pride/ancient-kingdoms/ak-anuradhapura' },
 ]
 
 const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -102,7 +99,7 @@ export default function Footer() {
               {destinations.map((d) => (
                 <li key={d.name}>
                   <Link
-                    to={`/destinations?search=${encodeURIComponent(d.name)}`}
+                    to={d.path}
                     onClick={scrollToTop}
                     className="group/link text-slate-400 hover:text-teal-400 text-sm transition-all duration-200 inline-flex items-center gap-1.5"
                   >

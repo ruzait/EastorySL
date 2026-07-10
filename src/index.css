@@ -3,6 +3,64 @@
 @tailwind utilities;
 
 @layer base {
+  .destination-content h2 {
+    @apply text-2xl font-heading font-bold mt-10 mb-4 pb-2 border-b-2 border-teal-100 flex items-center gap-3;
+  }
+
+  .destination-content h2::before {
+    content: '';
+    @apply w-1 h-6 bg-teal-500 rounded-full inline-block shrink-0;
+  }
+
+  .destination-content h2:first-child {
+    @apply mt-0;
+  }
+
+  .destination-content p {
+    @apply leading-relaxed mb-4;
+  }
+
+  .destination-content ul {
+    @apply space-y-2 mb-6;
+  }
+
+  .destination-content ul li {
+    @apply pl-6 relative;
+  }
+
+  .destination-content ul li::before {
+    content: '▸';
+    @apply absolute left-0 text-teal-500 font-bold;
+  }
+
+  .destination-content table {
+    @apply w-full text-sm mb-6 rounded-xl overflow-hidden border;
+  }
+
+  .destination-content thead {
+    @apply bg-gradient-to-r from-teal-500 to-ocean-500;
+  }
+
+  .destination-content thead th {
+    @apply px-6 py-4 text-left text-white font-semibold text-sm;
+  }
+
+  .destination-content tbody tr {
+    @apply border-b transition-colors;
+  }
+
+  .destination-content tbody tr:last-child {
+    @apply border-b-0;
+  }
+
+  .destination-content tbody td {
+    @apply px-6 py-4;
+  }
+
+  .destination-content section + section {
+    @apply mt-8;
+  }
+
   html {
     scroll-behavior: smooth;
   }
@@ -107,46 +165,6 @@
       linear-gradient(90deg, rgba(13, 148, 136, 0.03) 1px, transparent 1px);
     background-size: 40px 40px;
   }
-}
-
-.destination-content {
-  font-style: normal;
-}
-
-.destination-content h2 {
-  @apply text-xl font-heading font-bold text-slate-900 mt-6 mb-3;
-}
-
-.destination-content a {
-  @apply text-teal-600 underline hover:text-teal-700;
-}
-
-.destination-content h2:first-child {
-  @apply mt-0;
-}
-
-.destination-content p {
-  @apply text-slate-600 leading-relaxed mb-4;
-}
-
-.destination-content ul {
-  @apply list-disc list-inside space-y-1.5 text-slate-600 mb-4;
-}
-
-.destination-content table {
-  @apply w-full text-sm border-collapse mb-4;
-}
-
-.destination-content th {
-  @apply bg-teal-50 text-slate-800 font-heading font-semibold px-4 py-2.5 text-left border border-slate-200;
-}
-
-.destination-content td {
-  @apply px-4 py-2.5 border border-slate-200 text-slate-600;
-}
-
-.destination-content tr:nth-child(even) td {
-  @apply bg-slate-50;
 }
 
 .leaflet-container {

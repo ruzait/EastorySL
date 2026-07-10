@@ -1,6 +1,7 @@
 import { useMemo, useRef, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { FiMapPin, FiSearch, FiX, FiChevronRight, FiChevronLeft } from 'react-icons/fi'
+import { getCategoryClass, getCategoryLabel } from '../../utils/mapHelpers'
 
 const CATEGORIES = [
   'All Destinations', 'Beaches', 'Waterfalls', 'Mountains', 'Historical Sites',
@@ -27,24 +28,7 @@ const categoryColors = {
   default: 'bg-slate-100 text-slate-600',
 }
 
-function getCategoryClass(item) {
-  if (item.type) {
-    const labels = { hotel: 'Hotel', restaurant: 'Restaurant', shop: 'Shop', service: 'Service' }
-    return categoryColors[labels[item.type]] || categoryColors.default
-  }
-  if (item.period) return categoryColors.cultural
-  return categoryColors[item.category] || categoryColors.default
-}
 
-function getCategoryLabel(item) {
-  if (item.type) {
-    const labels = { hotel: 'Hotel', restaurant: 'Restaurant', shop: 'Shop', service: 'Service' }
-    return labels[item.type] || item.type
-  }
-  if (item.period) return 'Cultural'
-  if (item.category === 'beaches') return 'Beach'
-  return item.category
-}
 
 export default function MapPlaceList({ items, selectedItem, onSelect, searchQuery, onSearchChange, activeCategory, onCategoryChange, onClose }) {
   const listRef = useRef(null)
@@ -248,3 +232,5 @@ export default function MapPlaceList({ items, selectedItem, onSelect, searchQuer
     </div>
   )
 }
+
+

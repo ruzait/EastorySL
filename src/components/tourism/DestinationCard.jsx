@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { FiMapPin, FiClock, FiDollarSign, FiSun, FiAward, FiNavigation } from 'react-icons/fi'
 import Badge from '../ui/Badge'
-import { distanceFromColombo } from '../../utils/distance'
 
 export default function DestinationCard({ destination, index }) {
   const navigate = useNavigate()
@@ -80,33 +79,29 @@ export default function DestinationCard({ destination, index }) {
         <p className="text-slate-600 text-sm leading-relaxed mb-4 truncate">
           {destination.description}
         </p>
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-500 mb-3">
-          {destination.district && (
-            <span className="flex items-center gap-1 text-slate-400">
-              <FiMapPin className="text-teal-500" />
-              {destination.district} District
-            </span>
-          )}
-          {destination.coordinates && (
-            <span className="flex items-center gap-1 text-slate-400">
-              <FiNavigation className="text-teal-500" />
-              {distanceFromColombo(destination.coordinates)} km from Colombo
-            </span>
-          )}
-        </div>
-        <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 mb-4">
-          {destination.duration && (
-            <span className="flex items-center gap-1">
-              <FiClock className="text-teal-500" />
-              {destination.duration}
-            </span>
-          )}
-          {destination.entryFee && (
-            <span className="flex items-center gap-1">
-              <FiDollarSign className="text-teal-500" />
-              {destination.entryFee}
-            </span>
-          )}
+        <div className="flex items-center justify-between gap-2 text-xs text-slate-500 mb-4">
+          <div className="flex items-center gap-3">
+            {destination.district && (
+              <span className="flex items-center gap-1 text-slate-400">
+                <FiMapPin className="text-teal-500" />
+                {destination.district} District
+              </span>
+            )}
+          </div>
+          <div className="flex items-center gap-3">
+            {destination.duration && (
+              <span className="flex items-center gap-1">
+                <FiClock className="text-teal-500" />
+                {destination.duration}
+              </span>
+            )}
+            {destination.entryFee && (
+              <span className="flex items-center gap-1">
+                <FiDollarSign className="text-teal-500" />
+                {destination.entryFee}
+              </span>
+            )}
+          </div>
         </div>
         {(destination.bestTime || destination.coordinates) && (
           <div className="pt-3 border-t border-slate-100 space-y-3">
@@ -121,7 +116,7 @@ export default function DestinationCard({ destination, index }) {
               <button
                 onClick={(e) => {
                   e.stopPropagation()
-                  window.open(`https://www.google.com/maps/dir/?api=1&destination=${destination.coordinates[0]},${destination.coordinates[1]}`, '_blank', 'noopener,noreferrer')
+                  window.open(destination.googleMapsLink || `https://www.google.com/maps/dir/?api=1&destination=${destination.coordinates.lat},${destination.coordinates.lng}`, '_blank', 'noopener,noreferrer')
                 }}
                 className="inline-flex items-center justify-center gap-2 w-full min-h-[48px] px-4 py-2.5 rounded-xl bg-gradient-to-r from-teal-500 to-ocean-600 text-white text-sm font-semibold shadow-lg shadow-teal-500/20 hover:shadow-teal-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
               >

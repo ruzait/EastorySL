@@ -1,31 +1,6 @@
 import { FiX, FiMapPin, FiClock, FiDollarSign, FiSun, FiPhone, FiGlobe, FiNavigation, FiExternalLink, FiChevronRight } from 'react-icons/fi'
+import { getDetailPath, getCategoryLabel, getCategoryStyle } from '../../utils/mapHelpers'
 import { Link } from 'react-router-dom'
-
-function getDetailPath(item) {
-  if (item._source === 'destinations') return `/destinations/${encodeURIComponent(item.category)}/${item.id}`
-  if (item._source === 'pride') return `/sri-lanka-pride/${encodeURIComponent(item.category)}/${item.id}`
-  if (item._source === 'businesses') return '/discover-more'
-  if (item.type) return '/discover-more'
-  if (item.period) return '/sri-lanka-pride'
-  return '/destinations'
-}
-
-function getCategoryLabel(item) {
-  if (item.type === 'hotel') return 'Hotel'
-  if (item.type === 'restaurant') return 'Restaurant'
-  if (item.type === 'shop') return 'Shop'
-  if (item.type === 'service') return 'Service'
-  if (item.category === 'beaches') return 'Beach'
-  if (item.period) return 'Cultural'
-  return item.category
-}
-
-function getCategoryStyle(item) {
-  if (item.type) return 'bg-gradient-to-r from-sunset-500 to-rose-500'
-  if (item.category === 'beaches') return 'bg-gradient-to-r from-ocean-500 to-cyan-500'
-  if (item.period) return 'bg-gradient-to-r from-coral-500 to-pink-500'
-  return 'bg-gradient-to-r from-teal-500 to-emerald-500'
-}
 
 const infoFields = [
   { key: 'bestTime', icon: FiSun, color: 'text-amber-500', bg: 'bg-amber-50', label: 'Best Time' },
@@ -124,7 +99,7 @@ export default function MapSidePanel({ item, onClose }) {
         <div className="flex flex-col gap-3 pt-2">
           {item.coordinates && (
             <a
-              href={`https://www.google.com/maps/dir/?api=1&destination=${item.coordinates[0]},${item.coordinates[1]}`}
+              href={item.googleMapsLink || `https://www.google.com/maps/dir/?api=1&destination=${item.coordinates[0]},${item.coordinates[1]}`}
               target="_blank"
               rel="noopener noreferrer"
               className="touch-manipulation group flex items-center justify-center gap-3 w-full min-h-[48px] rounded-xl bg-gradient-to-r from-teal-500 to-emerald-500 text-white text-sm font-bold shadow-lg shadow-teal-500/25 hover:shadow-teal-500/40 hover:scale-[1.02] active:scale-[0.97] transition-all duration-300"
@@ -165,3 +140,4 @@ export default function MapSidePanel({ item, onClose }) {
     </div>
   )
 }
+

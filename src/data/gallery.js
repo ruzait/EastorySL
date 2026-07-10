@@ -10,7 +10,7 @@ export const galleryCatIcons = {
   'historical': FaLandmark,
   'religious': FaChurch,
   'forts': GiCastle,
-  'cultural': undefined,
+  'cultural': FiCamera,
   'ancient-kingdoms': GiCrown,
   'food-culinary': GiCookingPot,
   'cities-urban': FaCity,
@@ -38,7 +38,48 @@ export const galleryCategories = [
   { id: 'shopping', label: 'Shopping' },
 ]
 
-export const galleryImages = []
+export const galleryExtraSources = {
+  'beach-mirissa': {
+    name: 'Mirissa Beach',
+    category: 'beaches',
+    location: 'Mirissa',
+    images: [
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/destination/mirissabeach2.jpg',
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/destination/mirissabeach3.jpg',
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/destination/mirissabeach4.jpg',
+    ],
+  },
+  'beach-unawatuna': {
+    name: 'Unawatuna Beach',
+    category: 'beaches',
+    location: 'Unawatuna',
+    images: [
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/destination/unawatunabeach2.jpg',
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/destination/unawatunabeach3.jpg',
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/destination/unawatunabeach4.jpg',
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/destination/unawatunabeach5.jpg',
+    ],
+  },
+  'ak-anuradhapura': {
+    name: 'Kingdom of Anuradhapura',
+    category: 'ancient-kingdoms',
+    location: 'Anuradhapura',
+    images: [
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/pride/KingdomofAnuradhapura1.jpg',
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/pride/KingdomofAnuradhapura2.png',
+    ],
+  },
+  'ak-polonnaruwa': {
+    name: 'Kingdom of Polonnaruwa',
+    category: 'ancient-kingdoms',
+    location: 'Polonnaruwa',
+    images: [
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/pride/KingdomofPolonnaruwa1.jpg',
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/pride/KingdomofPolonnaruwa2.jpg',
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/pride/KingdomofPolonnaruwa3.jpg',
+    ],
+  },
+}
 
 export function buildGalleryImages(destinations, businesses, prideItems) {
   const destMap = {
@@ -65,7 +106,7 @@ export function buildGalleryImages(destinations, businesses, prideItems) {
   const bizMap = {
     Hotels: 'accommodation',
     Resorts: 'accommodation',
-    Surfing: 'adventure',
+    'Surfing': 'adventure',
     Diving: 'adventure',
     Snorkeling: 'adventure',
     'Whale Watching': 'adventure',
@@ -101,19 +142,7 @@ export function buildGalleryImages(destinations, businesses, prideItems) {
         alt: d.name,
         category: cat,
         location: d.location,
-      })
-    }
-  })
-
-  businesses.forEach((b) => {
-    const cat = bizMap[b.subCategory] || bizMap[b.category]
-    if (cat) {
-      images.push({
-        id: b.id,
-        src: b.image,
-        alt: b.name,
-        category: cat,
-        location: b.location,
+        itemId: d.id,
       })
     }
   })
@@ -127,15 +156,23 @@ export function buildGalleryImages(destinations, businesses, prideItems) {
         alt: p.name,
         category: cat,
         location: p.location || p.origin || p.birthPlace || '',
+        itemId: p.id,
       })
     }
   })
 
-  galleryImages.forEach((g) => {
-    const cat = destMap[g.category] || g.category
-    if (cat) {
-      images.push({ id: g.id, src: g.src, alt: g.alt, category: cat, location: g.location || '' })
-    }
+  Object.entries(galleryExtraSources).forEach(([sourceId, source]) => {
+    const cat = prideMap[source.category] || destMap[source.category] || source.category
+    source.images.forEach((src, i) => {
+      images.push({
+        id: `${sourceId}-extra-${i}`,
+        src,
+        alt: source.name,
+        category: cat,
+        location: source.location,
+        itemId: sourceId,
+      })
+    })
   })
 
   return images.sort(() => Math.random() - 0.5)

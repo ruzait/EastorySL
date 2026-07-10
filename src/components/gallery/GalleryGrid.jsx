@@ -1,46 +1,26 @@
-import { useState, useMemo, useEffect, useRef } from 'react'
+import { useState, useMemo, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FiX, FiChevronLeft, FiChevronRight, FiMapPin } from 'react-icons/fi'
-import { galleryCatIcons } from '../../data/gallery'
+import { FiX, FiChevronLeft, FiChevronRight, FiMapPin, FiArrowLeft, FiSearch } from 'react-icons/fi'
 
-export default function GalleryGrid({ images, categories }) {
-  const [activeCategory, setActiveCategory] = useState('all')
+export default function GalleryGrid({ images, initialItem, showAllLink }) {
+  const [search, setSearch] = useState('')
   const [selectedImage, setSelectedImage] = useState(null)
-  const [scrollStart, setScrollStart] = useState(true)
-  const [scrollEnd, setScrollEnd] = useState(false)
-  const scrollRef = useRef(null)
 
-  const updateScrollState = () => {
-    const el = scrollRef.current
-    if (!el) return
-    setScrollStart(el.scrollLeft <= 2)
-    setScrollEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 2)
-  }
-
-  const scroll = (dir) => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: dir * 200, behavior: 'smooth' })
-    }
-  }
-
-  useEffect(() => {
-    updateScrollState()
-    const onResize = () => updateScrollState()
-    window.addEventListener('resize', onResize)
-    return () => window.removeEventListener('resize', onResize)
-  }, [])
-
-  useEffect(() => {
-    if (scrollRef.current) {
-      const btn = scrollRef.current.querySelector('[data-active="true"]')
-      if (btn) btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
-    }
-  }, [activeCategory])
+  const scopedImages = useMemo(() => {
+    if (!initialItem) return images
+    return images.filter((img) => img.itemId === initialItem)
+  }, [images, initialItem])
 
   const filtered = useMemo(() => {
-    if (activeCategory === 'all') return images
-    return images.filter((img) => img.category === activeCategory)
-  }, [images, activeCategory])
+    if (!search.trim()) return scopedImages
+    const q = search.toLowerCase()
+    return scopedImages.filter((img) =>
+      img.alt.toLowerCase().includes(q) ||
+      img.category.toLowerCase().includes(q) ||
+      (img.location && img.location.toLowerCase().includes(q))
+    )
+  }, [scopedImages, search])
 
   const currentIndex = useMemo(() => {
     if (!selectedImage) return -1
@@ -68,51 +48,27 @@ export default function GalleryGrid({ images, categories }) {
 
   return (
     <>
-      <div className="flex items-center gap-1 mb-8">
-        <button
-          onClick={() => scroll(-1)}
-          disabled={scrollStart}
-          className={`hidden lg:flex min-h-[44px] w-12 items-center justify-center rounded-full border transition-all duration-300 shrink-0 ${
-            scrollStart
-              ? 'bg-slate-100 text-slate-300 border-slate-100 cursor-not-allowed'
-              : 'bg-white text-slate-600 hover:bg-teal-50 hover:text-teal-700 border-slate-200'
-          }`}
-          aria-label="Scroll left"
-        >
-          <FiChevronLeft />
-        </button>
-        <div ref={scrollRef} onScroll={updateScrollState} className="flex gap-2 overflow-x-auto scroll-smooth no-scrollbar">
-          {categories.map((cat) => {
-            const Icon = galleryCatIcons[cat.id]
-            return (
-              <button
-                key={cat.id}
-                onClick={() => setActiveCategory(cat.id)}
-                data-active={activeCategory === cat.id || undefined}
-                className={`min-h-[44px] px-4 py-2 rounded-full text-sm font-bold font-['Poppins'] transition-all duration-300 whitespace-nowrap shrink-0 flex items-center gap-1.5 ${
-                  activeCategory === cat.id
-                    ? 'bg-teal-600 text-white shadow-lg shadow-teal-500/20'
-                    : 'bg-white text-slate-600 hover:bg-teal-50 hover:text-teal-700 border border-slate-200'
-                }`}
-              >
-                {Icon && <Icon className="text-sm" />}
-                {cat.label}
-              </button>
-            )
-          })}
+      {showAllLink && (
+        <div className="mb-6 w-full">
+          <Link
+            to="/gallery"
+            className="flex items-center gap-3 w-full px-5 py-4 rounded-xl bg-teal-50 border border-teal-200 text-teal-800 text-sm font-semibold hover:bg-teal-100 transition-all"
+          >
+            <FiArrowLeft className="shrink-0" />
+            <span>Showing photos for this place only — <span className="underline">click here</span> to browse all photos</span>
+          </Link>
         </div>
-        <button
-          onClick={() => scroll(1)}
-          disabled={scrollEnd}
-          className={`hidden lg:flex min-h-[44px] w-12 items-center justify-center rounded-full border transition-all duration-300 shrink-0 ${
-            scrollEnd
-              ? 'bg-slate-100 text-slate-300 border-slate-100 cursor-not-allowed'
-              : 'bg-white text-slate-600 hover:bg-teal-50 hover:text-teal-700 border-slate-200'
-          }`}
-          aria-label="Scroll right"
-        >
-          <FiChevronRight />
-        </button>
+      )}
+
+      <div className="relative mb-8">
+        <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search by name, category, or location..."
+          className="w-full pl-12 pr-4 py-3.5 rounded-xl bg-white border border-slate-200 text-sm text-slate-800 italic placeholder:text-slate-400 placeholder:italic outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-400 transition-all"
+        />
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -146,6 +102,13 @@ export default function GalleryGrid({ images, categories }) {
           </motion.button>
         ))}
       </div>
+
+      {filtered.length === 0 && (
+        <div className="text-center py-16">
+          <p className="text-slate-400 text-lg mb-2">No photos found</p>
+          <p className="text-slate-400 text-sm">Try a different search term</p>
+        </div>
+      )}
 
       <AnimatePresence>
         {selectedImage && (

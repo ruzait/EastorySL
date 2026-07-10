@@ -1,8 +1,9 @@
 import { useParams, Link } from 'react-router-dom'
-import { FiArrowLeft, FiMapPin, FiCalendar, FiNavigation, FiAward } from 'react-icons/fi'
+import { FiArrowLeft, FiMapPin, FiCalendar, FiNavigation, FiAward, FiCamera } from 'react-icons/fi'
 import { GiCrown, GiCaveEntrance, GiTeapotLeaves, GiFruitTree } from 'react-icons/gi'
 import { FaLandmark, FaCity, FaUtensils, FaRoute, FaUsers } from 'react-icons/fa'
 import { prideItems } from '../data/sriLankaPride'
+import { distanceFromColombo } from '../utils/distance'
 import SEO from '../components/seo/SEO'
 
 const catMeta = {
@@ -57,7 +58,7 @@ export default function PrideDetail() {
     url: `${SITE_URL}/sri-lanka-pride/${category}/${id}`,
     ...(item.period && !isFamous && { description: `${item.description} Period: ${item.period}` }),
     ...(isFamous && item.birthYear && { birthDate: item.birthYear, birthPlace: item.birthPlace }),
-    ...(item.coordinates && { geo: { '@type': 'GeoCoordinates', latitude: item.coordinates[0], longitude: item.coordinates[1] } }),
+    ...(item.coordinates && { geo: { '@type': 'GeoCoordinates', latitude: item.coordinates.lat, longitude: item.coordinates.lng } }),
   } : null
 
   return (
@@ -108,6 +109,12 @@ export default function PrideDetail() {
                 </div>
               )}
               <p className="text-white/90 text-base md:text-lg max-w-2xl leading-relaxed">{item.description}</p>
+              <Link
+                to={`/gallery?item=${item.id}`}
+                className="inline-flex items-center gap-2 mt-5 px-8 py-3.5 rounded-full bg-teal-600 hover:bg-teal-500 text-white text-base font-semibold transition-all shadow-lg shadow-teal-500/30 hover:shadow-xl hover:shadow-teal-500/40"
+              >
+                <FiCamera /> View Gallery
+              </Link>
             </div>
           </div>
         </div>
@@ -115,18 +122,10 @@ export default function PrideDetail() {
 
       <section className="section-padding">
         <div className="container-custom">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 space-y-6">
               <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-6 md:p-8">
-                {item.period && (
-                  <div className={item.detail || item.description ? 'pb-4 border-b border-slate-100 mb-4' : ''}>
-                    <h3 className="text-sm font-heading font-semibold text-slate-700 mb-2">Period</h3>
-                    <div className="flex items-center gap-2 text-slate-600">
-                      <FiCalendar className={meta.color === 'amber' ? 'text-amber-500' : 'text-teal-500'} />
-                      <span>{item.period}</span>
-                    </div>
-                  </div>
-                )}
+
                 {isRoute && item.stops && (
                   <div className="pb-4 border-b border-slate-100 mb-4">
                     <h3 className="text-sm font-heading font-semibold text-slate-700 mb-2">Route</h3>
@@ -157,29 +156,38 @@ export default function PrideDetail() {
                     </div>
                   </div>
                 )}
-                <h2 className="text-xl font-heading font-bold text-slate-900 mb-4">About</h2>
-                <div dangerouslySetInnerHTML={{ __html: item.detail || item.description }} />
+                <h1 className="text-2xl md:text-3xl font-heading font-bold text-slate-900 mb-4">{item.name}</h1>
+                <div
+                  className="destination-content prose prose-slate max-w-none text-slate-600"
+                  dangerouslySetInnerHTML={{ __html: item.detail || item.description }}
+                />
               </div>
             </div>
 
-            <div className="bg-white rounded-xl shadow border border-slate-100 p-4 space-y-3">
+            <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-6 space-y-4 self-start">
               <div>
-                <h3 className="text-xs font-heading font-semibold text-slate-700 mb-2 uppercase tracking-wider">Category</h3>
-                <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-gradient-to-br ${meta.gradient} text-white`}>
-                  <Icon className="text-xs" />
+                <h3 className="text-sm font-heading font-semibold text-slate-700 mb-3">Category</h3>
+                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-br ${meta.gradient} text-white`}>
+                  <Icon className="text-sm" />
                   {meta.label}
                 </span>
               </div>
               {item.coordinates && (
-                <div className="pt-3 border-t border-slate-100">
-                  <h3 className="text-xs font-heading font-semibold text-slate-700 mb-2 uppercase tracking-wider">Location</h3>
+                <div className="pt-4 border-t border-slate-100">
+                  <h3 className="text-sm font-heading font-semibold text-slate-700 mb-3">Location</h3>
+                  <div className="text-xs text-slate-500 mb-3">
+                    {item.coordinates.lat}°N, {item.coordinates.lng}°E
+                    <div className="mt-1 text-teal-600 font-medium">
+                      {item.name} in {distanceFromColombo([item.coordinates.lat, item.coordinates.lng])} km from Colombo
+                    </div>
+                  </div>
                   <a
-                    href={`https://www.google.com/maps/dir/?api=1&destination=${item.coordinates[0]},${item.coordinates[1]}`}
+                    href={item.googleMapsLink || `https://www.google.com/maps/dir/?api=1&destination=${item.coordinates.lat},${item.coordinates.lng}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-1.5 w-full py-2 rounded-lg bg-teal-50 text-teal-700 text-xs font-semibold hover:bg-teal-100 transition-all"
+                    className="flex items-center justify-center gap-2 w-full min-h-[44px] rounded-xl bg-teal-50 text-teal-700 text-sm font-semibold hover:bg-teal-100 transition-all"
                   >
-                    <FiNavigation className="text-xs" /> Get Directions
+                    <FiNavigation /> Get Directions
                   </a>
                 </div>
               )}

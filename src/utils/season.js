@@ -1,3 +1,10 @@
+const fullMonthNames = {
+  jan: 'Jan', january: 'Jan', feb: 'Feb', february: 'Feb', mar: 'Mar', march: 'Mar',
+  apr: 'Apr', april: 'Apr', may: 'May', jun: 'Jun', june: 'Jun',
+  jul: 'Jul', july: 'Jul', aug: 'Aug', august: 'Aug', sep: 'Sep', september: 'Sep',
+  oct: 'Oct', october: 'Oct', nov: 'Nov', november: 'Nov', dec: 'Dec', december: 'Dec',
+}
+
 const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
 export function monthName(n) {
@@ -13,15 +20,21 @@ export function isInSeason(bestTime, month) {
   const ranges = bestTime.split(',').map(s => s.trim())
   for (let range of ranges) {
     range = range.replace(/\s*\([^)]*\)/g, '').trim()
-    if (/^[A-Z][a-z]{2}-[A-Z][a-z]{2}$/.test(range)) {
-      const [start, end] = range.split('-').map(s => monthNames.indexOf(s))
-      if (start <= end) {
-        if (m >= start && m <= end) return true
-      } else {
-        if (m >= start || m <= end) return true
+    const parts = range.split(/[–-]/).map(s => s.trim())
+    if (parts.length === 2) {
+      const start = fullMonthNames[parts[0].toLowerCase()]
+      const end = fullMonthNames[parts[1].toLowerCase()]
+      if (start && end) {
+        const si = monthNames.indexOf(start)
+        const ei = monthNames.indexOf(end)
+        if (si <= ei) {
+          if (m >= si && m <= ei) return true
+        } else {
+          if (m >= si || m <= ei) return true
+        }
       }
     }
-    if (/^[A-Z][a-z]{2}$/.test(range) && range === month) return true
+    if (fullMonthNames[range.toLowerCase()] === month) return true
   }
   return false
 }
@@ -29,7 +42,7 @@ export function isInSeason(bestTime, month) {
 export function getSeasonalDestinations(destinations, month, category = 'All') {
   let filtered = destinations.filter(d => isInSeason(d.bestTime, month))
   if (category !== 'All') {
-    filtered = filtered.filter(d => d.category === category.toLowerCase().replace(/\s+/g, '-'))
+    filtered = filtered.filter(d => d.category === category.toLowerCase())
   }
   return filtered
 }

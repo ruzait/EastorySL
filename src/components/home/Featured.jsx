@@ -8,7 +8,6 @@ import Badge from '../ui/Badge'
 import { destinations } from '../../data/destinations'
 import { prideItems } from '../../data/sriLankaPride'
 import { getSeasonalDestinations, getSeasonalFoods, monthName } from '../../utils/season'
-import { distanceFromColombo } from '../../utils/distance'
 
 const popularCategories = [
   'All', 'Beaches', 'Nature', 'Wildlife', 'Historical', 'Waterfalls', 'Cultural', 'Adventure Activities'
@@ -57,10 +56,10 @@ function SeasonalCard({ dest, i }) {
     <motion.div
       layout
       initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
+      whileInView={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.5, delay: i * 0.06 }}
-      viewport={{ once: true }}
+      viewport={{ once: true, margin: '-50px' }}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       tabIndex={0}
@@ -108,12 +107,7 @@ function SeasonalCard({ dest, i }) {
                 {dest.district} District
               </span>
             )}
-            {dest.coordinates && (
-              <span className="flex items-center gap-1 text-slate-400">
-                <FiNavigation className="text-teal-500" />
-                {distanceFromColombo(dest.coordinates)} km
-              </span>
-            )}
+
           </div>
           <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 mb-3">
             {dest.duration && (
@@ -140,7 +134,7 @@ function SeasonalCard({ dest, i }) {
               <button
                 onClick={(e) => {
                   e.stopPropagation()
-                  window.open(`https://www.google.com/maps/dir/?api=1&destination=${dest.coordinates[0]},${dest.coordinates[1]}`, '_blank', 'noopener,noreferrer')
+                  window.open(dest.googleMapsLink || `https://www.google.com/maps/dir/?api=1&destination=${dest.coordinates.lat},${dest.coordinates.lng}`, '_blank', 'noopener,noreferrer')
                 }}
                 className="inline-flex items-center justify-center gap-2 w-full min-h-[40px] px-4 py-2 rounded-xl bg-gradient-to-r from-teal-500 to-ocean-600 text-white text-sm font-semibold shadow-md shadow-teal-500/20 hover:shadow-teal-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
               >
@@ -160,10 +154,10 @@ function SeasonalFoodCard({ food, i }) {
     <motion.div
       layout
       initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
+      whileInView={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.5, delay: i * 0.06 }}
-      viewport={{ once: true }}
+      viewport={{ once: true, margin: '-50px' }}
     >
       <Link to={`/sri-lanka-pride/seasonal-foods/${food.id}`} className="block cursor-pointer h-full">
         <div className="group rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-teal-200 h-full flex flex-col bg-white">

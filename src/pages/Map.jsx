@@ -10,10 +10,16 @@ import { destinations } from '../data/destinations'
 import { businesses } from '../data/businesses'
 import { prideItems } from '../data/sriLankaPride'
 
+function toArrayCoords(c) {
+  if (!c) return c
+  if (Array.isArray(c)) return c
+  return [c.lat, c.lng]
+}
+
 const ALL_DATA = [
-  ...destinations.map((d) => ({ ...d, _source: 'destinations' })),
-  ...businesses.map((b) => ({ ...b, _source: 'businesses' })),
-  ...prideItems.filter((p) => p.coordinates).map((p) => ({ ...p, _source: 'pride' })),
+  ...destinations.map((d) => ({ ...d, _source: 'destinations', coordinates: toArrayCoords(d.coordinates) })),
+  ...businesses.map((b) => ({ ...b, _source: 'businesses', coordinates: toArrayCoords(b.coordinates) })),
+  ...prideItems.filter((p) => p.coordinates).map((p) => ({ ...p, _source: 'pride', coordinates: toArrayCoords(p.coordinates) })),
 ]
 
 export default function Map() {
@@ -21,7 +27,7 @@ export default function Map() {
     destinations: true,
     beaches: true,
     businesses: true,
-    cultural: false,
+    cultural: true,
   })
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedItem, setSelectedItem] = useState(null)
@@ -144,7 +150,7 @@ export default function Map() {
         title="Map"
         description="Explore Sri Lanka with our interactive map — find destinations, hotels, restaurants, and points of interest across the island."
         keywords="Sri Lanka map, Sri Lanka travel map, Sri Lanka attractions map, Eastern Sri Lanka map, Sri Lanka guide"
-        ogImage="https://eastorysl.netlify.app/images/home/hero.png"
+        ogImage="/images/home/hero.png"
       />
       <div className="absolute inset-0 pt-16 md:pt-20">
         <div className="h-full flex overflow-hidden relative">
