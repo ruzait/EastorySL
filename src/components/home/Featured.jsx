@@ -8,6 +8,7 @@ import Badge from '../ui/Badge'
 import { destinations } from '../../data/destinations'
 import { prideItems } from '../../data/sriLankaPride'
 import { getSeasonalDestinations, getSeasonalFoods, monthName } from '../../utils/season'
+import { handleImgError } from '../../utils/fallback'
 
 const popularCategories = [
   'All', 'Beaches', 'Nature', 'Wildlife', 'Historical', 'Waterfalls', 'Cultural', 'Adventure Activities'
@@ -72,6 +73,7 @@ function SeasonalCard({ dest, i }) {
             src={dest.image}
             alt={dest.name}
             loading="lazy"
+            onError={handleImgError}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent" />
@@ -166,6 +168,7 @@ function SeasonalFoodCard({ food, i }) {
               src={food.image}
               alt={food.name}
               loading="lazy"
+              onError={handleImgError}
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent" />

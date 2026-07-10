@@ -1,9 +1,11 @@
 import { useState, useMemo, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiX, FiChevronLeft, FiChevronRight, FiMapPin, FiArrowLeft, FiSearch } from 'react-icons/fi'
+import { handleImgError } from '../../utils/fallback'
 
 export default function GalleryGrid({ images, initialItem, showAllLink }) {
+  const navigate = useNavigate()
   const [search, setSearch] = useState('')
   const [selectedImage, setSelectedImage] = useState(null)
 
@@ -55,21 +57,23 @@ export default function GalleryGrid({ images, initialItem, showAllLink }) {
             className="flex items-center gap-3 w-full px-5 py-4 rounded-xl bg-teal-50 border border-teal-200 text-teal-800 text-sm font-semibold hover:bg-teal-100 transition-all"
           >
             <FiArrowLeft className="shrink-0" />
-            <span>Showing photos for this place only — <span className="underline">click here</span> to browse all photos</span>
+            <span>Showing photos for {scopedImages[0]?.alt || 'this place'} — <span className="underline">click here</span> to browse all photos</span>
           </Link>
         </div>
       )}
 
-      <div className="relative mb-8">
-        <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-        <input
-          type="text"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search by name, category, or location..."
-          className="w-full pl-12 pr-4 py-3.5 rounded-xl bg-white border border-slate-200 text-sm text-slate-800 italic placeholder:text-slate-400 placeholder:italic outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-400 transition-all"
-        />
-      </div>
+      {!showAllLink && (
+        <div className="relative mb-8">
+          <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search by name, category, or location..."
+            className="w-full pl-12 pr-4 py-3.5 rounded-xl bg-white border border-slate-200 text-sm text-slate-800 italic placeholder:text-slate-400 placeholder:italic outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-400 transition-all"
+          />
+        </div>
+      )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {filtered.map((image, i) => (
@@ -87,6 +91,7 @@ export default function GalleryGrid({ images, initialItem, showAllLink }) {
               src={image.src}
               alt={image.alt}
               loading="lazy"
+              onError={handleImgError}
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -158,7 +163,9 @@ export default function GalleryGrid({ images, initialItem, showAllLink }) {
                 src={selectedImage.src}
                 alt={selectedImage.alt}
                 loading="lazy"
-                className="w-full max-h-[80vh] object-contain rounded-2xl"
+                onError={handleImgError}
+                onClick={() => { if (selectedImage.page) navigate('/' + selectedImage.page + '/' + selectedImage.category + '/' + selectedImage.itemId) }}
+                className="w-full max-h-[80vh] object-contain rounded-2xl cursor-pointer"
               />
               <div className="text-center mt-4">
                 <p className="text-white text-lg font-medium">{selectedImage.alt}</p>

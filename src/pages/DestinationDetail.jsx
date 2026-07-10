@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { destinations } from '../data/destinations'
 import { distanceFromColombo } from '../utils/distance'
 import SEO from '../components/seo/SEO'
+import { handleImgError } from '../utils/fallback'
 
 const catMeta = {
   beaches: { label: 'Beaches', color: 'sky', gradient: 'from-sky-500 to-cyan-500' },
@@ -77,7 +78,7 @@ export default function DestinationDetail() {
           <div className="flex flex-col md:flex-row md:items-end gap-6 md:gap-10">
             <div className="w-full md:w-80 lg:w-96 shrink-0">
               <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
-                <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                <img src={item.image} alt={item.name} onError={handleImgError} className="w-full h-full object-cover" />
               </div>
             </div>
             <div className="flex-1">
@@ -197,9 +198,9 @@ export default function DestinationDetail() {
                 <div className="pt-4 border-t border-slate-100">
                   <h3 className="text-sm font-heading font-semibold text-slate-700 mb-3">Location</h3>
                   <div className="text-xs text-slate-500 mb-3">
-                    {item.coordinates.lat}°N, {item.coordinates.lng}°E
+                    {item.coordinates.lat.toFixed(4)}°N, {item.coordinates.lng.toFixed(4)}°E
                     <div className="mt-1 text-teal-600 font-medium">
-                      {item.name} in {distanceFromColombo([item.coordinates.lat, item.coordinates.lng])} km from Colombo
+                      {item.name} in {Math.round(distanceFromColombo([item.coordinates.lat, item.coordinates.lng]))} km from Colombo
                     </div>
                   </div>
                   <a

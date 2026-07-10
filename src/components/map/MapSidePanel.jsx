@@ -1,6 +1,7 @@
 import { FiX, FiMapPin, FiClock, FiDollarSign, FiSun, FiPhone, FiGlobe, FiNavigation, FiExternalLink, FiChevronRight } from 'react-icons/fi'
 import { getDetailPath, getCategoryLabel, getCategoryStyle } from '../../utils/mapHelpers'
 import { Link } from 'react-router-dom'
+import { handleImgError } from '../../utils/fallback'
 
 const infoFields = [
   { key: 'bestTime', icon: FiSun, color: 'text-amber-500', bg: 'bg-amber-50', label: 'Best Time' },
@@ -20,6 +21,7 @@ export default function MapSidePanel({ item, onClose }) {
         <img
           src={item.image}
           alt={item.name}
+          onError={handleImgError}
           className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
@@ -85,7 +87,7 @@ export default function MapSidePanel({ item, onClose }) {
           </div>
         )}
 
-        {item.website && (
+        {item.website && item._source !== 'businesses' && (
           <div className="flex items-center gap-3 text-sm text-slate-500 bg-slate-50 rounded-xl px-4 py-3 border border-slate-100">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center shadow-sm shrink-0">
               <FiGlobe className="text-white text-sm" />
@@ -96,27 +98,31 @@ export default function MapSidePanel({ item, onClose }) {
           </div>
         )}
 
-        <div className="flex flex-col gap-3 pt-2">
-          {item.coordinates && (
-            <a
-              href={item.googleMapsLink || `https://www.google.com/maps/dir/?api=1&destination=${item.coordinates[0]},${item.coordinates[1]}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="touch-manipulation group flex items-center justify-center gap-3 w-full min-h-[48px] rounded-xl bg-gradient-to-r from-teal-500 to-emerald-500 text-white text-sm font-bold shadow-lg shadow-teal-500/25 hover:shadow-teal-500/40 hover:scale-[1.02] active:scale-[0.97] transition-all duration-300"
-            >
-              <FiNavigation className="text-base group-hover:animate-pulse" />
-              Get Directions
-            </a>
-          )}
-          <Link
-            to={getDetailPath(item)}
-            className="touch-manipulation group flex items-center justify-center gap-3 w-full min-h-[48px] rounded-xl bg-white text-slate-700 border-2 border-slate-200 text-sm font-bold hover:border-teal-400 hover:text-teal-700 hover:bg-teal-50/50 active:scale-[0.97] transition-all duration-300"
-          >
-            <FiExternalLink className="text-base" />
-            View Full Page
-            <FiChevronRight className="group-hover:translate-x-0.5 transition-transform" />
-          </Link>
-        </div>
+        {item._source !== 'businesses' && (
+          <div className="flex flex-col gap-3 pt-2">
+            {item.coordinates && (
+              <a
+                href={item.googleMapsLink || `https://www.google.com/maps/dir/?api=1&destination=${item.coordinates[0]},${item.coordinates[1]}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="touch-manipulation group flex items-center justify-center gap-3 w-full min-h-[48px] rounded-xl bg-gradient-to-r from-teal-500 to-emerald-500 text-white text-sm font-bold shadow-lg shadow-teal-500/25 hover:shadow-teal-500/40 hover:scale-[1.02] active:scale-[0.97] transition-all duration-300"
+              >
+                <FiNavigation className="text-base group-hover:animate-pulse" />
+                Get Directions
+              </a>
+            )}
+            {item._source !== 'businesses' || item.website ? (
+              <Link
+                to={getDetailPath(item)}
+                className="touch-manipulation group flex items-center justify-center gap-3 w-full min-h-[48px] rounded-xl bg-white text-slate-700 border-2 border-slate-200 text-sm font-bold hover:border-teal-400 hover:text-teal-700 hover:bg-teal-50/50 active:scale-[0.97] transition-all duration-300"
+              >
+                <FiExternalLink className="text-base" />
+                View Full Page
+                <FiChevronRight className="group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+            ) : null}
+          </div>
+        )}
 
         {item.social && typeof item.social === 'object' && Object.keys(item.social).length > 0 && (
           <div>
@@ -134,6 +140,33 @@ export default function MapSidePanel({ item, onClose }) {
                 </a>
               ))}
             </div>
+          </div>
+        )}
+
+        {item._source === 'businesses' && (
+          <div className="flex flex-col gap-3 pt-2">
+            {item.website && (
+              <a
+                href={item.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="touch-manipulation group flex items-center justify-center gap-3 w-full min-h-[48px] rounded-xl bg-gradient-to-r from-teal-500 to-emerald-500 text-white text-sm font-bold shadow-lg shadow-teal-500/25 hover:shadow-teal-500/40 hover:scale-[1.02] active:scale-[0.97] transition-all duration-300"
+              >
+                <FiGlobe className="text-base group-hover:animate-pulse" />
+                Visit Website
+              </a>
+            )}
+            {item.coordinates && (
+              <a
+                href={item.googleMapsLink || `https://www.google.com/maps/dir/?api=1&destination=${item.coordinates[0]},${item.coordinates[1]}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="touch-manipulation group flex items-center justify-center gap-3 w-full min-h-[48px] rounded-xl bg-white text-slate-700 border-2 border-slate-200 text-sm font-bold hover:border-teal-400 hover:text-teal-700 hover:bg-teal-50/50 active:scale-[0.97] transition-all duration-300"
+              >
+                <FiNavigation className="text-base" />
+                Get Directions
+              </a>
+            )}
           </div>
         )}
       </div>

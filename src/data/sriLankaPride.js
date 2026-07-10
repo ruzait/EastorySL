@@ -8,8 +8,8 @@ export const prideItems = [
     image: 'https://raw.githubusercontent.com/eastorysl/storyimages/main/pride/KingdomofAnuradhapura.png',
     period: '377 BCE - 1017 CE',
     location: 'Anuradhapura',
-    coordinates: { lat: 8.3114, lng: 80.4037 },
-    googleMapsLink: 'https://maps.google.com/?q=8.3114,80.4037',
+    coordinates: { lat: 8.360875847988282, lng: 80.40236581162839 },
+    googleMapsLink: 'https://maps.app.goo.gl/PunQqyaSYR2jZKAo9',
   },
   {
     id: 'ak-polonnaruwa',
@@ -20,7 +20,7 @@ export const prideItems = [
     image: 'https://github.com/eastorysl/storyimages/blob/main/pride/KingdomofPolonnaruwa.jpg?raw=true',
     period: '1055 - 1212 CE',
     location: 'Polonnaruwa',
-    coordinates: { lat: 7.9403, lng: 81.0188 },
-    googleMapsLink: 'https://maps.google.com/?q=7.9403,81.0188',
+    coordinates: { lat: 7.955964494040822, lng: 81.00550340644196 },
+    googleMapsLink: 'https://maps.app.goo.gl/FyDJnB4j2Z8EpWuE9',
   }
 ]

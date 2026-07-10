@@ -7,12 +7,13 @@ import { FiMapPin, FiArrowRight, FiNavigation } from 'react-icons/fi'
 import 'leaflet.markercluster/dist/MarkerCluster.css'
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
 import { getCategoryLabel, getDetailPath } from '../../utils/mapHelpers'
+import { handleImgError } from '../../utils/fallback'
 
 const iconMap = {
   religious: 'fa-place-of-worship', historical: 'fa-landmark', nature: 'fa-leaf', beaches: 'fa-umbrella-beach',
   cultural: 'fa-masks-theater', adventure: 'fa-person-hiking', Accommodation: 'fa-hotel', Dining: 'fa-utensils',
   Shopping: 'fa-bag-shopping', 'Water Sports': 'fa-water', Tours: 'fa-compass',
-  Hotels: 'fa-hotel', Resorts: 'fa-hotel', Villas: 'fa-home',
+  Hotels: 'fa-hotel', Resorts: 'fa-hotel', Villas: 'fa-home', 'Guest Houses': 'fa-bed',
   'Eco Lodges': 'fa-tree', 'Local Markets': 'fa-store', Handicrafts: 'fa-hand',
   'Souvenir Shops': 'fa-gift', 'Gems & Jewellery': 'fa-gem', 'Batik & Clothing': 'fa-tshirt',
   Surfing: 'fa-water', Diving: 'fa-water', Snorkeling: 'fa-water',
@@ -156,6 +157,7 @@ function MapContent({ filteredData, onSelectItem, flyToCoord, selectedItem, user
                   <img
                     src={item.image}
                     alt={item.name}
+                    onError={handleImgError}
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
@@ -187,7 +189,7 @@ function MapContent({ filteredData, onSelectItem, flyToCoord, selectedItem, user
                     </Link>
                     {item.coordinates && (
                       <button
-                        onClick={() => window.open(`https://www.google.com/maps/dir/?api=1&destination=${item.coordinates[0]},${item.coordinates[1]}`, '_blank', 'noopener')}
+                        onClick={() => window.open(item.googleMapsLink || `https://www.google.com/maps/dir/?api=1&destination=${item.coordinates[0]},${item.coordinates[1]}`, '_blank', 'noopener')}
                         className="flex items-center justify-center gap-1 px-2 min-h-[44px] text-[10px] font-semibold text-slate-600 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 transition-all duration-200 cursor-pointer"
                       >
                         <FiNavigation className="text-[10px]" />

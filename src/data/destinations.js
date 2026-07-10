@@ -14,7 +14,7 @@ export const destinations = [
     bestTime: "November – April",
     entryFee: "Free",
     duration: "3–5 hours",
-    coordinates: { lat: 5.9448, lng: 80.4590 },
+    coordinates: { lat: 5.9449665982904945, lng: 80.45779461185273 },
     googleMapsLink: 'https://maps.app.goo.gl/DibkumdrbekmhgVs6',
   },
   {
@@ -32,7 +32,7 @@ export const destinations = [
     bestTime: "November – April",
     entryFee: "Free",
     duration: "3–5 hours",
-    coordinates: { lat: 6.0098, lng: 80.2484 },
+    coordinates: { lat: 6.009856616197469, lng: 80.24841602246705 },
     googleMapsLink: 'https://maps.app.goo.gl/SK9Y1iUTRGUfBtmg8',
   }
 ]

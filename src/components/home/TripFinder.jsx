@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { FiSun, FiFeather, FiCamera, FiCoffee, FiTrendingUp, FiActivity, FiUser, FiHeart, FiUsers, FiDollarSign, FiStar, FiCalendar, FiClock, FiArrowRight, FiRefreshCw, FiMap, FiCompass } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import { destinations } from '../../data/destinations'
+import { handleImgError } from '../../utils/fallback'
 const questions = [
   {
     id: 'experience',
@@ -317,6 +318,7 @@ export default function TripFinder() {
                           src={dest.image}
                           alt={dest.name}
                           loading="lazy"
+                          onError={handleImgError}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent" />

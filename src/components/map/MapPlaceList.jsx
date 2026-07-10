@@ -2,6 +2,7 @@ import { useMemo, useRef, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { FiMapPin, FiSearch, FiX, FiChevronRight, FiChevronLeft } from 'react-icons/fi'
 import { getCategoryClass, getCategoryLabel } from '../../utils/mapHelpers'
+import { handleImgError } from '../../utils/fallback'
 
 const CATEGORIES = [
   'All Destinations', 'Beaches', 'Waterfalls', 'Mountains', 'Historical Sites',
@@ -182,6 +183,7 @@ export default function MapPlaceList({ items, selectedItem, onSelect, searchQuer
                     <img
                       src={item.image}
                       alt={item.name}
+                      onError={handleImgError}
                       className={`w-full h-full object-cover transition-transform duration-500 ${
                         isSelected ? 'scale-105' : 'group-hover:scale-110'
                       }`}

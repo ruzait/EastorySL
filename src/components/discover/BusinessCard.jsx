@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { FiMapPin, FiPhone, FiGlobe, FiAward, FiNavigation } from 'react-icons/fi'
 import { FaFacebook, FaInstagram, FaYoutube } from 'react-icons/fa'
 import Badge from '../ui/Badge'
+import { handleImgError } from '../../utils/fallback'
 
 const subBadge = {
   Hotels: 'premium', Resorts: 'premium', Villas: 'premium',
@@ -35,6 +36,7 @@ export default function BusinessCard({ business, index }) {
           src={business.image}
           alt={business.name}
           loading="lazy"
+          onError={handleImgError}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent" />

@@ -43,6 +43,7 @@ export const galleryExtraSources = {
     name: 'Mirissa Beach',
     category: 'beaches',
     location: 'Mirissa',
+    page: 'destinations',
     images: [
       'https://raw.githubusercontent.com/eastorysl/storyimages/main/destination/mirissabeach2.jpg',
       'https://raw.githubusercontent.com/eastorysl/storyimages/main/destination/mirissabeach3.jpg',
@@ -53,6 +54,7 @@ export const galleryExtraSources = {
     name: 'Unawatuna Beach',
     category: 'beaches',
     location: 'Unawatuna',
+    page: 'destinations',
     images: [
       'https://raw.githubusercontent.com/eastorysl/storyimages/main/destination/unawatunabeach2.jpg',
       'https://raw.githubusercontent.com/eastorysl/storyimages/main/destination/unawatunabeach3.jpg',
@@ -64,6 +66,7 @@ export const galleryExtraSources = {
     name: 'Kingdom of Anuradhapura',
     category: 'ancient-kingdoms',
     location: 'Anuradhapura',
+    page: 'sri-lanka-pride',
     images: [
       'https://raw.githubusercontent.com/eastorysl/storyimages/main/pride/KingdomofAnuradhapura1.jpg',
       'https://raw.githubusercontent.com/eastorysl/storyimages/main/pride/KingdomofAnuradhapura2.png',
@@ -73,6 +76,7 @@ export const galleryExtraSources = {
     name: 'Kingdom of Polonnaruwa',
     category: 'ancient-kingdoms',
     location: 'Polonnaruwa',
+    page: 'sri-lanka-pride',
     images: [
       'https://raw.githubusercontent.com/eastorysl/storyimages/main/pride/KingdomofPolonnaruwa1.jpg',
       'https://raw.githubusercontent.com/eastorysl/storyimages/main/pride/KingdomofPolonnaruwa2.jpg',
@@ -143,6 +147,7 @@ export function buildGalleryImages(destinations, businesses, prideItems) {
         category: cat,
         location: d.location,
         itemId: d.id,
+        page: 'destinations',
       })
     }
   })
@@ -157,6 +162,7 @@ export function buildGalleryImages(destinations, businesses, prideItems) {
         category: cat,
         location: p.location || p.origin || p.birthPlace || '',
         itemId: p.id,
+        page: 'sri-lanka-pride',
       })
     }
   })
@@ -171,6 +177,7 @@ export function buildGalleryImages(destinations, businesses, prideItems) {
         category: cat,
         location: source.location,
         itemId: sourceId,
+        page: source.page,
       })
     })
   })

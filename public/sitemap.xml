@@ -41,87 +41,7 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://eastorysl.netlify.app/destinations/nature/nat-sinharaja</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://eastorysl.netlify.app/destinations/waterfalls/wf-diyaluma</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://eastorysl.netlify.app/destinations/mountains/mtn-adamspeak</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://eastorysl.netlify.app/destinations/wildlife/wl-yala</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://eastorysl.netlify.app/destinations/parks/park-viharamahadevi</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://eastorysl.netlify.app/destinations/historical/hist-sigiriya</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://eastorysl.netlify.app/destinations/religious/rel-toothrelic</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://eastorysl.netlify.app/destinations/forts/fort-galle</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://eastorysl.netlify.app/destinations/lakes%20%26%20rivers/lake-gregory</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://eastorysl.netlify.app/destinations/islands/isl-delft</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://eastorysl.netlify.app/destinations/botanical%20gardens/bot-peradeniya</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://eastorysl.netlify.app/destinations/cultural/cul-teamuseum</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://eastorysl.netlify.app/destinations/scenic%20train%20journeys/train-kandyella</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://eastorysl.netlify.app/destinations/viewpoints/vp-liptonseat</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://eastorysl.netlify.app/destinations/marine%20attractions/marine-pigeonreef</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://eastorysl.netlify.app/destinations/adventure%20activities/adv-kitulgalarafting</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://eastorysl.netlify.app/destinations/festivals%20%26%20events/fest-eslaperahera</loc>
+    <loc>https://eastorysl.netlify.app/destinations/beaches/beach-unawatuna</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -131,42 +51,7 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://eastorysl.netlify.app/sri-lanka-pride/caves-geological-wonders/cg-dambulla</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://eastorysl.netlify.app/sri-lanka-pride/museums-galleries/mg-nationalmuseum</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://eastorysl.netlify.app/sri-lanka-pride/cities-urban/cu-colombo</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://eastorysl.netlify.app/sri-lanka-pride/food-culinary/fc-kottu</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://eastorysl.netlify.app/sri-lanka-pride/tea-spice-trails/ts-nuwaraeliya</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://eastorysl.netlify.app/sri-lanka-pride/road-trip-routes/rt-coastalhighway</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://eastorysl.netlify.app/sri-lanka-pride/famous-people/fp-dharmapala</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://eastorysl.netlify.app/sri-lanka-pride/seasonal-foods/sf-mango</loc>
+    <loc>https://eastorysl.netlify.app/sri-lanka-pride/ancient-kingdoms/ak-polonnaruwa</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>

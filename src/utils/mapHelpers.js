@@ -13,12 +13,12 @@ export function getCategoryLabel(item) {
 }
 
 export function getDetailPath(item) {
-  if (item._source === 'destinations') return '/destinations/'
-  if (item._source === 'pride') return '/sri-lanka-pride/'
+  if (item._source === 'destinations') return '/destinations/' + item.category + '/' + item.id
+  if (item._source === 'pride') return '/sri-lanka-pride/' + item.category + '/' + item.id
   if (item._source === 'businesses') return '/discover-more'
   if (item.type) return '/discover-more'
-  if (item.period) return '/sri-lanka-pride'
-  return '/destinations'
+  if (item.period) return '/sri-lanka-pride/' + item.category + '/' + item.id
+  return '/destinations/' + item.category + '/' + item.id
 }
 
 export function getCategoryClass(item) {

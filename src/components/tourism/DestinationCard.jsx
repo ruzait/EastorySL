@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { FiMapPin, FiClock, FiDollarSign, FiSun, FiAward, FiNavigation } from 'react-icons/fi'
 import Badge from '../ui/Badge'
+import { handleImgError } from '../../utils/fallback'
 
 export default function DestinationCard({ destination, index }) {
   const navigate = useNavigate()
@@ -51,6 +52,7 @@ export default function DestinationCard({ destination, index }) {
           src={destination.image}
           alt={destination.name}
           loading="lazy"
+          onError={handleImgError}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent" />
