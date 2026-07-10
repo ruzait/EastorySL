@@ -2,7 +2,7 @@
 
 > Tourism, culture, and local business discovery platform for Sri Lanka — built with React, featuring an interactive map, PWA support, and rich content pages.
 
-![Version](https://img.shields.io/badge/version-1.0.0-0f766e?style=flat-square)
+![Version](https://img.shields.io/badge/version-1.1.0-0f766e?style=flat-square)
 ![React](https://img.shields.io/badge/React_19-61DAFB?style=flat-square&logo=react)
 ![Tailwind](https://img.shields.io/badge/Tailwind_CSS_3-06B6D4?style=flat-square&logo=tailwind-css)
 ![Vite](https://img.shields.io/badge/Vite_8-646CFF?style=flat-square&logo=vite)
@@ -149,11 +149,12 @@ Defined in `src/App.jsx`. All routes are nested under `<Layout />` (Navbar + Foo
 **File:** `src/pages/Map.jsx`
 
 - Combines destinations, businesses, and pride items into `ALL_DATA`
-- 4 layer toggles: All Destinations, Beaches, Businesses, Cultural
+- 4 layer toggles: All, Ancient Kingdoms, Beaches, Businesses
 - Deep-linking via `?item=<id>` query param
 - Desktop: left side panel + right detail panel + map center
 - Mobile: bottom sheets for list and details
 - Geolocation support (auto-locate on first visit)
+- Business cards include "Show on Map" button
 
 ### Gallery (`/gallery`)
 **File:** `src/pages/Gallery.jsx`
@@ -161,6 +162,8 @@ Defined in `src/App.jsx`. All routes are nested under `<Layout />` (Navbar + Foo
 - Images built from `buildGalleryImages()` (destinations + pride + extra gallery sources)
 - Deep-linking via `?item=<id>`
 - 15 gallery category filters
+- Responsive grid: 5 columns (xl), 4 (lg), 3 (md), 2 (sm/mobile)
+- Lightbox with keyboard navigation
 
 ### Advertise (`/advertise`)
 **File:** `src/pages/Advertise.jsx`
@@ -384,11 +387,12 @@ Two parts:
 
 ### Map
 - Full-screen Leaflet map with clustered markers
-- 4 layer toggles: All Destinations, Beaches, Businesses, Cultural
+- 4 layer toggles: All, Ancient Kingdoms, Beaches, Businesses
 - Side panel (desktop) / bottom sheet (mobile)
 - Fly-to animation on place selection
 - Geolocation support (auto-locate on first visit)
 - `?item=` query param for deep-linking
+- Business cards with "Show on Map" button
 
 ### PWA
 - Install prompt via `beforeinstallprompt` event
@@ -404,7 +408,7 @@ Each page sets: title, description, canonical, keywords, OG tags (title, descrip
 
 | Page | Title | ogImage | JSON-LD |
 |------|-------|---------|---------|
-| Home `/` | `"Sri Lanka Travel Guide"` | `/images/home/hero.png` | — |
+| Home `/` | `"Explore Sri Lanka — Travel Guide"` | `/images/home/hero.png` | — |
 | Destinations `/destinations` | `"Destinations"` | `/images/home/Destinations.png` | — |
 | Destination Detail | `{item.name}` | `{item.image}` | `TouristAttraction` |
 | Sri Lanka Pride | `"Sri Lanka Pride"` | `/images/home/Sri_Lanka_Pride.png` | — |
@@ -417,7 +421,7 @@ Each page sets: title, description, canonical, keywords, OG tags (title, descrip
 
 #### Global structured data (`index.html`)
 - `WebSite` — name, logo, search action
-- `Organization` — name, email (`eastory.sl@gmail.com`), phone (`+94724362001`), logo, social links
+- `Organization` — name, email (`eastory.sl@gmail.com`), phone (`+94724362001`), logo, social links (Facebook, Instagram)
 
 #### Pre-rendered OG pages (`scripts/generate-og-pages.js`)
 Build script generates static HTML files for every destination and pride item so social media crawlers (WhatsApp, Facebook, Twitter) get proper OG tags even without executing JavaScript.
@@ -543,6 +547,9 @@ The `netlify.toml` handles:
 
 - **Email:** eastory.sl@gmail.com
 - **Phone:** +94724362001
+- **WhatsApp:** +94724362001
+- **Facebook:** https://www.facebook.com/profile.php?id=61591629429221
+- **Instagram:** https://www.instagram.com/eastory.sl
 - **Website:** https://eastorysl.netlify.app
 
 ---
