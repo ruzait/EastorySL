@@ -124,6 +124,7 @@ export default function Advertise() {
         description="Promote your business on Eastory SL. Reach thousands of travelers exploring Sri Lanka with our affordable advertising packages."
         keywords="advertise Sri Lanka, Sri Lanka business promotion, Sri Lanka travel advertising, promote tourism business Sri Lanka"
         ogImage="/images/discover/hero.png"
+        ogUrl={`${import.meta.env.VITE_SITE_URL || 'https://eastorysl.netlify.app'}/advertise`}
       />
       <section className="relative pt-28 md:pt-32 pb-10 md:pb-12 overflow-hidden px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url(/images/discover/hero.png)' }} />

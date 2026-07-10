@@ -13,7 +13,7 @@ function ogImageType(url) {
   return 'image/png'
 }
 
-export default function SEO({ title, description, ogImage, ogUrl, keywords, jsonLd }) {
+export default function SEO({ title, description, ogImage, ogUrl, keywords, jsonLd, noindex }) {
   const fullTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} — Sri Lanka Travel Guide`
   const url = ogUrl || window.location.href
   const image = ogImage ? (ogImage.startsWith('/') ? `${SITE_URL}${ogImage}` : ogImage) : DEFAULT_OG
@@ -23,6 +23,7 @@ export default function SEO({ title, description, ogImage, ogUrl, keywords, json
     <Helmet>
       <title>{fullTitle}</title>
       <link rel="canonical" href={url} />
+      <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow'} />
       {description && <meta name="description" content={description} />}
       {keywords && <meta name="keywords" content={keywords} />}
       <meta property="og:type" content="website" />
@@ -37,6 +38,8 @@ export default function SEO({ title, description, ogImage, ogUrl, keywords, json
       <meta property="og:site_name" content={SITE_NAME} />
       <meta property="og:locale" content="en_US" />
       <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:site" content="@eslhub" />
+      <meta name="twitter:creator" content="@eslhub" />
       <meta name="twitter:title" content={fullTitle} />
       {description && <meta name="twitter:description" content={description} />}
       <meta name="twitter:image" content={image} />

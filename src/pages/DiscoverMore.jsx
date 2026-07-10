@@ -77,6 +77,7 @@ export default function DiscoverMore() {
         description="Discover local businesses, shops, and services across Eastern Sri Lanka — from hotels and restaurants to adventure tours and cultural experiences."
         keywords="Sri Lanka businesses, Eastern Sri Lanka shops, hotels Sri Lanka, restaurants Sri Lanka, local services Sri Lanka"
         ogImage="/images/discover/hero.png"
+        ogUrl={`${import.meta.env.VITE_SITE_URL || 'https://eastorysl.netlify.app'}/discover-more`}
       />
       <section className="relative pt-28 md:pt-32 pb-10 md:pb-12 overflow-hidden px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url(/images/discover/hero.png)' }} />

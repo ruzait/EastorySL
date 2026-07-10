@@ -24,6 +24,7 @@ export default function Gallery() {
         description="Browse stunning photos of Sri Lanka's landscapes, beaches, wildlife, cultural sites, and local businesses curated by Eastory SL."
         keywords="Sri Lanka photos, Sri Lanka gallery, Sri Lanka images, Sri Lanka pictures, Sri Lanka travel photography"
         ogImage="/images/home/Gallery.png"
+        ogUrl={`${import.meta.env.VITE_SITE_URL || 'https://eastorysl.netlify.app'}/gallery`}
       />
       <section className="relative pt-28 md:pt-32 pb-10 md:pb-12 overflow-hidden px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0">

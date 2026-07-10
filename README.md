@@ -446,10 +446,32 @@ The `buildGalleryImages()` function automatically:
 - Hidden when already installed (standalone mode)
 
 ### SEO & Structured Data
-- Per-page meta tags via `react-helmet-async`
+- Per-page meta tags via `react-helmet-async` (`src/components/seo/SEO.jsx`)
 - JSON-LD structured data on detail pages (`TouristAttraction`, `Person`, `TouristTrip`)
-- Auto-generated sitemap (221 URLs) before each build
+- Auto-generated sitemap before each build
 - `robots.txt` with polite crawl rules
+
+#### OG Tags Per Page
+
+The `<SEO>` component wraps `react-helmet-async` and sets: `og:type`, `og:title`, `og:description`, `og:url`, `og:image` (1200×630), `og:image:alt`, `og:image:type`, `og:site_name`, `og:locale`, plus `twitter:card` (summary_large_image), `twitter:title`, `twitter:description`, and `twitter:image`.
+
+| Page | `title` | `description` | `ogImage` | `ogUrl` |
+|------|---------|---------------|-----------|---------|
+| **Home** `/` | `"Home"` | static text | `/images/home/hero.png` | auto (current URL) |
+| **Destinations** `/destinations` | `"Destinations"` | static text | `/images/home/Destinations.png` | auto |
+| **DestinationDetail** `/destinations/:cat/:id` | `{item.name}` (dynamic) | dynamic (description + location) | `{item.image}` (from data) | explicit full URL + `jsonLd` |
+| **SriLankaPride** `/sri-lanka-pride` | `"Sri Lanka Pride"` | static text | `/images/home/Sri_Lanka_Pride.png` | auto |
+| **PrideDetail** `/sri-lanka-pride/:cat/:id` | `{item.name}` (dynamic) | dynamic (description + period + location) | `{item.image}` (from data) | explicit full URL + `jsonLd` |
+| **DiscoverMore** `/discover-more` | `"Discover More"` | static text | `/images/discover/hero.png` | auto |
+| **Map** `/map` | `"Map"` | static text | `/images/home/hero.png` | auto |
+| **Gallery** `/gallery` | `"Gallery"` | static text | `/images/home/Gallery.png` | auto |
+| **Advertise** `/advertise` | `"Advertise With Us"` | static text | `/images/discover/hero.png` | auto |
+| **NotFound** `*` | `"Page Not Found"` | static text | fallback (`/images/home/hero.png`) | auto |
+
+- Detail pages also pass `jsonLd` for structured data.
+- All listing pages pass `keywords`.
+- `ogUrl` defaults to `window.location.href` when not explicitly passed.
+- OG image falls back to `/images/home/hero.png` when no `ogImage` prop is provided.
 
 ### Seasonal Filtering
 - `src/utils/season.js`: `isInSeason(bestTime, month)` checks if a destination's `bestTime` field includes a given month

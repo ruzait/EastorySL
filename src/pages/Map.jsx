@@ -166,6 +166,7 @@ export default function Map() {
         description="Explore Sri Lanka with our interactive map — find destinations, hotels, restaurants, and points of interest across the island."
         keywords="Sri Lanka map, Sri Lanka travel map, Sri Lanka attractions map, Eastern Sri Lanka map, Sri Lanka guide"
         ogImage="/images/home/hero.png"
+        ogUrl={`${import.meta.env.VITE_SITE_URL || 'https://eastorysl.netlify.app'}/map`}
       />
       <div className="absolute inset-0 pt-16 md:pt-20">
         <div className="h-full flex overflow-hidden relative">

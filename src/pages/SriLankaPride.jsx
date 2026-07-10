@@ -126,6 +126,7 @@ export default function SriLankaPride() {
         description="Discover Sri Lanka's proudest achievements — ancient kingdoms, UNESCO sites, cultural treasures, and natural wonders that make the island unique."
         keywords="Sri Lanka pride, Sri Lanka heritage, UNESCO Sri Lanka, ancient kingdoms Sri Lanka, Sri Lanka culture"
         ogImage="/images/home/Sri_Lanka_Pride.png"
+        ogUrl={`${import.meta.env.VITE_SITE_URL || 'https://eastorysl.netlify.app'}/sri-lanka-pride`}
       />
       <section className="relative pt-28 md:pt-32 pb-10 md:pb-12 overflow-hidden px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0">

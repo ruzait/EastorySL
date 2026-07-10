@@ -10,10 +10,11 @@ export default function Home() {
   return (
     <>
       <SEO
-        title="Home"
+        title="Sri Lanka Travel Guide"
         description="Discover the beauty of Sri Lanka — pristine beaches, rich cultural heritage, local businesses, and unforgettable travel experiences all in one place."
         keywords="Sri Lanka travel, Eastern Sri Lanka, Sri Lanka tourism, travel guide, Sri Lanka beaches"
         ogImage="/images/home/hero.png"
+        ogUrl={`${import.meta.env.VITE_SITE_URL || 'https://eastorysl.netlify.app'}/`}
       />
       <Hero />
       <Featured />

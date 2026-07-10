@@ -5,7 +5,7 @@ import SEO from '../components/seo/SEO'
 export default function NotFound() {
   return (
     <div>
-      <SEO title="Page Not Found" description="The page you're looking for doesn't exist." />
+      <SEO title="Page Not Found" description="The page you're looking for doesn't exist or has been moved." noindex />
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-teal-50 to-slate-100" />
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 25% 25%, #0d9488 1px, transparent 1px), radial-gradient(circle at 75% 75%, #0d9488 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
