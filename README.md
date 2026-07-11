@@ -53,7 +53,7 @@ eastory-sri-lanka-hub/
 │   │   ├── map/              # MapView, MapSidePanel, MapPlaceList, MapLayers
 │   │   ├── gallery/          # GalleryGrid
 │   │   ├── seo/              # SEO.jsx (react-helmet-async wrapper)
-│   │   └── ui/               # AnimatedSection, SectionTitle, Badge, SearchBar, Logo
+│   │   └── ui/               # AnimatedSection, SectionTitle, Badge, SearchBar, Logo (inline SVG, dynamic color prop)
 │   │
 │   ├── pages/                # Route-level page components
 │   ├── data/                 # Static content modules (the "database")
@@ -175,6 +175,7 @@ Defined in `src/App.jsx`. All routes are nested under `<Layout />` (Navbar + Foo
 - 3 packages: Free ($0), Featured ($20/mo), Premium ($50/mo)
 - Submits via WhatsApp (`wa.me/<number>?text=...`)
 - WhatsApp number from `VITE_WHATSAPP_NUMBER` env var (default: `94724362001`)
+- Auto-scrolls to top on every step change and submission
 
 ---
 
@@ -424,8 +425,8 @@ Each page sets: title, description, canonical, keywords, OG tags (title, descrip
 | 404 | `"Page Not Found"` | fallback | — |
 
 #### Global structured data (`index.html`)
-- `WebSite` — name, logo, search action
-- `Organization` — name, email (`eastory.sl@gmail.com`), phone (`+94724362001`), logo, social links (Facebook, Instagram)
+- `WebSite` — name, logo (`Asset 1.svg`), search action
+- `Organization` — name, email (`eastory.sl@gmail.com`), phone (`+94724362001`), logo (`Asset 1.svg`), social links (Facebook, Instagram)
 
 #### Pre-rendered OG pages (`scripts/generate-og-pages.js`)
 Build script generates static HTML files for every destination and pride item so social media crawlers (WhatsApp, Facebook, Twitter) get proper OG tags even without executing JavaScript.

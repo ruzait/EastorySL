@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiCheck, FiChevronRight, FiChevronLeft, FiArrowLeft } from 'react-icons/fi'
@@ -80,6 +80,12 @@ export default function Advertise() {
     description: '',
   })
   const [submitted, setSubmitted] = useState(false)
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+    document.documentElement.scrollTop = 0
+    document.body.scrollTop = 0
+  }, [step, submitted])
 
   const updateForm = (key, value) => setForm((prev) => ({ ...prev, [key]: value }))
 

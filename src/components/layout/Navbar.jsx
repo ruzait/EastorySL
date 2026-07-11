@@ -41,7 +41,7 @@ export default function Navbar({ onInstallClick, isInstalled }) {
         <div className="flex items-center justify-between h-16 md:h-20">
           <div className="flex items-center gap-2 group">
             <Link to="/" className="flex items-center">
-              <Logo color={isTransparent ? '#FFFFFF' : '#231F20'} />
+              <Logo color={isTransparent ? '#FFFFFF' : '#000000'} />
             </Link>
           </div>
 
