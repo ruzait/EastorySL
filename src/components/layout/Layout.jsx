@@ -3,8 +3,10 @@ import Navbar from './Navbar'
 import Footer from './Footer'
 import InstallPWA from './InstallPWA'
 import usePWAInstall from '../../hooks/usePWAInstall'
+import usePageTracking from '../../hooks/usePageTracking'
 
 export default function Layout() {
+  usePageTracking()
   const { pathname } = useLocation()
   const isMapPage = pathname === '/map'
   const {
