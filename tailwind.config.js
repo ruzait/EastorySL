@@ -82,6 +82,8 @@ export default {
         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'wave': 'wave 8s ease-in-out infinite',
         'tilt': 'tilt 10s ease-in-out infinite',
+        'fade-in': 'fadeIn 0.2s ease-out',
+        'scale-in': 'scaleIn 0.2s ease-out',
       },
       keyframes: {
         float: {
@@ -98,9 +100,17 @@ export default {
           '0%, 100%': { transform: 'rotate(-1deg)' },
           '50%': { transform: 'rotate(1deg)' },
         },
+        fadeIn: {
+          '0%': { opacity: '0', transform: 'translateY(2px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        scaleIn: {
+          '0%': { transform: 'scale(0)' },
+          '100%': { transform: 'scale(1)' },
+        },
       },
       backgroundImage: {
-        'hero-pattern': "url('/hero-bg.jpg')",
+        'hero-pattern': "url('/images/home/hero.png')",
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
       },
     },

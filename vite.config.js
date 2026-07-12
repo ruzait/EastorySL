@@ -20,7 +20,19 @@ export default defineConfig({
             src: '/images/logo/web-app-manifest-192x192.png',
             sizes: '192x192',
             type: 'image/png',
+            purpose: 'any',
+          },
+          {
+            src: '/images/logo/web-app-manifest-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
             purpose: 'maskable',
+          },
+          {
+            src: '/images/logo/web-app-manifest-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any',
           },
           {
             src: '/images/logo/web-app-manifest-512x512.png',
@@ -63,6 +75,14 @@ export default defineConfig({
             options: {
               cacheName: 'cdnjs-cache',
               expiration: { maxEntries: 20, maxAgeSeconds: 60 * 60 * 24 * 30 },
+            },
+          },
+          {
+            urlPattern: /^https:\/\/raw\.githubusercontent\.com\/.*/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'github-images-cache',
+              expiration: { maxEntries: 100, maxAgeSeconds: 60 * 60 * 24 * 30 },
             },
           },
         ],

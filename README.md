@@ -2,7 +2,7 @@
 
 > Tourism, culture, and local business discovery platform for Sri Lanka — built with React, featuring an interactive map, PWA support, and rich content pages.
 
-![Version](https://img.shields.io/badge/version-1.1.0-0f766e?style=flat-square)
+![Version](https://img.shields.io/badge/version-1.2.0-0f766e?style=flat-square)
 ![React](https://img.shields.io/badge/React_19-61DAFB?style=flat-square&logo=react)
 ![Tailwind](https://img.shields.io/badge/Tailwind_CSS_3-06B6D4?style=flat-square&logo=tailwind-css)
 ![Vite](https://img.shields.io/badge/Vite_8-646CFF?style=flat-square&logo=vite)
@@ -27,6 +27,18 @@
 
 ---
 
+## Data Overview
+
+| Section | File | Entries | Focus |
+|---------|------|---------|-------|
+| **Destinations** | `destinations.js` | 123 | Travel experiences — beaches, nature, adventure, culture |
+| **Sri Lanka Pride** | `sriLankaPride.js` | 86 | Heritage & identity — kingdoms, food, people, tea trails |
+| **Businesses** | `businesses.js` | 86 | Local services — hotels, shops, water sports, tours |
+
+> Destinations and Sri Lanka Pride have **zero overlapping entries**. Each section covers unique content.
+
+---
+
 ## Project Structure
 
 ```
@@ -41,7 +53,13 @@ eastory-sri-lanka-hub/
 │
 ├── scripts/
 │   ├── generate-sitemap.js   # Build-time sitemap generator
-│   └── generate-og-pages.js  # Pre-renders OG tags for detail pages
+│   ├── generate-og-pages.js  # Pre-renders OG tags for detail pages
+│   ├── upgrade-destinations.js   # Adds detail, googleMapsLink to destinations
+│   ├── enrich-destinations.js    # Rich content for beach destinations
+│   ├── enrich-remaining.js       # Category-based + fallback content
+│   ├── enrich-pride.js           # Adds detail, googleMapsLink to pride items
+│   ├── enrich-businesses.js      # Adds detail to businesses, removes rating
+│   └── remove-pride-dups.js      # Removes entries that overlap with destinations
 │
 ├── src/
 │   ├── components/
@@ -58,7 +76,7 @@ eastory-sri-lanka-hub/
 │   ├── pages/                # Route-level page components
 │   ├── data/                 # Static content modules (the "database")
 │   ├── hooks/                # useInView, usePWAInstall
-│   ├── utils/                # distance.js, fallback.js, season.js
+│   ├── utils/                # distance.js, fallback.js, season.js, mapHelpers.js, analytics.js
 │   └── App.jsx               # Root with BrowserRouter + Routes
 │
 ├── netlify.toml              # Headers, redirects, prerender config
@@ -101,7 +119,7 @@ Defined in `src/App.jsx`. All routes are nested under `<Layout />` (Navbar + Foo
 |-----------|---------|
 | `Hero` | Full-screen hero with title, subtitle, CTA buttons |
 | `Featured` | Shows 6 destinations in-season for current month |
-| `TripFinder` | Interactive question-based trip finder |
+| `TripFinder` | Interactive 5-question quiz with 6 geographically-clustered destination cards |
 | `CTA` | Call-to-action card linking to `/sri-lanka-pride` |
 | `AboutSriLanka` | 3 glassmorphism cards (Natural Paradise, Wildlife, Culture) |
 | `GovTourismLinks` | Government resource links |
@@ -109,6 +127,7 @@ Defined in `src/App.jsx`. All routes are nested under `<Layout />` (Navbar + Foo
 ### Destinations (`/destinations`)
 **File:** `src/pages/Destinations.jsx`
 
+- Hero banner with background image + "Home" button
 - Reads `?search=` and `?month=` from URL query params
 - 18 category filter buttons (horizontal scroll with left/right arrows)
 - `getSeasonalDestinations()` filters by `bestTime` field when `?month=` is set
@@ -118,7 +137,7 @@ Defined in `src/App.jsx`. All routes are nested under `<Layout />` (Navbar + Foo
 ### Destination Detail (`/destinations/:category/:id`)
 **File:** `src/pages/DestinationDetail.jsx`
 
-- Hero banner with category/tier badges, image, description
+- Hero banner with "Home" + "Back to Destinations" buttons, category/tier badges, image, description
 - Buttons: "View Gallery" → `/gallery?item=<id>`, "View on Map" → `/map?item=<id>`, Share (Web Share API)
 - Quick Info cards: duration, entry fee, best time, district
 - Main content renders `item.detail` as HTML
@@ -129,6 +148,7 @@ Defined in `src/App.jsx`. All routes are nested under `<Layout />` (Navbar + Foo
 ### Sri Lanka Pride (`/sri-lanka-pride`)
 **File:** `src/pages/SriLankaPride.jsx`
 
+- Hero banner with background image + "Home" button
 - 9 category filter buttons + "Famous People" sub-category filter
 - Reads `?category=` from URL params to pre-select
 - Cards link to `/sri-lanka-pride/:category/:id`
@@ -136,14 +156,16 @@ Defined in `src/App.jsx`. All routes are nested under `<Layout />` (Navbar + Foo
 ### Pride Detail (`/sri-lanka-pride/:category/:id`)
 **File:** `src/pages/PrideDetail.jsx`
 
-- Same layout as DestinationDetail with category-specific metadata
+- Hero banner with "Home" + "Back to Sri Lanka Pride" buttons, category-specific metadata
+- Main content renders `item.detail` as HTML
 - JSON-LD types: `TouristAttraction`, `Person` (famous-people), `TouristTrip` (road-trip-routes)
-- Extra sections: Routes (stops/duration), Famous People (birth year/place), Seasonal Foods (months/name)
+- Extra sections: Routes (stops/duration), Famous People (birth year/place)
 - Similar Places: 5 random same-category items in sidebar (horizontal scroll on mobile)
 
 ### Discover More (`/discover-more`)
 **File:** `src/pages/DiscoverMore.jsx`
 
+- Hero banner with background image + "Home" button
 - 13 category filter buttons (Hotels, Surfing, Diving, etc.)
 - Filters businesses by `subCategory` + search
 
@@ -151,16 +173,18 @@ Defined in `src/App.jsx`. All routes are nested under `<Layout />` (Navbar + Foo
 **File:** `src/pages/Map.jsx`
 
 - Combines destinations, businesses, and pride items into `ALL_DATA`
-- 4 layer toggles: All, Ancient Kingdoms, Beaches, Businesses
+- 4 layer toggles: Destinations, Beaches, Discover more, Cultural
 - Deep-linking via `?item=<id>` query param
 - Desktop: left side panel + right detail panel + map center
 - Mobile: bottom sheets for list and details
 - Geolocation support (auto-locate on first visit)
 - Business cards include "Show on Map" button
+- No hero section (full-screen map layout)
 
 ### Gallery (`/gallery`)
 **File:** `src/pages/Gallery.jsx`
 
+- Hero banner with background image + "Home" button
 - Images built from `buildGalleryImages()` (destinations + pride + extra gallery sources)
 - Deep-linking via `?item=<id>`
 - 15 gallery category filters
@@ -171,6 +195,7 @@ Defined in `src/App.jsx`. All routes are nested under `<Layout />` (Navbar + Foo
 ### Advertise (`/advertise`)
 **File:** `src/pages/Advertise.jsx`
 
+- Hero banner with background image + "Home" button
 - 3-step form: Package selection → Business Details → Review & Submit
 - 3 packages: Free ($0), Featured ($20/mo), Premium ($50/mo)
 - Submits via WhatsApp (`wa.me/<number>?text=...`)
@@ -185,7 +210,7 @@ All content is static data in `src/data/`. To add new items, append objects to t
 
 ### destinations.js
 
-**Export:** `destinations` (array)
+**Export:** `destinations` (array — 123 entries)
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
@@ -196,7 +221,7 @@ All content is static data in `src/data/`. To add new items, append objects to t
 | `category` | string | **Yes** | One of 18 categories (e.g. `"beaches"`, `"nature"`) |
 | `tier` | string | Yes | `"premium"`, `"featured"`, or `"free"` |
 | `description` | string | **Yes** | Short summary (1-2 sentences) |
-| `detail` | string | Yes | Full HTML content |
+| `detail` | string | **Yes** | Full HTML content (rendered via `dangerouslySetInnerHTML`) |
 | `image` | string | **Yes** | Full URL to hero image |
 | `bestTime` | string | Yes | Month range (e.g. `"November – April"`, `"Year-round"`) |
 | `entryFee` | string | No | e.g. `"Free"`, `"$10"`, `"LKR 5000"` |
@@ -215,66 +240,65 @@ All content is static data in `src/data/`. To add new items, append objects to t
   tier: "premium",
   description: "A picturesque crescent-shaped beach...",
   detail: `<section class="destination-content">
-    <h2>Overview</h2>
-    <p>Full description here...</p>
+    <h2>Overview</h2><p>Full description here...</p>
+    <h2>Things to Do</h2><ul><li>Activity 1</li></ul>
   </section>`,
   image: "https://raw.githubusercontent.com/eastorysl/storyimages/main/destination/MirissaBeach.jpg",
   bestTime: "November – April",
   entryFee: "Free",
   duration: "3–5 hours",
   coordinates: { lat: 5.9449, lng: 80.4578 },
-  googleMapsLink: "https://maps.app.goo.gl/DibkumdrbekmhgVs6",
+  googleMapsLink: "https://www.google.com/maps/search/?api=1&query=5.9449,80.4578",
 }
 ```
 
 ### sriLankaPride.js
 
-**Export:** `prideItems` (array)
+**Export:** `prideItems` (array — 86 entries)
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `id` | string | **Yes** | Unique slug. Convention: `{category-abbr}-{name}` |
 | `name` | string | **Yes** | Display name |
-| `category` | string | **Yes** | One of 9 pride categories |
+| `category` | string | **Yes** | One of 8 pride categories |
 | `subCategory` | string | No | For `famous-people` only |
 | `description` | string | **Yes** | Short summary |
-| `detail` | string | Yes | Full HTML content |
+| `detail` | string | **Yes** | Full HTML content |
 | `image` | string | **Yes** | Full URL to hero image |
 | `period` | string | No | Historical period (e.g. `"377 BCE - 1017 CE"`) |
 | `location` | string | No | Primary location |
-| `origin` | string | No | Alternative location |
+| `district` | string | No | District name |
 | `birthYear` | string | No | For famous-people |
 | `birthPlace` | string | No | For famous-people |
 | `coordinates` | object | No | `{ lat, lng }` |
 | `googleMapsLink` | string | No | Google Maps URL |
-| `stops` | number | No | For road-trip-routes |
+| `stops` | string | No | For road-trip-routes |
 | `duration` | string | No | For road-trip-routes |
-| `seasonMonths` | string | No | For seasonal-foods (e.g. `"April – July"`) |
-| `seasonName` | string | No | For seasonal-foods (e.g. `"Mango Season"`) |
-| `type` | string | No | `"fruit"` or `"dish"` for seasonal-foods |
+
+> **No duplicate entries with destinations.** If a place exists in `destinations.js`, it should not appear here.
 
 ### businesses.js
 
-**Export:** `businesses` (array)
+**Export:** `businesses` (array — 86 entries)
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `id` | string | **Yes** | Unique slug |
 | `name` | string | **Yes** | Business name |
-| `type` | string | Yes | e.g. `"guesthouse"`, `"hotel"`, `"restaurant"` |
+| `type` | string | Yes | e.g. `"guesthouse"`, `"hotel"`, `"shop"`, `"service"` |
 | `subCategory` | string | **Yes** | One of 13 Discover More categories |
-| `category` | string | Yes | Top-level: `"Accommodation"`, `"Food & Dining"`, etc. |
+| `category` | string | Yes | Top-level: `"Accommodation"`, `"Shopping"`, `"Water Sports"`, `"Tours"` |
 | `location` | string | Yes | Full address |
 | `district` | string | Yes | District name |
 | `tier` | string | Yes | `"standard"`, `"featured"`, or `"premium"` |
-| `rating` | number | No | 0-5 |
 | `description` | string | **Yes** | Short summary |
+| `detail` | string | **Yes** | Full HTML content |
 | `image` | string | **Yes** | Full URL to image |
 | `coordinates` | object | No | `{ lat, lng }` |
 | `phone` | string | No | Contact phone |
 | `website` | string | No | Website URL |
 | `googleMapsLink` | string | No | Google Maps URL |
-| `social` | object | No | `{ facebook, instagram, twitter }` |
+| `social` | object | No | `{ facebook, instagram, youtube }` |
 
 ### gallery.js
 
@@ -324,17 +348,17 @@ Two parts:
 
 ### Sri Lanka Pride (9)
 
-| `category` | Label | Icon |
-|-----------|-------|------|
-| `ancient-kingdoms` | Ancient Kingdoms | GiCrown |
-| `caves-geological-wonders` | Caves & Geology | GiCaveEntrance |
-| `museums-galleries` | Museums & Galleries | FaLandmark |
-| `cities-urban` | Cities & Urban | FaCity |
-| `food-culinary` | Food & Culinary | FaUtensils |
-| `seasonal-foods` | Seasonal Foods | GiFruitTree |
-| `tea-spice-trails` | Tea & Spice Trails | GiTeapotLeaves |
-| `road-trip-routes` | Road Trip Routes | FaRoute |
-| `famous-people` | Famous People | FaUsers |
+| `category` | Label | Icon | Entries |
+|-----------|-------|------|---------|
+| `ancient-kingdoms` | Ancient Kingdoms | GiCrown | 10 |
+| `caves-geological-wonders` | Caves & Geology | GiCaveEntrance | 8 |
+| `museums-galleries` | Museums & Galleries | FaLandmark | 8 |
+| `cities-urban` | Cities & Urban | FaCity | 9 |
+| `food-culinary` | Food & Culinary | FaUtensils | 15 |
+| `seasonal-foods` | Seasonal Foods | GiFruitTree | — |
+| `tea-spice-trails` | Tea & Spice Trails | GiTeapotLeaves | 10 |
+| `road-trip-routes` | Road Trip Routes | FaRoute | 10 |
+| `famous-people` | Famous People | FaUsers | 16 |
 
 ### Famous People Sub-Categories
 
@@ -351,7 +375,8 @@ Two parts:
 
 | `subCategory` | Label | Icon |
 |--------------|-------|------|
-| `Guest Houses` | Hotels | FiHome |
+| `Guest Houses` | Guest Houses | FiHome |
+| `Hotels` | Hotels | FiHome |
 | `Resorts` | Resorts | GiVillage |
 | `Souvenir Shops` | Souvenir Shops | GiShop |
 | `Surfing` | Surfing | GiSurfBoard |
@@ -389,10 +414,15 @@ Two parts:
 
 ## Features
 
+### TripFinder (Home page)
+- 5-question interactive quiz (interests, travel style, companions, season, budget)
+- Recommends 6 geographically-clustered destinations using Haversine distance
+- `haversineDistance()` + `clusterByProximity()` functions for proximity-based selection
+- All cards link to `/destinations/:category/:id` detail pages
+
 ### Map
 - Full-screen Leaflet map with clustered markers
-- 4 layer toggles: All, Ancient Kingdoms, Beaches, Businesses
-- 12 category filters (All, Beaches, Waterfalls, Mountains, Ancient Kingdoms, Religious Places, Restaurants, Hotels, Shopping, Museums, Wildlife, Parks)
+- 4 layer toggles: Destinations, Beaches, Discover more (businesses), Cultural (pride)
 - Side panel (desktop) / bottom sheet (mobile)
 - Fly-to animation on place selection
 - Geolocation support (auto-locate on first visit)
@@ -450,6 +480,12 @@ Build script generates static HTML files for every destination and pride item so
 - **Scroll-reveal** via Intersection Observer (`AnimatedSection`)
 - **Responsive tables** — horizontal scroll on mobile, full layout on desktop
 
+### Navigation
+- **Home button** — Glass-morphism styled button on all page hero sections (except Map and 404)
+- **Scroll-to-top** — Automatic scroll to top on every route change (`ScrollToTop.jsx`)
+- **Back buttons** — Detail pages include "Back to [Parent]" navigation
+- **Footer links** — Quick navigation to all main sections
+
 ---
 
 ## Getting Started
@@ -486,6 +522,17 @@ npm run lint
 | `npm run sitemap` | Regenerate `public/sitemap.xml` from data |
 | `npm run lint` | Run Oxlint |
 
+### Data Enrichment Scripts
+
+| Script | Description |
+|--------|-------------|
+| `node scripts/upgrade-destinations.js` | Adds `detail`, `googleMapsLink`, expands `bestTime` abbreviations |
+| `node scripts/enrich-destinations.js` | Adds rich HTML content for 16 beach destinations |
+| `node scripts/enrich-remaining.js` | Adds content for remaining destinations (custom + category-based + fallback) |
+| `node scripts/enrich-pride.js` | Adds `detail` HTML and `googleMapsLink` to all pride items |
+| `node scripts/enrich-businesses.js` | Adds `detail` HTML to businesses, removes `rating` field |
+| `node scripts/remove-pride-dups.js` | Removes pride entries that duplicate destinations |
+
 ---
 
 ## Environment Variables
@@ -505,7 +552,7 @@ If `VITE_SITE_URL` is unset, the app falls back to `https://eastorysl.netlify.ap
 
 The `netlify.toml` handles:
 
-- **Security headers** — X-Frame-Options, X-Content-Type-Options, Referrer-Policy
+- **Security headers** — X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Strict-Transport-Security, X-XSS-Protection, Permissions-Policy
 - **Static file redirects** — sitemap.xml, robots.txt, ai.txt, llms.txt served as-is
 - **Prerendering** — Only detail pages (`/destinations/*`, `/sri-lanka-pride/*`) for social media crawlers
 - **SPA catch-all** — `/* → /index.html` (must be last)
@@ -518,22 +565,23 @@ The `netlify.toml` handles:
 ### Adding a New Destination
 1. Open `src/data/destinations.js`
 2. Append a new object to the `destinations` array
-3. Required: `id`, `name`, `location`, `district`, `category`, `tier`, `description`, `image`, `bestTime`
-4. Recommended: `detail`, `coordinates`, `googleMapsLink`, `entryFee`, `duration`
+3. Required: `id`, `name`, `location`, `district`, `category`, `tier`, `description`, `detail`, `image`, `bestTime`
+4. Recommended: `coordinates`, `googleMapsLink`, `entryFee`, `duration`
 5. If extra gallery images, add to `galleryExtraSources` in `src/data/gallery.js`
 6. Run `npm run build` to regenerate sitemap
 
 ### Adding a New Pride Item
 1. Open `src/data/sriLankaPride.js`
 2. Append a new object to the `prideItems` array
-3. Required: `id`, `name`, `category`, `description`, `image`
+3. Required: `id`, `name`, `category`, `description`, `detail`, `image`
 4. For famous people: include `subCategory`, `birthYear`, `birthPlace`
-5. Run `npm run build`
+5. **Do not duplicate** an entry that already exists in `destinations.js`
+6. Run `npm run build`
 
 ### Adding a New Business
 1. Open `src/data/businesses.js`
 2. Append a new object to the `businesses` array
-3. Required: `id`, `name`, `subCategory`, `category`, `location`, `district`, `tier`, `description`, `image`
+3. Required: `id`, `name`, `subCategory`, `category`, `location`, `district`, `tier`, `description`, `detail`, `image`
 4. `subCategory` must match one of the 13 Discover More categories
 
 ### Adding a New Category
@@ -543,7 +591,7 @@ The `netlify.toml` handles:
 
 ### ID Conventions
 - Destinations: `{category}-{name}` — e.g. `beach-mirissa`, `fort-galle`
-- Pride: `{category-abbr}-{name}` — e.g. `ak-anuradhapura`, `fp-arinthika`
+- Pride: `{category-abbr}-{name}` — e.g. `ak-anuradhapura`, `fp-sangakkara`
 - Businesses: `{type}-{name}` — e.g. `hotel-dyke-rest`, `restaurant-nihonbashi`
 - **IDs must be globally unique** across all data files
 

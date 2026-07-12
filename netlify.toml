@@ -7,6 +7,9 @@
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    X-XSS-Protection = "1; mode=block"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(self)"
 
 [[headers]]
   for = "/assets/*"
@@ -54,13 +57,6 @@
   from = "/llms.txt"
   to = "/llms.txt"
   status = 200
-
-# Prerender detail pages for social media crawlers only
-[[prerender]]
-  path = "/destinations/*"
-
-[[prerender]]
-  path = "/sri-lanka-pride/*"
 
 # SPA catch-all — must be last
 [[redirects]]
