@@ -20,7 +20,7 @@ export default function Hero() {
       <div className="absolute inset-0 bg-gradient-to-r from-slate-900/80 via-slate-900/40 to-transparent" />
       <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-slate-900/20" />
 
-      <div className="relative z-20 w-full pt-0 md:pt-20 pb-28 md:pb-32">
+      <div className="relative z-20 w-full pt-0 md:pt-20 pb-32 md:pb-36">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}

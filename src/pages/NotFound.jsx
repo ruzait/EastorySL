@@ -13,7 +13,7 @@ export default function NotFound() {
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-ocean-200/20 rounded-full blur-3xl" />
 
         <div className="relative z-10 text-center px-4 max-w-lg mx-auto">
-          <div className="text-[10rem] md:text-[12rem] font-heading font-bold leading-none mb-4">
+          <div className="text-[6rem] sm:text-[8rem] md:text-[10rem] lg:text-[12rem] font-heading font-bold leading-none mb-4">
             <span className="bg-gradient-to-r from-teal-500 via-ocean-500 to-teal-600 bg-clip-text text-transparent">404</span>
           </div>
 

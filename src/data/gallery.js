@@ -107,10 +107,30 @@ export function buildGalleryImages(destinations, businesses, prideItems) {
     'festivals & events': 'cultural',
   }
 
+  const prideMap = {
+    'ancient-kingdoms': 'ancient-kingdoms',
+    'food-culinary': 'food-culinary',
+    'cities-urban': 'cities-urban',
+    'famous-people': 'famous-people',
+    'caves-geological-wonders': 'nature',
+    'museums': 'cultural',
+    'tea-spice-trails': 'food-culinary',
+    'road-trip-routes': 'adventure',
+    'seasonal-foods': 'food-culinary',
+  }
+
   const bizMap = {
     Hotels: 'accommodation',
     Resorts: 'accommodation',
-    'Surfing': 'adventure',
+    Villas: 'accommodation',
+    'Guest Houses': 'accommodation',
+    'Eco Lodges': 'accommodation',
+    'Local Markets': 'shopping',
+    Handicrafts: 'shopping',
+    'Souvenir Shops': 'shopping',
+    'Gems & Jewellery': 'shopping',
+    'Batik & Clothing': 'shopping',
+    Surfing: 'adventure',
     Diving: 'adventure',
     Snorkeling: 'adventure',
     'Whale Watching': 'adventure',
@@ -120,19 +140,6 @@ export function buildGalleryImages(destinations, businesses, prideItems) {
     'Boat Tours': 'adventure',
     Safari: 'adventure',
     'Photography Spots': 'cultural',
-    'Souvenir Shops': 'shopping',
-  }
-
-  const prideMap = {
-    'ancient-kingdoms': 'ancient-kingdoms',
-    'food-culinary': 'food-culinary',
-    'cities-urban': 'cities-urban',
-    'famous-people': 'famous-people',
-    'caves-geological-wonders': 'nature',
-    'museums-galleries': 'cultural',
-    'tea-spice-trails': 'food-culinary',
-    'road-trip-routes': 'adventure',
-    'seasonal-foods': 'food-culinary',
   }
 
   const images = []
@@ -145,6 +152,7 @@ export function buildGalleryImages(destinations, businesses, prideItems) {
         src: d.image,
         alt: d.name,
         category: cat,
+        dataCategory: d.category,
         location: d.location,
         itemId: d.id,
         page: 'destinations',
@@ -160,9 +168,26 @@ export function buildGalleryImages(destinations, businesses, prideItems) {
         src: p.image,
         alt: p.name,
         category: cat,
+        dataCategory: p.category,
         location: p.location || p.origin || p.birthPlace || '',
         itemId: p.id,
         page: 'sri-lanka-pride',
+      })
+    }
+  })
+
+  businesses.forEach((b) => {
+    const cat = bizMap[b.subCategory] || bizMap[b.type] || bizMap[b.category]
+    if (cat) {
+      images.push({
+        id: b.id,
+        src: b.image,
+        alt: b.name,
+        category: cat,
+        dataCategory: b.subCategory || b.category,
+        location: b.location,
+        itemId: b.id,
+        page: 'discover-more',
       })
     }
   })
@@ -175,6 +200,7 @@ export function buildGalleryImages(destinations, businesses, prideItems) {
         src,
         alt: source.name,
         category: cat,
+        dataCategory: source.category,
         location: source.location,
         itemId: sourceId,
         page: source.page,

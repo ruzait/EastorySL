@@ -1,6 +1,6 @@
 import { useMemo, useState, useRef, useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
-import { FiGrid, FiSearch, FiChevronLeft, FiChevronRight } from 'react-icons/fi'
+import { Link, useSearchParams } from 'react-router-dom'
+import { FiGrid, FiSearch, FiChevronLeft, FiChevronRight, FiHome } from 'react-icons/fi'
 import { GiCrown, GiCaveEntrance, GiTeapotLeaves, GiFruitTree } from 'react-icons/gi'
 import { FaLandmark, FaCity, FaUtensils, FaRoute, FaUsers } from 'react-icons/fa'
 import SectionTitle from '../components/ui/SectionTitle'
@@ -13,7 +13,7 @@ import { handleImgError } from '../utils/fallback'
 const prideCategoryMap = {
   'ancient-kingdoms': 'Ancient Kingdoms',
   'caves-geological-wonders': 'Caves & Geology',
-  'museums-galleries': 'Museums & Galleries',
+  'museums': 'Museums',
   'cities-urban': 'Cities & Urban',
   'food-culinary': 'Food & Culinary',
   'seasonal-foods': 'Seasonal Foods',
@@ -52,6 +52,16 @@ export default function SriLankaPride() {
   const [scrollStart, setScrollStart] = useState(true)
   const [scrollEnd, setScrollEnd] = useState(false)
   const scrollRef = useRef(null)
+  const prevCategoryParam = useRef(searchParams.get('category'))
+
+  useEffect(() => {
+    const param = searchParams.get('category')
+    if (param && param !== prevCategoryParam.current) {
+      prevCategoryParam.current = param
+      setActiveCategory(param)
+      setActiveSub('all')
+    }
+  }, [searchParams])
 
   const updateScrollState = () => {
     const el = scrollRef.current
@@ -141,6 +151,12 @@ export default function SriLankaPride() {
             description="Explore the people, food, heritage sites, and festivals that make Sri Lanka unforgettable."
             light
           />
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-sm font-medium mt-6 rounded-lg backdrop-blur-sm border border-white/20 transition-all duration-300"
+          >
+            <FiHome /> Home
+          </Link>
         </div>
       </section>
       <section className="section-padding">
@@ -214,7 +230,7 @@ export default function SriLankaPride() {
                     key={sub.key}
                     onClick={() => setActiveSub(sub.key)}
                     data-active-sub={isActive || undefined}
-                    className={`min-h-[36px] px-4 py-1.5 rounded-full text-xs font-bold font-['Poppins'] transition-all duration-300 whitespace-nowrap shrink-0 ${
+                    className={`min-h-[44px] px-4 py-2 rounded-full text-xs font-bold font-['Poppins'] transition-all duration-300 whitespace-nowrap shrink-0 ${
                       isActive
                         ? 'bg-teal-600 text-white shadow-lg shadow-teal-500/20'
                         : 'bg-white text-slate-600 hover:bg-teal-50 hover:text-teal-700 border border-slate-200'

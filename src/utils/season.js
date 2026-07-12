@@ -50,5 +50,5 @@ export function getSeasonalDestinations(destinations, month, category = 'All') {
 export function getSeasonalFoods(items, month) {
   return items
     .filter(d => d.category === 'seasonal-foods' && isInSeason(d.seasonMonths, month))
-    .sort((a, _b) => (a.type === 'fruit' ? -1 : 1))
+    .sort((a, _b) => (a.type === 'fruit' ? -1 : _b.type === 'fruit' ? 1 : 0))
 }

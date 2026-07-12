@@ -10,6 +10,11 @@ import { prideItems } from '../../data/sriLankaPride'
 import { getSeasonalDestinations, getSeasonalFoods, monthName } from '../../utils/season'
 import { handleImgError } from '../../utils/fallback'
 
+function getRandomItems(arr, count) {
+  const shuffled = [...arr].sort(() => Math.random() - 0.5)
+  return shuffled.slice(0, count)
+}
+
 const popularCategories = [
   'All', 'Beaches', 'Nature', 'Wildlife', 'Historical', 'Waterfalls', 'Cultural', 'Adventure Activities'
 ]
@@ -64,7 +69,8 @@ function SeasonalCard({ dest, i }) {
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       tabIndex={0}
-      role="link"
+      role="button"
+      aria-label={`View details for ${dest.name}`}
       className="cursor-pointer h-full"
     >
       <div className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-slate-100 italic h-full flex flex-col">
@@ -138,7 +144,7 @@ function SeasonalCard({ dest, i }) {
                   e.stopPropagation()
                   window.open(dest.googleMapsLink || `https://www.google.com/maps/dir/?api=1&destination=${dest.coordinates.lat},${dest.coordinates.lng}`, '_blank', 'noopener,noreferrer')
                 }}
-                className="inline-flex items-center justify-center gap-2 w-full min-h-[40px] px-4 py-2 rounded-xl bg-gradient-to-r from-teal-500 to-ocean-600 text-white text-sm font-semibold shadow-md shadow-teal-500/20 hover:shadow-teal-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+                className="inline-flex items-center justify-center gap-2 w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-gradient-to-r from-teal-500 to-ocean-600 text-white text-sm font-semibold shadow-md shadow-teal-500/20 hover:shadow-teal-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
               >
                 <FiNavigation className="text-sm" />
                 Get Directions
@@ -161,7 +167,7 @@ function SeasonalFoodCard({ food, i }) {
       transition={{ duration: 0.5, delay: i * 0.06 }}
       viewport={{ once: true, margin: '-50px' }}
     >
-      <Link to={`/sri-lanka-pride/seasonal-foods/${food.id}`} className="block cursor-pointer h-full">
+      <Link to={`/sri-lanka-pride/${food.category}/${food.id}`} className="block cursor-pointer h-full">
         <div className="group rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-teal-200 h-full flex flex-col bg-white">
           <div className="relative h-48 sm:h-56 overflow-hidden">
             <img
@@ -183,18 +189,27 @@ function SeasonalFoodCard({ food, i }) {
               {food.description}
             </p>
             <div className="flex items-center flex-wrap gap-x-3 gap-y-1 text-xs text-slate-500 mb-2">
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-teal-50 text-teal-700 font-semibold">
-                <FiCalendar className="text-[10px]" />
-                {food.seasonMonths}
-              </span>
-              <span>
-                {food.seasonName}
-              </span>
+              {food.seasonMonths ? (
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-teal-50 text-teal-700 font-semibold">
+                  <FiCalendar className="text-[10px]" />
+                  {food.seasonMonths}
+                </span>
+              ) : food.period ? (
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-teal-50 text-teal-700 font-semibold">
+                  <FiCalendar className="text-[10px]" />
+                  {food.period}
+                </span>
+              ) : null}
+              {food.seasonName && (
+                <span>
+                  {food.seasonName}
+                </span>
+              )}
             </div>
-            {food.origin && (
+            {food.location && (
               <div className="flex items-center gap-1 text-xs text-slate-500 mt-auto pt-2 border-t border-slate-100">
                 <FiMapPin className="text-teal-500" />
-                <span className="truncate">{food.origin}</span>
+                <span className="truncate">{food.location}</span>
               </div>
             )}
           </div>
@@ -210,10 +225,25 @@ export default function Featured() {
   const currentMonth = monthName(now.getMonth() + 1)
   const monthLabel = now.toLocaleString('default', { month: 'long' })
 
-  const { places, foods } = useMemo(() => {
-    const dests = getSeasonalDestinations(destinations, currentMonth, activeCategory).slice(0, 3)
-    const seasonalFoods = getSeasonalFoods(prideItems, currentMonth).slice(0, 3)
-    return { places: dests, foods: seasonalFoods }
+  const { places, foods, isDestFallback, isFoodFallback } = useMemo(() => {
+    let dests = getSeasonalDestinations(destinations, currentMonth, activeCategory).slice(0, 3)
+    let isDestFallback = false
+    if (dests.length === 0) {
+      const fallbackPool = activeCategory === 'All'
+        ? destinations
+        : destinations.filter(d => d.category === activeCategory.toLowerCase())
+      dests = getRandomItems(fallbackPool.length > 0 ? fallbackPool : destinations, 3)
+      isDestFallback = true
+    }
+
+    let seasonalFoods = getSeasonalFoods(prideItems, currentMonth).slice(0, 3)
+    let isFoodFallback = false
+    if (seasonalFoods.length === 0) {
+      seasonalFoods = getRandomItems(prideItems, 3)
+      isFoodFallback = true
+    }
+
+    return { places: dests, foods: seasonalFoods, isDestFallback, isFoodFallback }
   }, [currentMonth, activeCategory])
 
   return (
@@ -227,9 +257,9 @@ export default function Featured() {
 
       <div className="container-custom relative z-10">
         <SectionTitle
-          subtitle={`Seasonal Picks — ${monthLabel}`}
-          title={`Best Places to Visit in ${monthLabel}`}
-          description={`Top-rated destinations and seasonal fruits at their peak in ${monthLabel}.`}
+          subtitle={isDestFallback && isFoodFallback ? 'Curated for You' : `Seasonal Picks — ${monthLabel}`}
+          title={isDestFallback && isFoodFallback ? 'Explore Sri Lanka' : `Best Places to Visit in ${monthLabel}`}
+          description={isDestFallback && isFoodFallback ? 'Handpicked destinations and highlights to inspire your next trip.' : `Top-rated destinations and seasonal fruits at their peak in ${monthLabel}.`}
         />
 
         {/* Filter bar */}
@@ -266,8 +296,8 @@ export default function Featured() {
           </div>
         )}
 
-        {/* Foods row */}
-        {foods.length > 0 && (
+        {/* Foods row — only show when seasonal foods exist */}
+        {!isFoodFallback && foods.length > 0 && (
           <div className="mb-10">
             <h3 className="text-sm font-heading font-bold text-slate-500 uppercase tracking-wider mb-4 text-center">
               In Season Now
@@ -290,19 +320,21 @@ export default function Featured() {
 
         <div className="flex flex-wrap items-center justify-center gap-3">
           <Link
-            to={`/destinations?month=${currentMonth}`}
+            to={isDestFallback ? '/destinations' : `/destinations?month=${currentMonth}`}
             className="group inline-flex items-center gap-2 px-7 py-3 rounded-xl bg-gradient-to-r from-teal-600 to-ocean-500 text-white font-heading font-semibold italic text-sm shadow-lg shadow-teal-500/20 hover:shadow-xl hover:shadow-teal-500/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
           >
-            View Seasonal Destinations
+            {isDestFallback ? 'Explore All Destinations' : 'View Seasonal Destinations'}
             <FiArrowRight className="group-hover:translate-x-1 transition-transform duration-300" />
           </Link>
-          <Link
-            to="/sri-lanka-pride?category=Seasonal+Foods"
-            className="group inline-flex items-center gap-2 px-7 py-3 rounded-xl bg-white text-slate-700 font-heading font-semibold italic text-sm border border-slate-200 shadow-sm hover:border-teal-300 hover:text-teal-700 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
-          >
-            Explore Seasonal Foods
-            <FiArrowRight className="group-hover:translate-x-1 transition-transform duration-300" />
-          </Link>
+          {!isFoodFallback && (
+            <Link
+              to="/sri-lanka-pride?category=Seasonal+Foods"
+              className="group inline-flex items-center gap-2 px-7 py-3 rounded-xl bg-white text-slate-700 font-heading font-semibold italic text-sm border border-slate-200 shadow-sm hover:border-teal-300 hover:text-teal-700 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+            >
+              Explore Seasonal Foods
+              <FiArrowRight className="group-hover:translate-x-1 transition-transform duration-300" />
+            </Link>
+          )}
         </div>
       </div>
     </section>

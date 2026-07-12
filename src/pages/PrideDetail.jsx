@@ -1,5 +1,5 @@
 import { useParams, Link, useLocation } from 'react-router-dom'
-import { FiArrowLeft, FiMapPin, FiCalendar, FiNavigation, FiAward, FiCamera, FiMap, FiShare2 } from 'react-icons/fi'
+import { FiArrowLeft, FiMapPin, FiCalendar, FiNavigation, FiAward, FiCamera, FiMap, FiShare2, FiHome } from 'react-icons/fi'
 import { GiCrown, GiCaveEntrance, GiTeapotLeaves, GiFruitTree } from 'react-icons/gi'
 import { FaLandmark, FaCity, FaUtensils, FaRoute, FaUsers } from 'react-icons/fa'
 import { prideItems } from '../data/sriLankaPride'
@@ -11,7 +11,7 @@ import SimilarPlaces from '../components/ui/SimilarPlaces'
 const catMeta = {
   'ancient-kingdoms': { icon: GiCrown, label: 'Ancient Kingdom', gradient: 'from-amber-950 to-yellow-900', color: 'amber' },
   'caves-geological-wonders': { icon: GiCaveEntrance, label: 'Cave & Geology', gradient: 'from-stone-900 to-neutral-800', color: 'stone' },
-  'museums-galleries': { icon: FaLandmark, label: 'Museum & Gallery', gradient: 'from-indigo-950 to-purple-900', color: 'indigo' },
+  'museums': { icon: FaLandmark, label: 'Museum', gradient: 'from-indigo-950 to-purple-900', color: 'indigo' },
   'cities-urban': { icon: FaCity, label: 'City & Urban', gradient: 'from-blue-950 to-cyan-900', color: 'blue' },
   'food-culinary': { icon: FaUtensils, label: 'Food & Culinary', gradient: 'from-rose-950 to-red-900', color: 'red' },
   'seasonal-foods': { icon: GiFruitTree, label: 'Seasonal Food', gradient: 'from-orange-950 to-amber-900', color: 'orange' },
@@ -65,7 +65,7 @@ export default function PrideDetail() {
     )
   }
 
-  const jsonLd = item ? {
+  const jsonLd = {
     '@context': 'https://schema.org',
     '@type': isFamous ? 'Person' : isRoute ? 'TouristTrip' : 'TouristAttraction',
     name: item.name,
@@ -75,7 +75,7 @@ export default function PrideDetail() {
     ...(item.period && !isFamous && { description: `${item.description} Period: ${item.period}` }),
     ...(isFamous && item.birthYear && { birthDate: item.birthYear, birthPlace: item.birthPlace }),
     ...(item.coordinates && { geo: { '@type': 'GeoCoordinates', latitude: item.coordinates.lat, longitude: item.coordinates.lng } }),
-  } : null
+  }
 
   return (
     <div>
@@ -92,12 +92,20 @@ export default function PrideDetail() {
           <div className="absolute inset-0 opacity-10 bg-grid" />
         </div>
         <div className="container-custom relative z-10 px-4 sm:px-6 lg:px-8">
-          <Link
-            to="/sri-lanka-pride"
-            className="inline-flex items-center gap-2 text-white/80 hover:text-white text-sm font-medium mb-6 transition-colors"
-          >
-            <FiArrowLeft /> Back to Sri Lanka Pride
-          </Link>
+          <div className="flex items-center gap-3 mb-6">
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-sm font-medium rounded-lg backdrop-blur-sm border border-white/20 transition-all duration-300"
+            >
+              <FiHome /> Home
+            </Link>
+            <Link
+              to="/sri-lanka-pride"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-sm font-medium rounded-lg backdrop-blur-sm border border-white/20 transition-all duration-300"
+            >
+              <FiArrowLeft /> Back to Sri Lanka Pride
+            </Link>
+          </div>
           <div className="flex flex-col md:flex-row md:items-end gap-6 md:gap-10">
             <div className="w-full md:w-80 lg:w-96 shrink-0">
               <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
@@ -142,7 +150,7 @@ export default function PrideDetail() {
                 )}
                 <button
                   onClick={handleShare}
-                  className="inline-flex items-center justify-center w-[38px] h-[38px] sm:w-[46px] sm:h-[46px] rounded-full bg-white/20 hover:bg-white/30 text-white text-sm sm:text-base transition-all border border-white/30 backdrop-blur-sm cursor-pointer shrink-0"
+                  className="inline-flex items-center justify-center w-[44px] h-[44px] sm:w-[46px] sm:h-[46px] rounded-full bg-white/20 hover:bg-white/30 text-white text-sm sm:text-base transition-all border border-white/30 backdrop-blur-sm cursor-pointer shrink-0"
                   title="Share"
                 >
                   <FiShare2 />
@@ -212,7 +220,7 @@ export default function PrideDetail() {
                     <div className="text-xs text-slate-500 mb-3">
                       {item.coordinates.lat.toFixed(4)}°N, {item.coordinates.lng.toFixed(4)}°E
                       <div className="mt-1 text-teal-600 font-medium">
-                        {item.name} in {Math.round(distanceFromColombo([item.coordinates.lat, item.coordinates.lng]))} km from Colombo
+                        {item.name} in {distanceFromColombo([item.coordinates.lat, item.coordinates.lng])} km from Colombo
                       </div>
                     </div>
                     <a
@@ -227,6 +235,7 @@ export default function PrideDetail() {
                 )}
               </div>
 
+              {prideItems.some((p) => p.category === item.category && p.id !== item.id) && (
               <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-6">
                 <SimilarPlaces
                   items={prideItems}
@@ -235,6 +244,7 @@ export default function PrideDetail() {
                   category={item.category}
                 />
               </div>
+              )}
             </div>
           </div>
         </div>

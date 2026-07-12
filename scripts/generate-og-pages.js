@@ -21,33 +21,45 @@ function ensureDir(filePath) {
   if (!existsSync(dir)) mkdirSync(dir, { recursive: true })
 }
 
+function escapeAttr(str) {
+  return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+}
+
+function escapeReplacement(str) {
+  return str.replace(/\$/g, '$$')
+}
+
 function generatePage(path, ogTitle, ogDesc, ogImage, indexHtml) {
   const imageUrl = ogImage.startsWith('/') ? `${SITE_URL}${ogImage}` : ogImage
   const pageUrl = `${SITE_URL}${path}`
   const imgType = ogImageType(imageUrl)
+  const safeTitle = escapeReplacement(ogTitle)
+  const safeDesc = escapeReplacement(ogDesc)
+  const safeImageUrl = escapeReplacement(imageUrl)
+  const safePageUrl = escapeReplacement(pageUrl)
 
   let html = indexHtml
 
-    .replace(/<title>.*?<\/title>/, `<title>${ogTitle} | Eastory SL</title>`)
+    .replace(/<title>.*?<\/title>/, `<title>${escapeAttr(safeTitle)} | Eastory SL</title>`)
     .replace(
       /<meta name="description"[^>]*\/?>/,
-      `<meta name="description" content="${ogDesc}" />`
+      `<meta name="description" content="${escapeAttr(safeDesc)}" />`
     )
     .replace(
       /<meta property="og:title"[^>]*\/?>/,
-      `<meta property="og:title" content="${ogTitle} | Eastory SL" />`
+      `<meta property="og:title" content="${escapeAttr(safeTitle)} | Eastory SL" />`
     )
     .replace(
       /<meta property="og:description"[^>]*\/?>/,
-      `<meta property="og:description" content="${ogDesc}" />`
+      `<meta property="og:description" content="${escapeAttr(safeDesc)}" />`
     )
     .replace(
       /<meta property="og:url"[^>]*\/?>/,
-      `<meta property="og:url" content="${pageUrl}" />`
+      `<meta property="og:url" content="${escapeAttr(safePageUrl)}" />`
     )
     .replace(
       /<meta property="og:image"[^>]*\/?>/,
-      `<meta property="og:image" content="${imageUrl}" />`
+      `<meta property="og:image" content="${escapeAttr(safeImageUrl)}" />`
     )
     .replace(
       /<meta property="og:image:type"[^>]*\/?>/,
@@ -55,35 +67,35 @@ function generatePage(path, ogTitle, ogDesc, ogImage, indexHtml) {
     )
     .replace(
       /<meta property="og:image:alt"[^>]*\/?>/,
-      `<meta property="og:image:alt" content="${ogTitle} | Eastory SL" />`
+      `<meta property="og:image:alt" content="${escapeAttr(safeTitle)} | Eastory SL" />`
     )
     .replace(
       /<meta name="twitter:title"[^>]*\/?>/,
-      `<meta name="twitter:title" content="${ogTitle} | Eastory SL" />`
+      `<meta name="twitter:title" content="${escapeAttr(safeTitle)} | Eastory SL" />`
     )
     .replace(
       /<meta name="twitter:description"[^>]*\/?>/,
-      `<meta name="twitter:description" content="${ogDesc}" />`
+      `<meta name="twitter:description" content="${escapeAttr(safeDesc)}" />`
     )
     .replace(
       /<meta name="twitter:image"[^>]*\/?>/,
-      `<meta name="twitter:image" content="${imageUrl}" />`
+      `<meta name="twitter:image" content="${escapeAttr(safeImageUrl)}" />`
     )
     .replace(
       /<meta name="twitter:image:alt"[^>]*\/?>/,
-      `<meta name="twitter:image:alt" content="${ogTitle} | Eastory SL" />`
+      `<meta name="twitter:image:alt" content="${escapeAttr(safeTitle)} | Eastory SL" />`
     )
     .replace(
       /<meta name="keywords"[^>]*\/?>/,
-      `<meta name="keywords" content="${ogTitle}, Sri Lanka, travel, tourism" />`
+      `<meta name="keywords" content="${escapeAttr(safeTitle)}, Sri Lanka, travel, tourism" />`
     )
     .replace(
       /<meta name="twitter:url"[^>]*\/?>/,
-      `<meta name="twitter:url" content="${pageUrl}" />`
+      `<meta name="twitter:url" content="${escapeAttr(safePageUrl)}" />`
     )
     .replace(
       /<link rel="canonical"[^>]*\/?>/,
-      `<link rel="canonical" href="${pageUrl}" />`
+      `<link rel="canonical" href="${escapeAttr(safePageUrl)}" />`
     )
 
   const filePath = join(DIST, path, 'index.html')

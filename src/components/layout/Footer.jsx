@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { FiMapPin, FiMail, FiArrowUp, FiSend, FiChevronRight } from 'react-icons/fi'
+import { FiMapPin, FiMail, FiArrowUp, FiSend, FiChevronRight, FiCheck, FiLoader } from 'react-icons/fi'
 import { FaFacebook, FaWhatsapp, FaInstagram, FaUmbrellaBeach } from 'react-icons/fa'
 import { FiPhone } from 'react-icons/fi'
 import { GiLion, GiElephantHead } from 'react-icons/gi'
@@ -25,15 +25,23 @@ const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
 
 export default function Footer() {
   const [email, setEmail] = useState('')
-  const [subscribed, setSubscribed] = useState(false)
+  const [subStatus, setSubStatus] = useState(null)
+  const timerRef = useRef(null)
+
+  useEffect(() => {
+    return () => { if (timerRef.current) clearTimeout(timerRef.current) }
+  }, [])
 
   const handleSubscribe = (e) => {
     e.preventDefault()
-    if (email) {
-      setSubscribed(true)
+    if (!email) return
+    setSubStatus('loading')
+    if (timerRef.current) clearTimeout(timerRef.current)
+    timerRef.current = setTimeout(() => {
+      setSubStatus('success')
       setEmail('')
-      setTimeout(() => setSubscribed(false), 3000)
-    }
+      timerRef.current = setTimeout(() => setSubStatus(null), 3500)
+    }, 800)
   }
 
   return (
@@ -58,7 +66,7 @@ export default function Footer() {
                 { icon: FiPhone, href: 'tel:+94724362001', label: 'Call' },
               ].map((s) => (
                 <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-full bg-slate-800 hover:bg-teal-600 flex items-center justify-center text-slate-400 hover:text-white transition-all duration-300 hover:shadow-lg hover:shadow-teal-500/20 hover:-translate-y-0.5"
+                  className="w-11 h-11 rounded-full bg-slate-800 hover:bg-teal-600 flex items-center justify-center text-slate-400 hover:text-white transition-all duration-300 hover:shadow-lg hover:shadow-teal-500/20 hover:-translate-y-0.5"
                   aria-label={s.label}>
                   <s.icon className="text-sm" />
                 </a>
@@ -122,27 +130,50 @@ export default function Footer() {
               Get the latest travel tips and destination guides delivered to your inbox.
             </p>
             <form onSubmit={handleSubscribe} className="mb-5">
-              <div className="relative">
-                <FiMail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-sm" />
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
-                  className="w-full bg-slate-800/80 border border-slate-700 rounded-xl pl-10 pr-12 py-2.5 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-teal-500/50 focus:ring-1 focus:ring-teal-500/20 transition-all duration-200"
-                  required
-                />
-                <button
-                  type="submit"
-                  aria-label="Subscribe"
-                  className="absolute right-1.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg bg-teal-600 hover:bg-teal-500 flex items-center justify-center text-white transition-all duration-200 hover:scale-105"
-                >
-                  <FiSend className="text-xs" />
-                </button>
+              <label htmlFor="footer-email" className="sr-only">Email address</label>
+              <div className="relative group">
+                <div className="absolute -inset-px rounded-xl bg-gradient-to-r from-teal-500/20 to-ocean-500/20 opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 blur-sm" />
+                <div className="relative flex items-center bg-slate-800/80 border border-slate-700 rounded-xl overflow-hidden transition-all duration-300 group-focus-within:border-teal-500/40 group-focus-within:bg-slate-800">
+                  <FiMail className="ml-3.5 text-slate-500 text-sm shrink-0 transition-colors duration-200 group-focus-within:text-teal-400" />
+                  <input
+                    id="footer-email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email"
+                    disabled={subStatus === 'loading'}
+                    className="flex-1 bg-transparent px-3 py-2.5 text-sm text-white placeholder:text-slate-500 focus:outline-none disabled:opacity-50"
+                    required
+                  />
+                  <button
+                    type="submit"
+                    disabled={subStatus === 'loading' || subStatus === 'success'}
+                    aria-label="Subscribe"
+                    className={`mr-1.5 w-9 h-9 rounded-lg flex items-center justify-center text-white transition-all duration-300 shrink-0 ${
+                      subStatus === 'success'
+                        ? 'bg-emerald-500 scale-100'
+                        : subStatus === 'loading'
+                          ? 'bg-teal-600/60 cursor-wait'
+                          : 'bg-teal-600 hover:bg-teal-500 hover:shadow-lg hover:shadow-teal-500/25 active:scale-95'
+                    }`}
+                  >
+                    {subStatus === 'success' ? (
+                      <FiCheck className="text-sm animate-scale-in" />
+                    ) : subStatus === 'loading' ? (
+                      <FiLoader className="text-sm animate-spin" />
+                    ) : (
+                      <FiSend className="text-xs" />
+                    )}
+                  </button>
+                </div>
               </div>
-              {subscribed && (
-                <p className="text-teal-400 text-xs mt-2 animate-pulse">Thanks for subscribing!</p>
-              )}
+              <div className="h-5 mt-1">
+                {subStatus === 'success' && (
+                  <p className="text-emerald-400 text-xs flex items-center gap-1 animate-fade-in">
+                    <FiCheck className="text-[10px]" /> Thanks for subscribing!
+                  </p>
+                )}
+              </div>
             </form>
             <div className="p-4 rounded-xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-slate-700/50 backdrop-blur-sm">
               <div className="flex items-center gap-2 mb-2">
@@ -177,7 +208,7 @@ export default function Footer() {
               <Link to="/terms-of-service" className="text-slate-500 hover:text-teal-400 text-xs transition-colors">Terms of Service</Link>
               <button
                 onClick={scrollToTop}
-                className="w-9 h-9 rounded-xl bg-slate-800 hover:bg-teal-600 flex items-center justify-center text-slate-400 hover:text-white transition-all duration-300 hover:shadow-lg hover:shadow-teal-500/20 hover:-translate-y-0.5"
+                className="w-11 h-11 rounded-xl bg-slate-800 hover:bg-teal-600 flex items-center justify-center text-slate-400 hover:text-white transition-all duration-300 hover:shadow-lg hover:shadow-teal-500/20 hover:-translate-y-0.5"
                 aria-label="Scroll to top"
               >
                 <FiArrowUp />

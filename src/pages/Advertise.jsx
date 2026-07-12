@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FiCheck, FiChevronRight, FiChevronLeft, FiArrowLeft } from 'react-icons/fi'
+import { FiCheck, FiChevronRight, FiChevronLeft, FiArrowLeft, FiHome } from 'react-icons/fi'
 import { FaWhatsapp } from 'react-icons/fa'
 import SectionTitle from '../components/ui/SectionTitle'
 import SEO from '../components/seo/SEO'
@@ -94,7 +94,10 @@ export default function Advertise() {
     setSubmitted(true)
     const pkg = packages.find((p) => p.id === selectedPackage)
     const msg = `Hi! I'm interested in advertising with Eastory SL.\n\nBusiness: ${form.businessName}\nType: ${form.type}\nLocation: ${form.location}\nPhone: ${form.contact}\nEmail: ${form.email}\nPackage: ${pkg?.name || 'N/A'}\n\n${form.description}`
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank')
+    const win = window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank')
+    if (!win || win.closed || typeof win.closed === 'undefined') {
+      alert('Popup was blocked. Please allow popups for this site or copy the message manually.')
+    }
   }
 
   if (submitted) {
@@ -144,6 +147,12 @@ export default function Advertise() {
             description="Get your business in front of thousands of travelers exploring Sri Lanka. Choose the package that suits your needs."
             light
           />
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-sm font-medium mt-6 rounded-lg backdrop-blur-sm border border-white/20 transition-all duration-300"
+          >
+            <FiHome /> Home
+          </Link>
         </div>
       </section>
 

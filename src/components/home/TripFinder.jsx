@@ -59,8 +59,33 @@ const questions = [
   },
 ]
 
+function haversineDistance(a, b) {
+  const toRad = (deg) => (deg * Math.PI) / 180
+  const R = 6371
+  const dLat = toRad(b.lat - a.lat)
+  const dLng = toRad(b.lng - a.lng)
+  const x =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(a.lat)) * Math.cos(toRad(b.lat)) * Math.sin(dLng / 2) ** 2
+  return R * 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x))
+}
+
+function clusterByProximity(candidates, count) {
+  if (candidates.length <= count) return candidates
+  const centroid = {
+    lat: candidates.reduce((s, d) => s + d.coordinates.lat, 0) / candidates.length,
+    lng: candidates.reduce((s, d) => s + d.coordinates.lng, 0) / candidates.length,
+  }
+  const scored = candidates.map((d) => ({
+    dest: d,
+    dist: haversineDistance(centroid, d.coordinates),
+  }))
+  scored.sort((a, b) => a.dist - b.dist)
+  return scored.slice(0, count).map((s) => s.dest)
+}
+
 function recommendPlan(answers) {
-  const { experience, companions, budget, duration } = answers
+  const { experience } = answers
 
   const categoryMatch = {
     beaches: [],
@@ -77,34 +102,12 @@ function recommendPlan(answers) {
       .filter((d) => categoryMatch[experience]?.includes(d.category))
   }
 
-  if (candidateDests.length < 2) {
+  if (candidateDests.length < 6) {
     candidateDests = [...destinations]
   }
 
-  const destCount = { weekend: 2, short: 3, extended: 4 }
-  const topDests = candidateDests.slice(0, destCount[duration] || 3)
-
-  let beachCandidates = destinations
-    .filter((d) => d.category === 'beaches')
-
-  const companionTips = {
-    solo: ['Perfect for independent exploration', 'Great hostel & guesthouse options available'],
-    couple: ['Romantic sunset spots across the island', 'Private tours create unforgettable memories'],
-    family: ['Family-friendly accommodations widely available', 'Plenty of kid-friendly beaches and activities'],
-    group: ['Group discounts at many attractions', 'Private transport recommended for flexibility'],
-  }
-
-  const budgetTips = {
-    budget: ['Free entry to many temples and sites', 'Street food is delicious and affordable'],
-    mid: ['Great value boutique hotels available', 'Private drivers offer affordable tours'],
-    premium: ['Luxury resorts with world-class amenities', 'Private guides enhance the experience'],
-  }
-
   return {
-    destinations: topDests,
-    beach: beachCandidates[0] || null,
-    tips: [...(companionTips[companions] || []), ...(budgetTips[budget] || [])],
-    bestTime: topDests[0]?.bestTime || 'Year-round',
+    destinations: clusterByProximity(candidateDests, 6),
   }
 }
 
@@ -295,114 +298,62 @@ export default function TripFinder() {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
-                  className="w-12 h-12 mx-auto mb-3 rounded-xl bg-gradient-to-br from-teal-500 to-ocean-500 flex items-center justify-center shadow-lg shadow-teal-500/20"
+                  className="w-14 h-14 mx-auto mb-3 rounded-xl bg-gradient-to-br from-teal-500 to-ocean-500 flex items-center justify-center shadow-lg shadow-teal-500/20"
                 >
-                  <FiMap className="text-white text-xl" />
+                  <FiMap className="text-white text-2xl" />
                 </motion.div>
-                <h2 className="text-xl sm:text-2xl font-heading font-bold text-slate-900 mb-1">Your Personalized Plan</h2>
-                <p className="text-sm text-slate-500">Based on your preferences, we recommend:</p>
+                <h2 className="text-2xl sm:text-3xl font-heading font-bold text-slate-900 mb-2">Your Personalized Plan</h2>
+                <p className="text-base text-slate-500">Based on your preferences, we recommend:</p>
               </div>
 
-              <div className="max-w-4xl mx-auto space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              <div className="max-w-4xl mx-auto space-y-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {plan.destinations.map((dest, i) => (
                     <motion.div
                       key={dest.id}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3 + i * 0.1 }}
-                      className="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
                     >
-                      <div className="relative h-32 sm:h-36 overflow-hidden">
-                        <img
-                          src={dest.image}
-                          alt={dest.name}
-                          loading="lazy"
-                          onError={handleImgError}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent" />
-                        <div className="absolute bottom-2 left-3 right-3">
-                          <h3 className="text-white font-heading font-bold text-sm sm:text-base leading-tight">{dest.name}</h3>
-                          <span className="text-white/70 text-xs capitalize">{dest.category}</span>
+                      <Link
+                        to={`/destinations/${encodeURIComponent(dest.category)}/${dest.id}`}
+                        className="group relative block rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
+                      >
+                        <div className="relative h-40 sm:h-44 overflow-hidden">
+                          <img
+                            src={dest.image}
+                            alt={dest.name}
+                            loading="lazy"
+                            onError={handleImgError}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent" />
+                          <div className="absolute bottom-3 left-4 right-4">
+                            <h3 className="text-white font-heading font-bold text-base sm:text-lg leading-tight">{dest.name}</h3>
+                            <span className="text-white/70 text-sm capitalize">{dest.category}</span>
+                          </div>
                         </div>
-                      </div>
+                      </Link>
                     </motion.div>
                   ))}
                 </div>
-
-                {plan.beach && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6 }}
-                    className="flex items-start gap-3 p-4 rounded-2xl bg-gradient-to-br from-ocean-50 to-teal-50 border border-ocean-100"
-                  >
-                    <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-ocean-500 to-teal-500 flex items-center justify-center flex-shrink-0 shadow-md">
-                      <FiSun className="text-white text-base" />
-                    </div>
-                    <div>
-                      <p className="font-semibold text-slate-900 text-xs">Top Beach Pick</p>
-                      <p className="text-slate-700 text-xs mt-0.5">
-                        {plan.beach.name}
-                      </p>
-                      <p className="text-[11px] text-slate-500 mt-0.5">{plan.beach.description?.slice(0, 80)}...</p>
-                    </div>
-                  </motion.div>
-                )}
-
-                {plan.bestTime && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.7 }}
-                    className="flex items-center gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-100"
-                  >
-                    <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-500 to-sunset-500 flex items-center justify-center flex-shrink-0 shadow-md">
-                      <FiCalendar className="text-white text-base" />
-                    </div>
-                    <div>
-                      <p className="font-semibold text-slate-900 text-xs">Best Time to Visit</p>
-                      <p className="text-slate-600 text-xs mt-0.5">{plan.bestTime}</p>
-                    </div>
-                  </motion.div>
-                )}
-
-                {plan.tips.length > 0 && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.8 }}
-                    className="p-4 rounded-2xl bg-gradient-to-br from-teal-50 to-emerald-50 border border-teal-100"
-                  >
-                    <p className="font-semibold text-slate-900 text-xs mb-2">Pro Tips</p>
-                    <ul className="space-y-1.5">
-                      {plan.tips.map((tip, i) => (
-                        <li key={i} className="flex items-start gap-1.5 text-xs text-slate-600">
-                          <span className="text-teal-500 mt-0.5">•</span>
-                          {tip}
-                        </li>
-                      ))}
-                    </ul>
-                  </motion.div>
-                )}
 
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.9 }}
-                  className="flex flex-col sm:flex-row items-center justify-center gap-2 pt-2"
+                  className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2"
                 >
                   <Link
                     to="/destinations"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-teal-600 to-ocean-500 text-white font-semibold text-xs hover:shadow-lg hover:shadow-teal-500/25 transition-all duration-300"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-teal-600 to-ocean-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-teal-500/25 transition-all duration-300"
                   >
                     Explore Destinations
                     <FiArrowRight />
                   </Link>
                   <button
                     onClick={handleReset}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-200 text-slate-600 font-medium text-xs hover:border-teal-300 hover:text-teal-700 transition-all duration-300"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-slate-200 text-slate-600 font-medium text-sm hover:border-teal-300 hover:text-teal-700 transition-all duration-300"
                   >
                     <FiRefreshCw />
                     Start Over

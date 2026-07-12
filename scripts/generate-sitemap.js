@@ -32,11 +32,13 @@ async function main() {
     changefreq: 'monthly',
   }))
 
+  const today = new Date().toISOString().split('T')[0]
+
   const all = [...staticPages, ...destUrls, ...prideUrls]
 
   function encodeLoc(path) {
     const segs = path.split('/')
-    return segs.map(s => encodeURIComponent(s)).join('/')
+    return segs.map((s, i) => i <= 1 ? s : encodeURIComponent(s)).join('/')
   }
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -45,6 +47,7 @@ ${all.map((p) => {
   const loc = SITE_URL + encodeLoc(p.loc)
   return `  <url>
     <loc>${loc}</loc>
+    <lastmod>${today}</lastmod>
     <changefreq>${p.changefreq}</changefreq>
     <priority>${p.priority}</priority>
   </url>`

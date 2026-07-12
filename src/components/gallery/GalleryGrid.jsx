@@ -31,13 +31,18 @@ export default function GalleryGrid({ images, initialItem, showAllLink }) {
 
   useEffect(() => {
     if (!selectedImage) return
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
     function handleKeyDown(e) {
       if (e.key === 'ArrowLeft' && currentIndex > 0) setSelectedImage(filtered[currentIndex - 1])
       else if (e.key === 'ArrowRight' && currentIndex < filtered.length - 1) setSelectedImage(filtered[currentIndex + 1])
       else if (e.key === 'Escape') setSelectedImage(null)
     }
     document.addEventListener('keydown', handleKeyDown)
-    return () => document.removeEventListener('keydown', handleKeyDown)
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      document.body.style.overflow = prev
+    }
   }, [selectedImage, currentIndex, filtered])
 
   function handlePrev() {
@@ -75,7 +80,7 @@ export default function GalleryGrid({ images, initialItem, showAllLink }) {
         </div>
       )}
 
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-3 md:gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-3 md:gap-4">
         {filtered.map((image, i) => (
           <motion.button
             key={image.id}
@@ -164,7 +169,7 @@ export default function GalleryGrid({ images, initialItem, showAllLink }) {
                 alt={selectedImage.alt}
                 loading="lazy"
                 onError={handleImgError}
-                onClick={() => { if (selectedImage.page) navigate('/' + selectedImage.page + '/' + selectedImage.category + '/' + selectedImage.itemId) }}
+                onClick={() => { if (selectedImage.page) navigate('/' + selectedImage.page + '/' + (selectedImage.dataCategory || selectedImage.category) + '/' + selectedImage.itemId) }}
                 className="w-full max-h-[80vh] object-contain rounded-2xl cursor-pointer"
               />
               <div className="text-center mt-4">
@@ -172,7 +177,7 @@ export default function GalleryGrid({ images, initialItem, showAllLink }) {
                   {selectedImage.alt}
                   {selectedImage.page && (
                     <button
-                      onClick={() => navigate('/' + selectedImage.page + '/' + selectedImage.category + '/' + selectedImage.itemId)}
+                      onClick={() => navigate('/' + selectedImage.page + '/' + (selectedImage.dataCategory || selectedImage.category) + '/' + selectedImage.itemId)}
                       className="text-teal-400 hover:text-teal-300 text-sm font-semibold ml-2 underline underline-offset-2 italic transition-colors inline-flex items-center gap-1"
                     >
                       View Page <FiExternalLink className="text-xs" />

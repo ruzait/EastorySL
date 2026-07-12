@@ -28,7 +28,6 @@ function getIcon(item) {
     const labels = { hotel: 'Hotels', restaurant: 'Dining', shop: 'Shopping', service: 'Service' }
     return iconMap[labels[item.type]] || iconMap.default
   }
-  if (item.period) return iconMap.cultural
   return iconMap[item.category] || iconMap.default
 }
 
@@ -95,17 +94,19 @@ function MapContent({ filteredData, onSelectItem, flyToCoord, selectedItem, user
   useEffect(() => {
     if (flyToCoord && flyToCoord.length === 2 && (flyToCoord[0] !== prevFlyTo.current?.[0] || flyToCoord[1] !== prevFlyTo.current?.[1])) {
       prevFlyTo.current = flyToCoord
+
       map.flyTo(flyToCoord, 16, { duration: 0.6 })
-      if (!selectedItem) {
+
+      const match = filteredData.find(
+        (d) =>
+          d.coordinates?.[0] === flyToCoord[0] &&
+          d.coordinates?.[1] === flyToCoord[1]
+      )
+      const leafletMarker = match && markerRefs.current[match.id]?.leafletMarker
+
+      if (leafletMarker) {
         setTimeout(() => {
-          const match = filteredData.find(
-            (d) =>
-              d.coordinates?.[0] === flyToCoord[0] &&
-              d.coordinates?.[1] === flyToCoord[1]
-          )
-          if (match && markerRefs.current[match.id]) {
-            markerRefs.current[match.id].openPopup()
-          }
+          leafletMarker.openPopup()
         }, 700)
       }
     }

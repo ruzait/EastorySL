@@ -13,9 +13,9 @@ function ogImageType(url) {
   return 'image/png'
 }
 
-export default function SEO({ title, description, ogImage, ogUrl, keywords, jsonLd, noindex }) {
+export default function SEO({ title, description, ogImage, ogUrl, ogType, keywords, jsonLd, noindex }) {
   const fullTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} — Sri Lanka Travel Guide`
-  const url = ogUrl || window.location.href
+  const url = ogUrl || `${SITE_URL}${typeof window !== 'undefined' ? window.location.pathname : ''}`
   const image = ogImage ? (ogImage.startsWith('/') ? `${SITE_URL}${ogImage}` : ogImage) : DEFAULT_OG
   const imageAlt = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} — Travel Guide`
 
@@ -26,7 +26,7 @@ export default function SEO({ title, description, ogImage, ogUrl, keywords, json
       <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow'} />
       {description && <meta name="description" content={description} />}
       {keywords && <meta name="keywords" content={keywords} />}
-      <meta property="og:type" content="website" />
+      <meta property="og:type" content={ogType || 'website'} />
       <meta property="og:title" content={fullTitle} />
       {description && <meta property="og:description" content={description} />}
       <meta property="og:url" content={url} />

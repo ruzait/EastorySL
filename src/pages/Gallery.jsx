@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import SectionTitle from '../components/ui/SectionTitle'
 import { buildGalleryImages } from '../data/gallery'
 import { destinations } from '../data/destinations'
@@ -7,6 +7,7 @@ import SEO from '../components/seo/SEO'
 import { prideItems } from '../data/sriLankaPride'
 import GalleryGrid from '../components/gallery/GalleryGrid'
 import { handleImgError } from '../utils/fallback'
+import { FiHome } from 'react-icons/fi'
 
 export default function Gallery() {
   const [searchParams] = useSearchParams()
@@ -39,6 +40,12 @@ export default function Gallery() {
             description="Explore Sri Lanka through stunning photographs capturing its beaches, nature, culture, and heritage."
             light
           />
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-sm font-medium mt-6 rounded-lg backdrop-blur-sm border border-white/20 transition-all duration-300"
+          >
+            <FiHome /> Home
+          </Link>
         </div>
       </section>
       <section className="section-padding">

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { HiMenu, HiX } from 'react-icons/hi'
@@ -17,6 +17,7 @@ const navLinks = [
 export default function Navbar({ onInstallClick, isInstalled }) {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const menuRef = useRef(null)
   const { pathname } = useLocation()
   const isMapPage = pathname === '/map'
   const noBannerRoutes = ['/map', '/privacy-policy', '/terms-of-service']
@@ -30,6 +31,32 @@ export default function Navbar({ onInstallClick, isInstalled }) {
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  const handleMenuKeyDown = useCallback((e) => {
+    if (e.key === 'Escape') {
+      setIsOpen(false)
+      return
+    }
+    if (e.key !== 'Tab' || !menuRef.current) return
+    const focusable = menuRef.current.querySelectorAll('a[href], button')
+    if (focusable.length === 0) return
+    const first = focusable[0]
+    const last = focusable[focusable.length - 1]
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault()
+      last.focus()
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault()
+      first.focus()
+    }
+  }, [])
+
+  useEffect(() => {
+    if (isOpen && menuRef.current) {
+      const firstLink = menuRef.current.querySelector('a[href], button')
+      if (firstLink) firstLink.focus()
+    }
+  }, [isOpen])
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
@@ -106,10 +133,12 @@ export default function Navbar({ onInstallClick, isInstalled }) {
               onClick={() => setIsOpen(false)}
             />
             <motion.div
+              ref={menuRef}
               initial={{ opacity: 0, maxHeight: 0 }}
               animate={{ opacity: 1, maxHeight: '70vh' }}
               exit={{ opacity: 0, maxHeight: 0 }}
               className="md:hidden relative overflow-hidden border-t border-white/10 shadow-xl z-20 rounded-b-2xl"
+              onKeyDown={handleMenuKeyDown}
             >
               <div className="absolute inset-0 bg-cover bg-no-repeat bg-center" style={{ backgroundImage: 'url(/images/home/hero.png)' }} />
               <div className="absolute inset-0 backdrop-blur-md bg-slate-900/70" />

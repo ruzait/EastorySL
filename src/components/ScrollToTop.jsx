@@ -8,6 +8,14 @@ export default function ScrollToTop() {
     window.scrollTo(0, 0)
     document.documentElement.scrollTop = 0
     document.body.scrollTop = 0
+
+    const timeout = setTimeout(() => {
+      window.scrollTo(0, 0)
+      document.documentElement.scrollTop = 0
+      document.body.scrollTop = 0
+    }, 100)
+
+    return () => clearTimeout(timeout)
   }, [pathname])
 
   return null

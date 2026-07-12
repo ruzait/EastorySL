@@ -10,27 +10,6 @@ const CATEGORIES = [
   'Museums', 'Wildlife', 'Parks',
 ]
 
-const categoryColors = {
-  religious: 'bg-teal-100 text-teal-700',
-  historical: 'bg-ocean-100 text-ocean-700',
-  nature: 'bg-emerald-100 text-emerald-700',
-  beaches: 'bg-ocean-100 text-ocean-700',
-  cultural: 'bg-coral-100 text-coral-700',
-  adventure: 'bg-sunset-100 text-sunset-700',
-  Accommodation: 'bg-purple-100 text-purple-700',
-  Dining: 'bg-sunset-100 text-sunset-700',
-  Shopping: 'bg-pink-100 text-pink-700',
-  'Water Sports': 'bg-ocean-100 text-ocean-700',
-  Tours: 'bg-teal-100 text-teal-700',
-  Hotel: 'bg-purple-100 text-purple-700',
-  Restaurant: 'bg-sunset-100 text-sunset-700',
-  Shop: 'bg-pink-100 text-pink-700',
-  Service: 'bg-teal-100 text-teal-700',
-  default: 'bg-slate-100 text-slate-600',
-}
-
-
-
 export default function MapPlaceList({ items, selectedItem, onSelect, searchQuery, onSearchChange, activeCategory, onCategoryChange, onClose }) {
   const listRef = useRef(null)
   const selectedRef = useRef(null)
@@ -91,7 +70,7 @@ export default function MapPlaceList({ items, selectedItem, onSelect, searchQuer
               <span className="ml-1.5 text-xs font-normal text-slate-400">({items.length})</span>
             </h1>
             {onClose && (
-              <button onClick={onClose} aria-label="Close list" className="touch-manipulation w-9 h-9 rounded-lg bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-400 hover:text-slate-600 transition-all duration-200">
+              <button onClick={onClose} aria-label="Close list" className="touch-manipulation w-11 h-11 rounded-lg bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-400 hover:text-slate-600 transition-all duration-200">
                 <FiX size={16} />
               </button>
             )}
@@ -106,7 +85,7 @@ export default function MapPlaceList({ items, selectedItem, onSelect, searchQuer
               className="w-full pl-10 pr-9 py-2.5 rounded-xl bg-slate-100 border-0 text-xs text-slate-800 placeholder:text-slate-400 italic outline-none focus:bg-white focus:ring-2 focus:ring-teal-500/20 focus:shadow-sm transition-all duration-200"
             />
             {searchQuery && (
-              <button onClick={() => onSearchChange('')} className="touch-manipulation absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-600">
+              <button onClick={() => onSearchChange('')} className="touch-manipulation absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center text-slate-400 hover:text-slate-600">
                 <FiX size={16} />
               </button>
             )}
@@ -209,7 +188,7 @@ export default function MapPlaceList({ items, selectedItem, onSelect, searchQuer
                         {item.location || item.district}
                       </span>
                     </div>
-                    <p className="text-[11px] text-slate-400 leading-relaxed line-clamp-1 mt-1">
+                    <p className="text-[11px] text-slate-500 leading-relaxed line-clamp-1 mt-1">
                       {item.description}
                     </p>
                   </div>

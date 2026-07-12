@@ -8,7 +8,7 @@ import { handleImgError } from '../../utils/fallback'
 const meta = {
   'ancient-kingdoms': { icon: GiCrown, label: 'Ancient', border: 'hover:border-amber-200', iconColor: 'text-amber-500' },
   'caves-geological-wonders': { icon: GiCaveEntrance, label: 'Geology', border: 'hover:border-stone-200', iconColor: 'text-stone-500' },
-  'museums-galleries': { icon: FaLandmark, label: 'Museum', border: 'hover:border-indigo-200', iconColor: 'text-indigo-500' },
+  'museums': { icon: FaLandmark, label: 'Museum', border: 'hover:border-indigo-200', iconColor: 'text-indigo-500' },
   'cities-urban': { icon: FaCity, label: 'Urban', border: 'hover:border-blue-200', iconColor: 'text-blue-500' },
   'food-culinary': { icon: FaUtensils, label: 'Food', border: 'hover:border-red-200', iconColor: 'text-red-500' },
   'seasonal-foods': { icon: GiFruitTree, label: 'Seasonal', border: 'hover:border-orange-200', iconColor: 'text-orange-500' },
@@ -20,7 +20,7 @@ const meta = {
 const accentGradients = {
   'ancient-kingdoms': 'from-amber-950 to-yellow-900',
   'caves-geological-wonders': 'from-stone-900 to-neutral-800',
-  'museums-galleries': 'from-indigo-950 to-purple-900',
+  'museums': 'from-indigo-950 to-purple-900',
   'cities-urban': 'from-blue-950 to-cyan-900',
   'food-culinary': 'from-rose-950 to-red-900',
   'seasonal-foods': 'from-orange-950 to-amber-900',

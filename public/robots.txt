@@ -23,8 +23,6 @@ Allow: /
 
 User-agent: FacebookBot
 Allow: /
-
-# Crawl delay for polite crawling
 Crawl-delay: 5
 
 Sitemap: https://eastorysl.netlify.app/sitemap.xml

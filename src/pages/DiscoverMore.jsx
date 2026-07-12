@@ -1,4 +1,5 @@
 import { useState, useMemo, useRef, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import SectionTitle from '../components/ui/SectionTitle'
 import { businesses } from '../data/businesses'
 import SearchBar from '../components/ui/SearchBar'
@@ -8,10 +9,10 @@ import { FiSearch, FiChevronLeft, FiChevronRight, FiHome } from 'react-icons/fi'
 import { GiVillage, GiShop, GiSurfBoard, GiDivingHelmet, GiSnorkel, GiWhaleTail, GiHiking, GiFishing, GiSailboat, GiPhotoCamera, GiCompass } from 'react-icons/gi'
 import { FaBicycle } from 'react-icons/fa'
 
-const categories = ['All', 'Hotels', 'Resorts', 'Souvenir Shops', 'Surfing', 'Diving', 'Snorkeling', 'Whale Watching', 'Hiking', 'Cycling', 'Fishing', 'Boat Tours', 'Safari', 'Photography Spots']
+const categories = ['All', 'Hotels', 'Resorts', 'Guest Houses', 'Souvenir Shops', 'Surfing', 'Diving', 'Snorkeling', 'Whale Watching', 'Hiking', 'Cycling', 'Fishing', 'Boat Tours', 'Safari', 'Photography Spots']
 
 const catIcons = {
-  'Hotels': FiHome, 'Resorts': GiVillage, 'Souvenir Shops': GiShop,
+  'Hotels': FiHome, 'Resorts': GiVillage, 'Guest Houses': GiVillage, 'Souvenir Shops': GiShop,
   'Surfing': GiSurfBoard, 'Diving': GiDivingHelmet, 'Snorkeling': GiSnorkel,
   'Whale Watching': GiWhaleTail, 'Hiking': GiHiking, 'Cycling': FaBicycle,
   'Fishing': GiFishing, 'Boat Tours': GiSailboat, 'Safari': GiCompass,
@@ -92,6 +93,12 @@ export default function DiscoverMore() {
             description="Find accommodations, local shopping, and adventure activities across Sri Lanka."
             light
           />
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-sm font-medium mt-6 rounded-lg backdrop-blur-sm border border-white/20 transition-all duration-300"
+          >
+            <FiHome /> Home
+          </Link>
         </div>
       </section>
       <section className="section-padding">

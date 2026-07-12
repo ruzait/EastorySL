@@ -44,7 +44,8 @@ export default function DestinationCard({ destination, index }) {
       onClick={handleCardClick}
       onKeyDown={handleCardKeyDown}
       tabIndex={0}
-      role="link"
+      role="button"
+      aria-label={`View details for ${destination.name}`}
       className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-slate-100 italic cursor-pointer"
     >
       <div className="relative overflow-hidden h-48 sm:h-56">

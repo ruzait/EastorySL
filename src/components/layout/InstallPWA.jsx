@@ -13,7 +13,7 @@ export default function InstallPWA({ show, isIOS, onInstall, onDismiss }) {
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-400 via-ocean-500 to-teal-600" />
         <button
           onClick={onDismiss}
-          className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-400 hover:text-slate-600 transition-all cursor-pointer"
+          className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-400 hover:text-slate-600 transition-all cursor-pointer"
           aria-label="Close"
         >
           <FiX className="text-sm" />

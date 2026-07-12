@@ -29,7 +29,7 @@ export default function MapSidePanel({ item, onClose }) {
         <button
           onClick={onClose}
           aria-label="Close panel"
-          className="touch-manipulation absolute top-3 left-3 w-8 h-8 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center hover:bg-white/40 hover:scale-105 active:scale-95 transition-all duration-200 shadow-lg"
+          className="touch-manipulation absolute top-3 left-3 w-11 h-11 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center hover:bg-white/40 hover:scale-105 active:scale-95 transition-all duration-200 shadow-lg"
         >
           <FiX className="text-sm" />
         </button>

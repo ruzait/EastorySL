@@ -1,5 +1,5 @@
 import { useMemo, useState, useRef, useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import SectionTitle from '../components/ui/SectionTitle'
 import { destinations } from '../data/destinations'
 import SearchBar from '../components/ui/SearchBar'
@@ -7,7 +7,7 @@ import SEO from '../components/seo/SEO'
 import DestinationGrid from '../components/tourism/DestinationGrid'
 import { handleImgError } from '../utils/fallback'
 import { getSeasonalDestinations } from '../utils/season'
-import { FiSearch, FiChevronLeft, FiChevronRight, FiMap } from 'react-icons/fi'
+import { FiSearch, FiChevronLeft, FiChevronRight, FiMap, FiHome } from 'react-icons/fi'
 import { GiBeachBall, GiTreeBranch, GiWaterfall, GiMountainCave, GiElephantHead, GiForest, GiCastle, GiIsland, GiFlowerPot, GiBinoculars, GiDolphin, GiParachute, GiPartyPopper } from 'react-icons/gi'
 import { FaLandmark, FaChurch, FaMusic, FaTrain } from 'react-icons/fa'
 
@@ -140,6 +140,12 @@ export default function Destinations() {
             description="From ancient temples and colonial forts to national parks and natural wonders — discover the rich heritage and beauty of Sri Lanka."
             light
           />
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-sm font-medium mt-6 rounded-lg backdrop-blur-sm border border-white/20 transition-all duration-300"
+          >
+            <FiHome /> Home
+          </Link>
         </div>
       </section>
       <section className="section-padding">

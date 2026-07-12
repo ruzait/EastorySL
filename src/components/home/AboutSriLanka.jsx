@@ -50,8 +50,9 @@ export default function AboutSriLanka() {
   const onScroll = useCallback(() => {
     const el = scrollRef.current
     if (!el) return
-    const idx = Math.round(el.scrollLeft / (el.scrollWidth / 3))
-    setActiveDot(Math.min(idx, 2))
+    const cardWidth = el.scrollWidth / cards.length
+    const idx = Math.round(el.scrollLeft / cardWidth)
+    setActiveDot(Math.min(idx, cards.length - 1))
   }, [])
 
   useEffect(() => {
@@ -80,7 +81,7 @@ export default function AboutSriLanka() {
           {cards.map((card) => {
             const Icon = card.icon
             return (
-              <div key={card.title} className="w-[80vw] shrink-0 snap-center bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 flex flex-col not-italic">
+              <div key={card.title} className="w-[70vw] max-w-[320px] shrink-0 snap-center bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 flex flex-col not-italic">
                 <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${card.iconBg} flex items-center justify-center mb-5 shadow-lg`}>
                   <Icon className="text-2xl text-white" />
                 </div>
@@ -127,7 +128,8 @@ export default function AboutSriLanka() {
               onClick={() => {
                 const el = scrollRef.current
                 if (el) {
-                  el.scrollTo({ left: (el.scrollWidth / 3) * i, behavior: 'smooth' })
+                  const cardWidth = el.scrollWidth / cards.length
+                  el.scrollTo({ left: cardWidth * i, behavior: 'smooth' })
                 }
               }}
               className={`w-2 h-2 rounded-full transition-all duration-300 ${

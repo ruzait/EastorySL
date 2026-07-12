@@ -77,10 +77,10 @@ export default function Map() {
           data = data.filter((item) => item.category === 'parks')
           break
         case 'Museums':
-          data = data.filter((item) => item.category === 'cultural' || item.category === 'museums-galleries')
+          data = data.filter((item) => item.category === 'cultural' || item.category === 'museums')
           break
         case 'Hotels':
-          data = data.filter((item) => item._source === 'businesses' && (item.subCategory === 'Guest Houses' || item.subCategory === 'Resorts'))
+          data = data.filter((item) => item._source === 'businesses' && (item.subCategory === 'Hotels' || item.subCategory === 'Guest Houses' || item.subCategory === 'Resorts' || item.subCategory === 'Villas' || item.subCategory === 'Eco Lodges'))
           break
         case 'Restaurants':
           data = data.filter((item) => item._source === 'businesses' && item.type === 'restaurant')
@@ -244,7 +244,7 @@ export default function Map() {
             <button
               onClick={handleLocate}
               disabled={isLocating}
-              className={`touch-manipulation w-10 h-10 rounded-xl bg-white/90 backdrop-blur-xl shadow-lg border border-white/30 flex items-center justify-center transition-all duration-200 ${
+              className={`touch-manipulation w-11 h-11 rounded-xl bg-white/90 backdrop-blur-xl shadow-lg border border-white/30 flex items-center justify-center transition-all duration-200 ${
                 locateError
                   ? 'text-red-400 hover:text-red-500 border-red-200'
                   : userLocation
@@ -258,7 +258,7 @@ export default function Map() {
             </button>
             <button
               onClick={() => setShowLayers(!showLayers)}
-              className="touch-manipulation w-10 h-10 rounded-xl bg-white/90 backdrop-blur-xl shadow-lg border border-white/30 flex items-center justify-center text-slate-500 hover:text-teal-600 hover:bg-white transition-all duration-200"
+              className="touch-manipulation w-11 h-11 rounded-xl bg-white/90 backdrop-blur-xl shadow-lg border border-white/30 flex items-center justify-center text-slate-500 hover:text-teal-600 hover:bg-white transition-all duration-200"
               title="Toggle layers"
               aria-label="Toggle map layers"
             >
@@ -266,7 +266,7 @@ export default function Map() {
             </button>
           </div>
           {locateError && (
-            <div className="w-56 p-2.5 bg-red-50 border border-red-200 rounded-lg shadow-lg">
+            <div className="w-48 sm:w-56 p-2.5 bg-red-50 border border-red-200 rounded-lg shadow-lg">
               <p className="text-xs text-red-700">{locateError}</p>
             </div>
           )}
@@ -311,6 +311,7 @@ export default function Map() {
                 items={filteredData}
                 selectedItem={null}
                 onSelect={(item) => {
+                  setSelectedItem(item)
                   setShowList(false)
                   if (item.coordinates) {
                     setFlyToCoord(item.coordinates)
