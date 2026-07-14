@@ -28,10 +28,10 @@ export default function Hero() {
             transition={{ duration: 0.6 }}
             className="max-w-2xl"
           >
-            <span className="inline-block text-teal-400 font-['Dynalight'] not-italic text-2xl sm:text-3xl md:text-4xl mb-2">
+            <span className="inline-block text-teal-400 font-['Dynalight'] not-italic text-3xl sm:text-3xl md:text-4xl mb-2">
               Welcome to
             </span>
-            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-['Poppins'] font-extrabold not-italic text-white leading-tight mb-4">
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-['Poppins'] font-extrabold not-italic text-white leading-tight mb-4">
               Sri Lanka
             </h1>
             <p className="text-white/70 text-base sm:text-lg md:text-xl max-w-lg leading-relaxed mb-8 font-['Averia_Serif_Libre'] italic">

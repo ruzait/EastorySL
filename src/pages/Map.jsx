@@ -239,7 +239,7 @@ export default function Map() {
       </div>
 
         {!selectedItem && (
-        <div className="fixed md:top-24 top-20 right-4 z-50 flex flex-col gap-2 items-end">
+        <div className="fixed md:top-24 top-20 right-4 z-30 flex flex-col gap-2 items-end">
           <div className="flex items-center gap-2">
             <button
               onClick={handleLocate}

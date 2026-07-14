@@ -28,7 +28,7 @@ export default function CTA() {
   return (
     <section className="section-padding relative overflow-hidden">
       <div className="absolute inset-0 bg-cover bg-center bg-no-repeat blur-sm scale-105" style={{ backgroundImage: 'url(/images/home/mirrissa.jpg)', backgroundPosition: 'left bottom' }} />
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-teal-950/70 to-slate-900/80" />
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-900/90 via-teal-950/80 to-slate-900/90" />
       <div className="absolute inset-0 opacity-10 bg-grid" />
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
@@ -60,23 +60,17 @@ export default function CTA() {
                         onError={handleImgError}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent" />
                       <div className="absolute top-3 right-3">
                         <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-gradient-to-br ${m.gradient} text-white shadow-lg`}>
                           <Icon className="text-[10px]" />
                           {m.label}
                         </span>
                       </div>
-                      <div className="absolute bottom-3 left-4 right-4">
-                        <h3 className="text-white font-heading font-bold text-base leading-tight truncate">
-                          {item.name}
-                        </h3>
-                      </div>
                     </div>
                     <div className="p-4">
-                      <p className="text-white/70 text-sm leading-relaxed line-clamp-2">
-                        {item.description}
-                      </p>
+                      <h3 className="text-white font-heading font-bold text-base leading-tight truncate text-left">
+                        {item.name}
+                      </h3>
                       {(item.location || item.origin || item.birthPlace) && (
                         <div className="flex items-center gap-1 text-xs text-white/50 mt-2">
                           <FiMapPin className={m.iconColor} />

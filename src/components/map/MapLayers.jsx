@@ -16,7 +16,7 @@ export default function MapLayers({ activeLayers, onToggle }) {
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: -8, scale: 0.95 }}
       transition={{ duration: 0.2 }}
-      className="bg-white/90 backdrop-blur-xl rounded-xl shadow-lg border border-white/30 overflow-hidden"
+      className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-xl shadow-black/10 border border-white/40 overflow-hidden"
     >
       {layers.map((layer) => {
         const active = activeLayers[layer.id]
@@ -26,13 +26,13 @@ export default function MapLayers({ activeLayers, onToggle }) {
             key={layer.id}
             onClick={() => onToggle(layer.id)}
             aria-pressed={active}
-            className={`touch-manipulation flex items-center gap-2 w-full px-3 py-2.5 text-xs font-medium transition-all duration-200 cursor-pointer ${
+            className={`touch-manipulation flex items-center gap-2 w-full px-3 py-2 text-xs font-medium transition-all duration-200 cursor-pointer ${
               active
-                ? 'text-slate-800 hover:bg-slate-50'
+                ? 'bg-teal-50 text-slate-800'
                 : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50/50'
-            } ${layer !== layers[layers.length - 1] ? 'border-b border-slate-100' : ''}`}
+            } ${layer !== layers[layers.length - 1] ? 'border-b border-slate-100/80' : ''}`}
           >
-            <Icon className={`text-sm ${active ? 'text-slate-700' : 'text-slate-400'}`} />
+            <Icon className={`text-sm ${active ? 'text-teal-500' : 'text-slate-400'}`} />
             <span className="flex-1 text-left italic">{layer.label}</span>
             {active ? (
               <FiEye className="text-teal-500 text-xs shrink-0" />
