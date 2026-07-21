@@ -7,6 +7,16 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const SITE_URL = process.env.VITE_SITE_URL || 'https://eastorysl.netlify.app'
 const DIST = resolve(__dirname, '..', 'dist')
 
+const staticPages = [
+  { path: '/', title: 'Eastory SL — Sri Lanka Travel Guide', description: 'Discover the beauty of Sri Lanka — beaches, tourism, local businesses, and cultural heritage all in one place.', image: '/images/home/hero.png' },
+  { path: '/destinations', title: 'Destinations — Sri Lanka Travel', description: 'Explore top Sri Lanka destinations — beaches, waterfalls, mountains, wildlife parks, historical sites, and more.', image: '/images/home/hero.png' },
+  { path: '/discover-more', title: 'Discover More — Sri Lanka Travel', description: 'Discover hidden gems, local experiences, and unique adventures across Sri Lanka.', image: '/images/home/hero.png' },
+  { path: '/sri-lanka-pride', title: 'Sri Lanka Pride — Culture & Heritage', description: 'Celebrate Sri Lanka\'s rich cultural heritage — ancient kingdoms, famous people, food, festivals, and more.', image: '/images/home/hero.png' },
+  { path: '/gallery', title: 'Photo Gallery — Sri Lanka Travel', description: 'Browse stunning photos of Sri Lanka — beaches, temples, wildlife, and cultural moments.', image: '/images/home/hero.png' },
+  { path: '/map', title: 'Explore Map — Sri Lanka Travel', description: 'Interactive map of Sri Lanka destinations, attractions, and points of interest.', image: '/images/home/hero.png' },
+  { path: '/advertise', title: 'Advertise — Eastory SL', description: 'Advertise your business on Eastory SL — reach travelers and tourists visiting Sri Lanka.', image: '/images/home/hero.png' },
+]
+
 function ogImageType(url) {
   if (!url) return 'image/png'
   const ext = url.split('?')[0].split('.').pop().toLowerCase()
@@ -31,7 +41,7 @@ function escapeReplacement(str) {
 
 function generatePage(path, ogTitle, ogDesc, ogImage, indexHtml) {
   const imageUrl = ogImage.startsWith('/') ? `${SITE_URL}${ogImage}` : ogImage
-  const pageUrl = `${SITE_URL}${path}`
+  const pageUrl = path === '/' ? SITE_URL : `${SITE_URL}${path}`
   const imgType = ogImageType(imageUrl)
   const safeTitle = escapeReplacement(ogTitle)
   const safeDesc = escapeReplacement(ogDesc)
@@ -40,6 +50,7 @@ function generatePage(path, ogTitle, ogDesc, ogImage, indexHtml) {
 
   let html = indexHtml
 
+  html = html
     .replace(/<title>.*?<\/title>/, `<title>${escapeAttr(safeTitle)} | Eastory SL</title>`)
     .replace(
       /<meta name="description"[^>]*\/?>/,
@@ -93,10 +104,19 @@ function generatePage(path, ogTitle, ogDesc, ogImage, indexHtml) {
       /<meta name="twitter:url"[^>]*\/?>/,
       `<meta name="twitter:url" content="${escapeAttr(safePageUrl)}" />`
     )
-    .replace(
-      /<link rel="canonical"[^>]*\/?>/,
-      `<link rel="canonical" href="${escapeAttr(safePageUrl)}" />`
+
+  const canonicalTag = `<link rel="canonical" href="${escapeAttr(safePageUrl)}" />`
+  const canonicalPlaceholder = '<!-- Canonical URL (dynamically set per page by react-helmet-async) -->'
+  if (html.includes(canonicalPlaceholder)) {
+    html = html.replace(canonicalPlaceholder, canonicalTag)
+  } else if (html.includes('<link rel="canonical"')) {
+    html = html.replace(/<link rel="canonical"[^>]*\/?>/, canonicalTag)
+  } else {
+    html = html.replace(
+      /<\/head>/,
+      `    ${canonicalTag}\n  </head>`
     )
+  }
 
   const filePath = join(DIST, path, 'index.html')
   ensureDir(filePath)
@@ -114,7 +134,12 @@ async function main() {
 
   const indexHtml = readFileSync(join(DIST, 'index.html'), 'utf-8')
 
-  console.log('Generating OG-tagged pages for destinations...')
+  console.log('Generating OG-tagged pages for static routes...')
+  staticPages.forEach((p) => {
+    generatePage(p.path, p.title, p.description, p.image, indexHtml)
+  })
+
+  console.log('\nGenerating OG-tagged pages for destinations...')
   destinations.forEach((d) => {
     const path = `/destinations/${d.category}/${d.id}`
     generatePage(
@@ -133,7 +158,8 @@ async function main() {
     generatePage(path, p.name, desc, p.image, indexHtml)
   })
 
-  console.log('\nDone! OG-tagged pages generated.')
+  const totalPages = staticPages.length + destinations.length + prideItems.length
+  console.log(`\nDone! ${totalPages} OG-tagged pages generated.`)
 }
 
 main().catch(console.error)
