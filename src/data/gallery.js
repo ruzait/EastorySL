@@ -2,6 +2,15 @@ import { FiImage, FiCamera } from 'react-icons/fi'
 import { GiBeachBall, GiTreeBranch, GiWaterfall, GiCastle, GiCrown, GiCookingPot, GiMedal, GiBed, GiParachute, GiShoppingBag } from 'react-icons/gi'
 import { FaLandmark, FaChurch, FaCity } from 'react-icons/fa'
 
+function shuffle(arr) {
+  const a = [...arr]
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]]
+  }
+  return a
+}
+
 export const galleryCatIcons = {
   'all': FiImage,
   'beaches': GiBeachBall,
@@ -83,6 +92,148 @@ export const galleryExtraSources = {
       'https://raw.githubusercontent.com/eastorysl/storyimages/main/pride/KingdomofPolonnaruwa3.jpg',
     ],
   },
+  'wf-bopath': {
+    name: 'Bopath Ella Falls',
+    category: 'waterfalls',
+    location: 'Kuruwita',
+    page: 'destinations',
+    images: [
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/destination/waterfals/BopathElla.jpg',
+    ],
+  },
+  'beach-bentota': {
+    name: 'Bentota Beach',
+    category: 'beaches',
+    location: 'Bentota',
+    page: 'destinations',
+    images: [
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/destination/beaches/BentotaBeach2.jpg',
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/destination/beaches/BentotaBeach3.jpg',
+    ],
+  },
+  'beach-hikkaduwa': {
+    name: 'Hikkaduwa Beach',
+    category: 'beaches',
+    location: 'Hikkaduwa',
+    page: 'destinations',
+    images: [
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/destination/beaches/HikkaduwaBeach2.jpg',
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/destination/beaches/HikkaduwaBeach3.jpg',
+    ],
+  },
+  'beach-arugambay': {
+    name: 'Arugam Bay',
+    category: 'beaches',
+    location: 'Arugam Bay',
+    page: 'destinations',
+    images: [
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/destination/beaches/ArugamBay1.jpg',
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/destination/beaches/ArugamBay2.jpg',
+    ],
+  },
+  'beach-nilaveli': {
+    name: 'Nilaveli Beach',
+    category: 'beaches',
+    location: 'Nilaveli',
+    page: 'destinations',
+    images: [
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/destination/beaches/NilaveliBeach1.jpg',
+    ],
+  },
+  'beach-tangalle': {
+    name: 'Tangalle Beach',
+    category: 'beaches',
+    location: 'Tangalle',
+    page: 'destinations',
+    images: [
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/destination/beaches/TangalleBeach2.jpg',
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/destination/beaches/TangalleBeach4.jpg',
+    ],
+  },
+  'beach-weligama': {
+    name: 'Weligama Beach',
+    category: 'beaches',
+    location: 'Weligama',
+    page: 'destinations',
+    images: [
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/destination/beaches/WeligamaBeach1.jpg',
+    ],
+  },
+  'beach-negombo': {
+    name: 'Negombo Beach',
+    category: 'beaches',
+    location: 'Negombo',
+    page: 'destinations',
+    images: [
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/destination/beaches/NegomboBeach2.jpg',
+    ],
+  },
+  'beach-kalpitiya': {
+    name: 'Kalpitiya Beach',
+    category: 'beaches',
+    location: 'Kalpitiya',
+    page: 'destinations',
+    images: [
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/destination/beaches/KalpitiyaBeach2.jpg',
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/destination/beaches/KalpitiyaBeach3.jpg',
+    ],
+  },
+  'beach-dalawella': {
+    name: 'Dalawella Beach',
+    category: 'beaches',
+    location: 'Dalawella',
+    page: 'destinations',
+    images: [
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/destination/beaches/DalawellaBeach2.jpg',
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/destination/beaches/DalawellaBeach3.jpg',
+    ],
+  },
+  'beach-hiriketiya': {
+    name: 'Hiriketiya Beach',
+    category: 'beaches',
+    location: 'Dickwella',
+    page: 'destinations',
+    images: [
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/destination/beaches/HiriketiyaBeach2.jpg',
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/destination/beaches/HiriketiyaBeach3.jpg',
+    ],
+  },
+  'beach-rekawa': {
+    name: 'Rekawa Beach',
+    category: 'beaches',
+    location: 'Rekawa',
+    page: 'destinations',
+    images: [
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/destination/beaches/RekawaBeach3.jpg',
+    ],
+  },
+  'ak-kandy': {
+    name: 'Kingdom of Kandy',
+    category: 'ancient-kingdoms',
+    location: 'Kandy',
+    page: 'sri-lanka-pride',
+    images: [
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/pride/kingdom/KingdomofKandy1.jpg',
+    ],
+  },
+  'ak-dambadeniya': {
+    name: 'Kingdom of Dambadeniya',
+    category: 'ancient-kingdoms',
+    location: 'Dambadeniya, Kurunegala',
+    page: 'sri-lanka-pride',
+    images: [
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/pride/kingdom/KingdomofDambadeniya2.jpg',
+    ],
+  },
+  'ak-gampola': {
+    name: 'Kingdom of Gampola',
+    category: 'ancient-kingdoms',
+    location: 'Gampola, Kandy',
+    page: 'sri-lanka-pride',
+    images: [
+      'https://raw.githubusercontent.com/eastorysl/storyimages/main/pride/kingdom/KingdomofGampola1.png',
+    ],
+  },
 }
 
 export function buildGalleryImages(destinations, businesses, prideItems) {
@@ -115,7 +266,6 @@ export function buildGalleryImages(destinations, businesses, prideItems) {
     'caves-geological-wonders': 'nature',
     'museums': 'cultural',
     'tea-spice-trails': 'food-culinary',
-    'road-trip-routes': 'adventure',
     'seasonal-foods': 'food-culinary',
   }
 
@@ -187,7 +337,6 @@ export function buildGalleryImages(destinations, businesses, prideItems) {
         dataCategory: b.subCategory || b.category,
         location: b.location,
         itemId: b.id,
-        page: 'discover-more',
       })
     }
   })
@@ -208,5 +357,5 @@ export function buildGalleryImages(destinations, businesses, prideItems) {
     })
   })
 
-  return images.sort(() => Math.random() - 0.5)
+  return shuffle(images)
 }
